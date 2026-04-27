@@ -42,36 +42,59 @@ export function Toolbar() {
 
   return (
     <header className="toolbar">
-      <div className="toolbar-left">
-        <h1 className="logo">数字孪生平台</h1>
-      </div>
+      <div className="toolbar-bg"></div>
+      <div className="toolbar-content">
+        <div className="toolbar-left">
+          <div className="logo-wrapper">
+            <div className="logo-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <path d="M14 2L26 8V20L14 26L2 20V8L14 2Z" stroke="currentColor" strokeWidth="2" fill="none"/>
+                <path d="M14 10L20 13V19L14 22L8 19V13L14 10Z" fill="currentColor" opacity="0.3"/>
+                <circle cx="14" cy="16" r="3" fill="currentColor"/>
+              </svg>
+            </div>
+            <div className="logo-text">
+              <h1 className="logo-title">3D Editor</h1>
+              <span className="logo-subtitle">数字孪生平台</span>
+            </div>
+          </div>
+        </div>
 
-      <div className="toolbar-right">
-        {/* 隐藏的文件输入 */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".glb,.gltf"
-          multiple
-          onChange={handleFileSelect}
-          className="hidden"
-        />
+        <div className="toolbar-right">
+          {/* 隐藏的文件输入 */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".glb,.gltf"
+            multiple
+            onChange={handleFileSelect}
+            className="hidden"
+          />
 
-        {/* 导入按钮 */}
-        <button 
-          onClick={handleImport}
-          className="px-3 py-1.5 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
-        >
-          导入模型
-        </button>
+          {/* 导入按钮 */}
+          <button 
+            onClick={handleImport}
+            className="toolbar-btn btn-import"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2V10M8 2L5 5M8 2L11 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2 10V13C2 13.5523 2.44772 14 3 14H13C13.5523 14 14 13.5523 14 13V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>导入模型</span>
+          </button>
 
-        {/* 导出按钮 */}
-        <button 
-          onClick={handleExport}
-          className="px-3 py-1.5 bg-green-600 text-white rounded text-sm hover:bg-green-700 transition-colors"
-        >
-          导出
-        </button>
+          {/* 导出按钮 */}
+          <button 
+            onClick={handleExport}
+            className="toolbar-btn btn-export"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 10V2M8 10L5 7M8 10L11 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2 10V13C2 13.5523 2.44772 14 3 14H13C13.5523 14 14 13.5523 14 13V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>导出</span>
+          </button>
+        </div>
       </div>
 
       {/* 导出面板 */}

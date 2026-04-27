@@ -441,7 +441,7 @@ export function EditorViewport() {
     );
 
     // 添加网格辅助 - 紫色主题,更大更美观
-    const gridHelper = new THREE.GridHelper(40, 40, 0x9333ea, 0x581c87);
+    const gridHelper = new THREE.GridHelper(1000, 50, 0x9333ea, 0x581c87);
     gridHelper.name = 'grid';
     scene.add(gridHelper);
 

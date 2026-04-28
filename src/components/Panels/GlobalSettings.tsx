@@ -2,13 +2,13 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSceneStore } from '@/store/sceneStore';
 import { useEditorStore } from '@/store/editorStore';
 import * as THREE from 'three';
-import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 
 export function GlobalSettings() {
   const { backgroundColor, updateCamera } = useSceneStore();
   const { gridVisible, axesVisible, toggleGrid, toggleAxes } = useEditorStore();
   const [activeTab, setActiveTab] = useState<'scene' | 'environment' | 'render' | 'postprocess'>('scene');
-  const [bgColor, setBgColor] = useState('#000000');
+  const [bgColor, setBgColor] = useState(backgroundColor); // 从store同步初始值
   const [fogEnabled, setFogEnabled] = useState(false);
   const [fogColor, setFogColor] = useState('#ffffff');
   const [fogNear, setFogNear] = useState(1);
@@ -28,6 +28,18 @@ export function GlobalSettings() {
   const [logarithmicDepthBuffer, setLogarithmicDepthBuffer] = useState(true); // 对数深度缓冲区
   const rendererRef = useRef<{antialias: boolean, alpha: boolean, logarithmicDepthBuffer: boolean} | null>(null); // 保存renderer配置
   
+  // HDR状态跟踪
+  const [hasHDRBackground, setHasHDRBackground] = useState(false);
+  const [hasHDREnvironment, setHasHDREnvironment] = useState(false);
+  const [hdrBgName, setHdrBgName] = useState<string>('');
+  const [hdrEnvName, setHdrEnvName] = useState<string>('');
+  const hasHDRBackgroundRef = useRef(false); // 使用ref立即同步,避免异步问题
+  
+  // 同步store的backgroundColor到本地状态(避免硬编码)
+  useEffect(() => {
+    setBgColor(backgroundColor);
+  }, [backgroundColor]);
+  
   // 后期处理参数
   const [postProcessEnabled, setPostProcessEnabled] = useState(false);
   const [selectedEffect, setSelectedEffect] = useState<string>('none');
@@ -44,13 +56,46 @@ export function GlobalSettings() {
   const hdrEnvFileRef = useRef<HTMLInputElement>(null);
   const isProgrammaticChange = useRef(false); // 标记是否为程序化更改(代码修改相机)
   const isUserInputChange = useRef(false); // 标记是否为用户手动输入
-
-  // 同步背景颜色到场景
+  
+  // 初始化HDR状态 - 同步场景的当前状态
   useEffect(() => {
     const scene = (window as any).__editorScene;
     if (scene) {
-      scene.background = new THREE.Color(bgColor);
+      // 检查是否有HDR背景
+      if (scene.background && scene.background.isTexture) {
+        setHasHDRBackground(true);
+        setHdrBgName('HDR Background');
+      }
+      // 检查是否有HDR环境
+      if (scene.environment) {
+        setHasHDREnvironment(true);
+        setHdrEnvName('HDR Environment');
+      }
     }
+  }, []);
+
+  // 同步背景颜色到场景(只在用户主动修改bgColor时生效)
+  // 重要:不要在组件挂载时自动设置,会覆盖HDR!
+  const bgColorRef = useRef(bgColor); // 追踪上次设置的背景色
+  
+  useEffect(() => {
+    // 如果颜色没变化,不要执行
+    if (bgColor === bgColorRef.current) {
+      return;
+    }
+    
+    const scene = (window as any).__editorScene;
+    if (!scene) return;
+    
+    // 使用ref检查,避免React异步更新问题
+    if (hasHDRBackgroundRef.current) {
+      // HDR背景存在,绝对不要覆盖!
+      return;
+    }
+    
+    // 只在纯色模式下更新背景色
+    scene.background = new THREE.Color(bgColor);
+    bgColorRef.current = bgColor; // 更新ref
   }, [bgColor]);
 
   // 初始化相机位置并设置监听器 - 使用重试机制确保获取到相机和控制器
@@ -233,22 +278,110 @@ export function GlobalSettings() {
     
     if (!scene || !renderer) return;
 
-    const loader = new RGBELoader();
+    const loader = new HDRLoader();
     const url = URL.createObjectURL(file);
 
     loader.load(url, (texture) => {
       texture.mapping = THREE.EquirectangularReflectionMapping;
 
       if (asBackground) {
-        // 作为背景
+        // 作为背景 - 立即设置ref
         scene.background = texture;
+        setHasHDRBackground(true);
+        hasHDRBackgroundRef.current = true; // 立即同步到ref
+        setHdrBgName(file.name);
       } else {
         // 作为环境
         scene.environment = texture;
+        setHasHDREnvironment(true);
+        setHdrEnvName(file.name);
       }
 
       URL.revokeObjectURL(url);
     });
+  }, []);
+
+  // 清除HDR背景
+  const handleClearBackground = useCallback(() => {
+    const scene = (window as any).__editorScene;
+    if (!scene) return;
+    
+    // 恢复为纯色背景
+    scene.background = new THREE.Color(backgroundColor);
+    setHasHDRBackground(false);
+    hasHDRBackgroundRef.current = false; // 立即同步到ref
+    setHdrBgName('');
+  }, [backgroundColor]);
+
+  // 清除HDR环境
+  const handleClearEnvironment = useCallback(() => {
+    const scene = (window as any).__editorScene;
+    if (!scene) return;
+    
+    // 清除环境贴图
+    scene.environment = null;
+    setHasHDREnvironment(false);
+    setHdrEnvName('');
+  }, []);
+
+  // 初始化HDR状态 - 同步场景的当前状态
+  // 重要:每次组件挂载都要执行,因为GlobalSettings可能被卸载/重新挂载
+  useEffect(() => {
+    let retryCount = 0;
+    const maxRetries = 50; // 最多重试50次(5秒)
+    let checkInterval: NodeJS.Timeout | null = null;
+    
+    const checkScene = () => {
+      const scene = (window as any).__editorScene;
+      
+      if (!scene) {
+        // 场景还没初始化,等待重试
+        if (retryCount < maxRetries) {
+          retryCount++;
+          checkInterval = setTimeout(checkScene, 100);
+        }
+        return;
+      }
+      
+      // 场景已就绪,检查HDR状态
+      // 检查是否有HDR背景
+      if (scene.background && scene.background.isTexture) {
+        setHasHDRBackground(true);
+        hasHDRBackgroundRef.current = true;
+        setHdrBgName('HDR Background');
+      } else {
+        // 没有HDR背景
+        setHasHDRBackground(false);
+        hasHDRBackgroundRef.current = false;
+      }
+      
+      // 检查是否有HDR环境(可能是异步加载的,需要多次检查)
+      if (scene.environment) {
+        setHasHDREnvironment(true);
+        setHdrEnvName('HDR Environment');
+        // 找到了,停止重试
+        if (checkInterval) {
+          clearTimeout(checkInterval);
+        }
+      } else {
+        setHasHDREnvironment(false);
+        // 继续重试,等待HDR加载
+        if (retryCount < maxRetries) {
+          retryCount++;
+          checkInterval = setTimeout(checkScene, 100);
+        }
+      }
+    };
+    
+    // 延迟一下确保场景已初始化
+    setTimeout(checkScene, 100);
+    
+    // 清理定时器
+    return () => {
+      if (checkInterval) {
+        clearTimeout(checkInterval);
+      }
+    };
   }, []);
 
   // 同步后期处理参数到全局(供EditorViewport使用)
@@ -602,14 +735,49 @@ export function GlobalSettings() {
             )}
 
             <div>
-              <h4 className="text-xs font-medium text-gray-300 mb-2">HDR环境贴图</h4>
-              <div className="space-y-2">
-                <button 
-                  onClick={() => hdrBgFileRef.current?.click()}
-                  className="w-full px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-xs"
-                >
-                  📁 作为背景加载HDR
-                </button>
+              <h4 className="text-xs font-medium text-gray-300 mb-3">HDR环境贴图</h4>
+              
+              {/* HDR背景 */}
+              <div className={`mb-3 p-3 rounded-lg border transition-all ${
+                hasHDRBackground 
+                  ? 'bg-blue-900/20 border-blue-500/50' 
+                  : 'bg-gray-800/50 border-gray-700'
+              }`}>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${
+                      hasHDRBackground ? 'bg-blue-400 animate-pulse' : 'bg-gray-600'
+                    }`} />
+                    <span className="text-xs font-medium text-gray-300">HDR背景</span>
+                  </div>
+                  {hasHDRBackground && (
+                    <span className="text-[10px] text-blue-400 truncate max-w-[120px]" title={hdrBgName}>
+                      {hdrBgName}
+                    </span>
+                  )}
+                </div>
+                
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => hdrBgFileRef.current?.click()}
+                    className={`flex-1 px-3 py-2 rounded text-xs transition-all ${
+                      hasHDRBackground
+                        ? 'bg-blue-600/20 text-blue-300 hover:bg-blue-600/30 border border-blue-500/30'
+                        : 'bg-blue-600 text-white hover:bg-blue-700'
+                    }`}
+                  >
+                    {hasHDRBackground ? '🔄 更换HDR' : '📁 加载HDR背景'}
+                  </button>
+                  {hasHDRBackground && (
+                    <button 
+                      onClick={handleClearBackground}
+                      className="px-3 py-2 bg-red-600/80 text-white rounded hover:bg-red-700 transition-colors text-xs"
+                      title="清除HDR背景，恢复纯色背景"
+                    >
+                      🗑️
+                    </button>
+                  )}
+                </div>
                 <input 
                   ref={hdrBgFileRef}
                   type="file"
@@ -620,13 +788,49 @@ export function GlobalSettings() {
                     if (file) handleLoadHDR(file, true);
                   }}
                 />
+              </div>
+
+              {/* HDR环境 */}
+              <div className={`p-3 rounded-lg border transition-all ${
+                hasHDREnvironment 
+                  ? 'bg-purple-900/20 border-purple-500/50' 
+                  : 'bg-gray-800/50 border-gray-700'
+              }`}>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${
+                      hasHDREnvironment ? 'bg-purple-400 animate-pulse' : 'bg-gray-600'
+                    }`} />
+                    <span className="text-xs font-medium text-gray-300">HDR环境</span>
+                  </div>
+                  {hasHDREnvironment && (
+                    <span className="text-[10px] text-purple-400 truncate max-w-[120px]" title={hdrEnvName}>
+                      {hdrEnvName}
+                    </span>
+                  )}
+                </div>
                 
-                <button 
-                  onClick={() => hdrEnvFileRef.current?.click()}
-                  className="w-full px-3 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors text-xs"
-                >
-                  🌍 作为环境加载HDR
-                </button>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => hdrEnvFileRef.current?.click()}
+                    className={`flex-1 px-3 py-2 rounded text-xs transition-all ${
+                      hasHDREnvironment
+                        ? 'bg-purple-600/20 text-purple-300 hover:bg-purple-600/30 border border-purple-500/30'
+                        : 'bg-purple-600 text-white hover:bg-purple-700'
+                    }`}
+                  >
+                    {hasHDREnvironment ? '🔄 更换HDR' : '🌍 加载HDR环境'}
+                  </button>
+                  {hasHDREnvironment && (
+                    <button 
+                      onClick={handleClearEnvironment}
+                      className="px-3 py-2 bg-red-600/80 text-white rounded hover:bg-red-700 transition-colors text-xs"
+                      title="清除HDR环境贴图"
+                    >
+                      🗑️
+                    </button>
+                  )}
+                </div>
                 <input 
                   ref={hdrEnvFileRef}
                   type="file"
@@ -637,6 +841,13 @@ export function GlobalSettings() {
                     if (file) handleLoadHDR(file, false);
                   }}
                 />
+              </div>
+              
+              {/* 提示信息 */}
+              <div className="mt-3 p-2 bg-gray-800/50 rounded text-[10px] text-gray-500">
+                <div>💡 HDR背景：替换场景背景色</div>
+                <div>🌍 HDR环境：提供真实光照和反射</div>
+                <div>⚡ 两者可同时启用，也可单独使用</div>
               </div>
             </div>
           </>
@@ -860,6 +1071,16 @@ export function GlobalSettings() {
                     <option value="chromatic">色差效果 (Chromatic Aberration)</option>
                     <option value="pixelate">像素化 (Pixelation)</option>
                     <option value="vignette">暗角 (Vignette)</option>
+                    <option value="film">胶片颗粒 (Film)</option>
+                    <option value="glitch">故障艺术 (Glitch)</option>
+                    <option value="outline">轮廓描边 (Outline)</option>
+                    <option value="bokeh">景深模糊 (Bokeh)</option>
+                    <option value="afterimage">残影拖尾 (Afterimage)</option>
+                    <option value="halftone">半调网点 (Halftone)</option>
+                    <option value="dotscreen">点阵屏幕 (Dot Screen)</option>
+                    <option value="sao">环境光遮蔽 (SAO)</option>
+                    <option value="ssao">屏幕空间环境光遮蔽 (SSAO)</option>
+                    <option value="pixelated">像素化渲染 (Pixelated)</option>
                   </select>
                 </div>
 

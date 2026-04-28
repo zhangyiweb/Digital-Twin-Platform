@@ -3,13 +3,23 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
-import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass';
-import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
-import { SobelOperatorShader } from 'three/examples/jsm/shaders/SobelOperatorShader';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass';
+import { FXAAShader } from 'three/addons/shaders/FXAAShader';
+import { SobelOperatorShader } from 'three/addons/shaders/SobelOperatorShader';
+import { FilmPass } from 'three/addons/postprocessing/FilmPass';
+import { GlitchPass } from 'three/addons/postprocessing/GlitchPass';
+import { OutlinePass } from 'three/addons/postprocessing/OutlinePass';
+import { BokehPass } from 'three/addons/postprocessing/BokehPass';
+import { AfterimagePass } from 'three/addons/postprocessing/AfterimagePass';
+import { HalftonePass } from 'three/addons/postprocessing/HalftonePass';
+import { DotScreenPass } from 'three/addons/postprocessing/DotScreenPass';
+import { SAOPass } from 'three/addons/postprocessing/SAOPass';
+import { SSAOPass } from 'three/addons/postprocessing/SSAOPass';
+import { RenderPixelatedPass } from 'three/addons/postprocessing/RenderPixelatedPass';
 import { useSceneStore } from '@/store/sceneStore';
 import { useEditorStore } from '@/store/editorStore';
 import { useModelLoader } from '@/hooks/useModelLoader';
@@ -839,6 +849,107 @@ export function EditorViewport() {
           `,
         };
         pass = new ShaderPass(vignetteShader);
+        break;
+
+      case 'film':
+        pass = new FilmPass(
+          config.film?.noise || 0.25,
+          config.film?.scanlines || 0.025,
+          config.film?.grayscale || false,
+          config.film?.monochrome || false
+        );
+        break;
+
+      case 'glitch':
+        pass = new GlitchPass({
+          goWild: config.glitch?.wild || false,
+          factor: config.glitch?.factor || 0.6,
+        });
+        break;
+
+      case 'outline':
+        pass = new OutlinePass(
+          new THREE.Vector2(renderer.domElement.width, renderer.domElement.height),
+          scene,
+          camera,
+          {
+            edgeStrength: config.outline?.edgeStrength || 3.0,
+            edgeGlow: config.outline?.edgeGlow || 0.0,
+            edgeThickness: config.outline?.edgeThickness || 1.0,
+            pulsePeriod: config.outline?.pulsePeriod || 0,
+            usePatternTexture: false,
+          }
+        );
+        break;
+
+      case 'bokeh':
+        pass = new BokehPass(scene, camera, {
+          focus: config.bokeh?.focus || 1.0,
+          aperture: config.bokeh?.aperture || 0.0001,
+          maxblur: config.bokeh?.maxblur || 0.01,
+          width: renderer.domElement.width,
+          height: renderer.domElement.height,
+        });
+        break;
+
+      case 'afterimage':
+        pass = new AfterimagePass(config.afterimage?.damp || 0.85);
+        break;
+
+      case 'halftone':
+        pass = new HalftonePass(
+          renderer.domElement.width,
+          renderer.domElement.height,
+          {
+            radius: config.halftone?.radius || 4,
+            rotateR: config.halftone?.rotateR || -15,
+            rotateG: config.halftone?.rotateG || 45,
+            rotateB: config.halftone?.rotateB || 30,
+            scatter: config.halftone?.scatter || 0,
+            width: config.halftone?.width || 1,
+            height: config.halftone?.height || 1,
+            blending: config.halftone?.blending || 1,
+            usePattern: config.halftone?.usePattern || false,
+            shape: config.halftone?.shape || 1,
+          }
+        );
+        break;
+
+      case 'dotscreen':
+        pass = new DotScreenPass(
+          new THREE.Vector2(0, 0),
+          45,
+          config.dotscreen?.scale || 1
+        );
+        break;
+
+      case 'sao':
+        pass = new SAOPass(scene, camera, false, renderer.domElement.width, renderer.domElement.height);
+        if (config.sao) {
+          pass.params.saoBias = config.sao.bias || 0.5;
+          pass.params.saoIntensity = config.sao.intensity || 0.000005;
+          pass.params.saoScale = config.sao.scale || 10;
+          pass.params.saoKernelRadius = config.sao.kernelRadius || 40;
+          pass.params.saoMinResolution = config.sao.minResolution || 0;
+        }
+        break;
+
+      case 'ssao':
+        pass = new SSAOPass(scene, camera, renderer.domElement.width, renderer.domElement.height);
+        if (config.ssao) {
+          pass.kernelRadius = config.ssao.kernelRadius || 8;
+          pass.minDistance = config.ssao.minDistance || 0.005;
+          pass.maxDistance = config.ssao.maxDistance || 0.1;
+        }
+        break;
+
+      case 'pixelated':
+        const pixelSize = config.pixelated?.size || 8;
+        pass = new RenderPixelatedPass(
+          pixelSize,
+          scene,
+          camera
+        );
         break;
 
       case 'none':

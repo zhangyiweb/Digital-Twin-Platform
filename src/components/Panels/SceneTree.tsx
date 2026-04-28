@@ -147,14 +147,16 @@ export function SceneTree() {
 
     // 遍历场景对象,构建树形结构 - 只显示顶级对象及其子树
     scene.children.forEach((child: THREE.Object3D) => {
-      // 跳过辅助对象和默认灯光(默认灯光由lightStore管理)
+      // 跳过辅助对象、默认灯光和系统对象
       if (child.name === 'grid' || 
           child.name === 'axes' || 
           child.name.startsWith('helper_') ||
           child.userData?.id === 'light_ambient_default' ||
           child.userData?.id === 'light_directional_default' ||
           child.type === 'TransformControlsGizmo' ||
-          (child.children.length === 2 && child.children[0]?.type === 'TransformControlsGizmo')) {
+          (child.children.length === 2 && child.children[0]?.type === 'TransformControlsGizmo') ||
+          child.type === 'DataTexture' || // HDR环境贴图
+          child.type === 'Texture') { // 背景贴图
         return;
       }
 

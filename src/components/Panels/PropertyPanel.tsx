@@ -492,7 +492,16 @@ export function PropertyPanel() {
               <input
                 type="text"
                 value={selectedObject?.name || objectRef.current?.name || ''}
-                onChange={(e) => selectedObject && updateObject(selectedObject.id, { name: e.target.value })}
+                onChange={(e) => {
+                  // 策略1: 更新store中的对象
+                  if (selectedObject) {
+                    updateObject(selectedObject.id, { name: e.target.value });
+                  }
+                  // 策略2: 直接更新Three.js对象(支持子mesh)
+                  if (objectRef.current) {
+                    objectRef.current.name = e.target.value;
+                  }
+                }}
                 className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
               />
             </div>

@@ -63,12 +63,12 @@ export function ComponentLibrary() {
   };
 
   // 添加基础几何体
-  const handleAddGeometry = (type: 'cube' | 'sphere' | 'cylinder' | 'plane' | 'cone') => {
+  const handleAddGeometry = (type: string) => {
     let geometry: THREE.BufferGeometry;
     let name: string;
 
     switch (type) {
-      case 'cube':
+      case 'box':
         geometry = new THREE.BoxGeometry(1, 1, 1);
         name = '立方体';
         break;
@@ -87,6 +87,50 @@ export function ComponentLibrary() {
       case 'cone':
         geometry = new THREE.ConeGeometry(0.5, 1, 32);
         name = '圆锥体';
+        break;
+      case 'capsule':
+        geometry = new THREE.CapsuleGeometry(0.3, 0.6, 16, 32);
+        name = '胶囊体';
+        break;
+      case 'circle':
+        geometry = new THREE.CircleGeometry(0.5, 32);
+        name = '圆形';
+        break;
+      case 'dodecahedron':
+        geometry = new THREE.DodecahedronGeometry(0.6);
+        name = '十二面体';
+        break;
+      case 'icosahedron':
+        geometry = new THREE.IcosahedronGeometry(0.6);
+        name = '二十面体';
+        break;
+      case 'octahedron':
+        geometry = new THREE.OctahedronGeometry(0.6);
+        name = '八面体';
+        break;
+      case 'tetrahedron':
+        geometry = new THREE.TetrahedronGeometry(0.6);
+        name = '四面体';
+        break;
+      case 'torus':
+        geometry = new THREE.TorusGeometry(0.5, 0.2, 16, 100);
+        name = '圆环体';
+        break;
+      case 'torusKnot':
+        geometry = new THREE.TorusKnotGeometry(0.4, 0.15, 100, 16);
+        name = '圆环结';
+        break;
+      case 'ring':
+        geometry = new THREE.RingGeometry(0.3, 0.6, 32);
+        name = '圆环';
+        break;
+      case 'edges':
+        geometry = new THREE.EdgesGeometry(new THREE.BoxGeometry(1, 1, 1));
+        name = '边缘线框';
+        break;
+      case 'wireframe':
+        geometry = new THREE.WireframeGeometry(new THREE.BoxGeometry(1, 1, 1));
+        name = '线框';
         break;
       default:
         return;
@@ -201,7 +245,7 @@ export function ComponentLibrary() {
         {activeTab === 'geometry' && (
           <div className="grid grid-cols-2 gap-2">
             <button
-              onClick={() => handleAddGeometry('cube')}
+              onClick={() => handleAddGeometry('box')}
               className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors"
             >
               立方体
@@ -226,9 +270,75 @@ export function ComponentLibrary() {
             </button>
             <button
               onClick={() => handleAddGeometry('cone')}
-              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors col-span-2"
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors"
             >
               圆锥体
+            </button>
+            <button
+              onClick={() => handleAddGeometry('capsule')}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors"
+            >
+              胶囊体
+            </button>
+            <button
+              onClick={() => handleAddGeometry('circle')}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors"
+            >
+              圆形
+            </button>
+            <button
+              onClick={() => handleAddGeometry('ring')}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors"
+            >
+              圆环
+            </button>
+            <button
+              onClick={() => handleAddGeometry('torus')}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors"
+            >
+              圆环体
+            </button>
+            <button
+              onClick={() => handleAddGeometry('torusKnot')}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors"
+            >
+              圆环结
+            </button>
+            <button
+              onClick={() => handleAddGeometry('dodecahedron')}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors"
+            >
+              十二面体
+            </button>
+            <button
+              onClick={() => handleAddGeometry('icosahedron')}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors"
+            >
+              二十面体
+            </button>
+            <button
+              onClick={() => handleAddGeometry('octahedron')}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors"
+            >
+              八面体
+            </button>
+            <button
+              onClick={() => handleAddGeometry('tetrahedron')}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors"
+            >
+              四面体
+            </button>
+            <button
+              onClick={() => handleAddGeometry('edges')}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors"
+            >
+              边缘线框
+            </button>
+            <button
+              onClick={() => handleAddGeometry('wireframe')}
+              className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs rounded transition-colors col-span-2"
+            >
+              线框
             </button>
           </div>
         )}

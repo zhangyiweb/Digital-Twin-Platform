@@ -59,6 +59,8 @@ export function PropertyPanel() {
           } else {
             mat = material as THREE.Material;
           }
+        } else if (threeObj instanceof THREE.Line || threeObj instanceof THREE.LineSegments) {
+          mat = threeObj.material as THREE.Material;
         } else if (threeObj instanceof THREE.Group || threeObj instanceof THREE.Object3D) {
           // 是Group或Object3D,查找第一个有材质的Mesh
           threeObj.traverse((child) => {

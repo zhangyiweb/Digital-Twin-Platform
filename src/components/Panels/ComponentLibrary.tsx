@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useLightStore } from '@/store/lightStore';
 import { useSceneStore } from '@/store/sceneStore';
-import * as THREE from 'three';
+import {
+  createPrimitiveObject,
+  type PrimitiveGeometryType,
+} from '@/config/defaultGeometry';
 
 export function ComponentLibrary() {
   const { addLight, selectLight } = useLightStore();
-  const { addSceneObject, selectObject } = useSceneStore();
+  const { addSceneObject, selectObject, deselectAll } = useSceneStore();
   const [activeTab, setActiveTab] = useState<'geometry' | 'lights'>('geometry'); // 默认显示几何体
 
   // 添加灯光
@@ -63,123 +66,42 @@ export function ComponentLibrary() {
       enabled: true,
     });
 
+    deselectAll();
     selectLight(lightId);
   };
 
-  // 添加基础几何体
-  const handleAddGeometry = (type: string) => {
-    let geometry: THREE.BufferGeometry;
-    let name: string;
+  // 添加基础几何体（统一默认材质、位置、阴影等）
+  const handleAddGeometry = (type: PrimitiveGeometryType) => {
+    const scene = (window as any).__editorScene;
+    if (!scene) return;
 
-    switch (type) {
-      case 'box':
-        geometry = new THREE.BoxGeometry(1, 1, 1);
-        name = '立方体';
-        break;
-      case 'sphere':
-        geometry = new THREE.SphereGeometry(0.5, 32, 32);
-        name = '球体';
-        break;
-      case 'cylinder':
-        geometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
-        name = '圆柱体';
-        break;
-      case 'plane':
-        geometry = new THREE.PlaneGeometry(2, 2);
-        name = '平面';
-        break;
-      case 'cone':
-        geometry = new THREE.ConeGeometry(0.5, 1, 32);
-        name = '圆锥体';
-        break;
-      case 'capsule':
-        geometry = new THREE.CapsuleGeometry(0.3, 0.6, 16, 32);
-        name = '胶囊体';
-        break;
-      case 'circle':
-        geometry = new THREE.CircleGeometry(0.5, 32);
-        name = '圆形';
-        break;
-      case 'dodecahedron':
-        geometry = new THREE.DodecahedronGeometry(0.6);
-        name = '十二面体';
-        break;
-      case 'icosahedron':
-        geometry = new THREE.IcosahedronGeometry(0.6);
-        name = '二十面体';
-        break;
-      case 'octahedron':
-        geometry = new THREE.OctahedronGeometry(0.6);
-        name = '八面体';
-        break;
-      case 'tetrahedron':
-        geometry = new THREE.TetrahedronGeometry(0.6);
-        name = '四面体';
-        break;
-      case 'torus':
-        geometry = new THREE.TorusGeometry(0.5, 0.2, 16, 100);
-        name = '圆环体';
-        break;
-      case 'torusKnot':
-        geometry = new THREE.TorusKnotGeometry(0.4, 0.15, 100, 16);
-        name = '圆环结';
-        break;
-      case 'ring':
-        geometry = new THREE.RingGeometry(0.3, 0.6, 32);
-        name = '圆环';
-        break;
-      case 'edges':
-        geometry = new THREE.EdgesGeometry(new THREE.BoxGeometry(1, 1, 1));
-        name = '边缘线框';
-        break;
-      case 'wireframe':
-        geometry = new THREE.WireframeGeometry(new THREE.BoxGeometry(1, 1, 1));
-        name = '线框';
-        break;
-      default:
-        return;
-    }
+    const { object, preset } = createPrimitiveObject(type);
+    const id = `geometry_${Date.now()}`;
 
-    const material = new THREE.MeshStandardMaterial({
-      color: 0x6366f1,
-      metalness: 0.5,
-      roughness: 0.5,
+    object.name = preset.name;
+    object.userData.id = id;
+    object.userData.geometryType = type;
+
+    scene.add(object);
+
+    addSceneObject({
+      id,
+      name: preset.name,
+      type: 'mesh',
+      visible: true,
+      position: [...preset.position],
+      rotation: [...preset.rotation],
+      scale: [...preset.scale],
     });
 
-    const mesh = new THREE.Mesh(geometry, material);
-    const id = `geometry_${Date.now()}`;
-    mesh.name = name;
-    mesh.userData.id = id;
-    mesh.position.set(0, 0.5, 0);
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
+    useSceneStore.getState().registerThreeObject(id, object);
 
-    // 添加到场景
-    const scene = (window as any).__editorScene;
-    if (scene) {
-      scene.add(mesh);
-      
-      addSceneObject({
-        id,
-        name: name,
-        type: 'mesh',
-        visible: true,
-        position: [0, 0.5, 0],
-        rotation: [0, 0, 0],
-        scale: [1, 1, 1],
-      });
-      
-      // 注册Three.js对象映射
-      useSceneStore.getState().registerThreeObject(id, mesh);
-      
-      // 自动选中新添加的几何体
-      selectObject(id);
-      
-      // 附加TransformControls
-      const transformControls = (window as any).__editorTransformControls;
-      if (transformControls) {
-        transformControls.attach(mesh);
-      }
+    selectLight(null);
+    selectObject(id);
+
+    const transformControls = (window as any).__editorTransformControls;
+    if (transformControls) {
+      transformControls.attach(object);
     }
   };
 

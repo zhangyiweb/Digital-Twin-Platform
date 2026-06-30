@@ -36,6 +36,27 @@ export function isEditorHelperObject(obj: THREE.Object3D): boolean {
   return false;
 }
 
+/** 创建用于导出的场景副本（仅模型，不含灯光与辅助对象） */
+export function createModelsExportScene(source: THREE.Scene): THREE.Scene {
+  const exportScene = new THREE.Scene();
+
+  source.children.forEach((child) => {
+    if (isEditorHelperObject(child)) return;
+    if (child instanceof THREE.Light) return;
+    if (child.userData?.isLightTarget) return;
+    if (
+      child instanceof THREE.Mesh ||
+      child instanceof THREE.Group ||
+      child instanceof THREE.Line ||
+      child instanceof THREE.LineSegments
+    ) {
+      exportScene.add(child.clone(true));
+    }
+  });
+
+  return exportScene;
+}
+
 /** 创建用于导出的场景副本，排除网格、坐标轴、Gizmo 等辅助对象 */
 export function createExportScene(source: THREE.Scene): THREE.Scene {
   const exportScene = new THREE.Scene();

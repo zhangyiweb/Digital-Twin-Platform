@@ -359,6 +359,7 @@ export function GlobalSettings() {
       setSelectedHdriId(null);
       setHdriReady(true);
       hdrDownloadSourceRef.current = { kind: 'file', file };
+      (window as any).__hdrExportSource = hdrDownloadSourceRef.current;
 
       if (isFirstHdr) {
         setBgHdriEnabled(true);
@@ -409,6 +410,7 @@ export function GlobalSettings() {
         resolution: actualRes,
         filename: `${asset.id}_${actualRes}.hdr`,
       };
+      (window as any).__hdrExportSource = hdrDownloadSourceRef.current;
       setHdrBgName(displayName);
       setHdrEnvName(displayName);
 

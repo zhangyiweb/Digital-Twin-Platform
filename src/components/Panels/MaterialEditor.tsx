@@ -89,6 +89,65 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
   const [wrapS, setWrapS] = useState<number>(THREE.RepeatWrapping);
   const [wrapT, setWrapT] = useState<number>(THREE.RepeatWrapping);
 
+  const DEFAULT_UV = {
+    repeatX: 1,
+    repeatY: 1,
+    offsetX: 0,
+    offsetY: 0,
+    rotation: 0,
+    wrapS: THREE.RepeatWrapping,
+    wrapT: THREE.RepeatWrapping,
+  } as const;
+
+  const syncUvStateFromMaterial = useCallback((mat: THREE.Material) => {
+    const record = mat as unknown as Record<string, THREE.Texture | undefined>;
+    const refTex =
+      record.map ||
+      record.normalMap ||
+      record.roughnessMap ||
+      record.metalnessMap ||
+      record.emissiveMap ||
+      null;
+
+    if (!refTex) {
+      setUvRepeatX(DEFAULT_UV.repeatX);
+      setUvRepeatY(DEFAULT_UV.repeatY);
+      setUvOffsetX(DEFAULT_UV.offsetX);
+      setUvOffsetY(DEFAULT_UV.offsetY);
+      setUvRotation(DEFAULT_UV.rotation);
+      setWrapS(DEFAULT_UV.wrapS);
+      setWrapT(DEFAULT_UV.wrapT);
+      return;
+    }
+
+    setUvRepeatX(refTex.repeat?.x ?? 1);
+    setUvRepeatY(refTex.repeat?.y ?? 1);
+    setUvOffsetX(refTex.offset?.x ?? 0);
+    setUvOffsetY(refTex.offset?.y ?? 0);
+    setUvRotation(THREE.MathUtils.radToDeg(refTex.rotation ?? 0));
+
+    const isFactoryDefault =
+      refTex.repeat.x === 1 &&
+      refTex.repeat.y === 1 &&
+      refTex.offset.x === 0 &&
+      refTex.offset.y === 0 &&
+      refTex.rotation === 0 &&
+      refTex.wrapS === THREE.ClampToEdgeWrapping &&
+      refTex.wrapT === THREE.ClampToEdgeWrapping;
+
+    if (isFactoryDefault) {
+      refTex.wrapS = THREE.RepeatWrapping;
+      refTex.wrapT = THREE.RepeatWrapping;
+      refTex.needsUpdate = true;
+      setWrapS(THREE.RepeatWrapping);
+      setWrapT(THREE.RepeatWrapping);
+      return;
+    }
+
+    setWrapS(refTex.wrapS ?? THREE.RepeatWrapping);
+    setWrapT(refTex.wrapT ?? THREE.RepeatWrapping);
+  }, []);
+
   const objectId = useMemo(() => {
     if (!object3D) return null;
     return (object3D.userData?.id || object3D.userData?.businessId || object3D.uuid) as string;
@@ -166,19 +225,17 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
         setEmissiveMapPreview(null);
       }
 
-      const refTex: THREE.Texture | null =
-        mat.map || mat.normalMap || mat.roughnessMap || mat.metalnessMap || mat.emissiveMap || null;
-      if (refTex) {
-        setUvRepeatX(refTex.repeat?.x ?? 1);
-        setUvRepeatY(refTex.repeat?.y ?? 1);
-        setUvOffsetX(refTex.offset?.x ?? 0);
-        setUvOffsetY(refTex.offset?.y ?? 0);
-        setUvRotation(THREE.MathUtils.radToDeg(refTex.rotation ?? 0));
-        setWrapS(refTex.wrapS ?? THREE.RepeatWrapping);
-        setWrapT(refTex.wrapT ?? THREE.RepeatWrapping);
-      }
+      syncUvStateFromMaterial(material);
+    } else {
+      setUvRepeatX(DEFAULT_UV.repeatX);
+      setUvRepeatY(DEFAULT_UV.repeatY);
+      setUvOffsetX(DEFAULT_UV.offsetX);
+      setUvOffsetY(DEFAULT_UV.offsetY);
+      setUvRotation(DEFAULT_UV.rotation);
+      setWrapS(DEFAULT_UV.wrapS);
+      setWrapT(DEFAULT_UV.wrapT);
     }
-  }, [material]);
+  }, [material, objectId, syncUvStateFromMaterial]);
 
   const applyUvParams = useCallback((params: {
     repeatX: number; repeatY: number; offsetX: number; offsetY: number;
@@ -414,6 +471,7 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
     if (mat.roughness !== undefined) setRoughness(mat.roughness);
     if (mat.emissive) setEmissive('#' + mat.emissive.getHexString());
     if (mat.emissiveIntensity !== undefined) setEmissiveIntensity(mat.emissiveIntensity);
+    syncUvStateFromMaterial(newMaterial);
     
     if (object3D) {
       (object3D as THREE.Mesh).material = newMaterial;
@@ -446,6 +504,7 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
     if (mat.roughness !== undefined) setRoughness(mat.roughness);
     if (mat.emissive) setEmissive('#' + mat.emissive.getHexString());
     if (mat.emissiveIntensity !== undefined) setEmissiveIntensity(mat.emissiveIntensity);
+    syncUvStateFromMaterial(restoredMaterial);
     
     // 通知父组件材质已更新
     onMaterialChange(restoredMaterial);
@@ -583,6 +642,11 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
         img.onload = () => {
           const texture = new THREE.Texture(img);
           texture.needsUpdate = true;
+          texture.wrapS = wrapS as THREE.Wrapping;
+          texture.wrapT = wrapT as THREE.Wrapping;
+          texture.repeat.set(uvRepeatX, uvRepeatY);
+          texture.offset.set(uvOffsetX, uvOffsetY);
+          texture.rotation = THREE.MathUtils.degToRad(uvRotation);
           
           const mat = material as any;
           mat[type] = texture;

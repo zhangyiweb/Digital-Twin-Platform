@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import { createModelsExportScene } from '@/utils/sceneUtils';
 import { stampModelUserDataForExport, collectTextureUvStates } from '@/utils/exportSceneRestore';
+import { normalizeObjectTextureUvs } from '@/utils/textureUvUtils';
 import { generateSceneConfig, type ExportedSceneConfig } from '@/utils/sceneConfigExporter';
 import {
   EXPORT_PACKAGE_DEFAULT_CAMERA_POSITION,
@@ -30,6 +31,7 @@ export interface ProjectPackageExportResult {
 
 function exportGlbBuffer(scene: THREE.Scene): Promise<ArrayBuffer> {
   const exportScene = createModelsExportScene(scene);
+  normalizeObjectTextureUvs(exportScene);
   stampModelUserDataForExport(exportScene);
 
   return new Promise((resolve, reject) => {

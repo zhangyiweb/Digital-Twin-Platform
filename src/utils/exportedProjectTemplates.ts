@@ -1,4 +1,5 @@
 import { buildObjectIdRestoreScript } from '@/utils/exportSceneRestore';
+import { buildTextureUvNormalizeScript } from '@/utils/textureUvUtils';
 import {
   EXPORT_PACKAGE_DEFAULT_CAMERA_POSITION,
   EXPORT_PACKAGE_DEFAULT_CONTROLS_TARGET,
@@ -76,6 +77,7 @@ const THREE_VERSION = '0.184.0';
 
 export function buildMainJs(): string {
   const restoreScript = buildObjectIdRestoreScript();
+  const normalizeScript = buildTextureUvNormalizeScript();
   const defaultCamera = JSON.stringify(EXPORT_PACKAGE_DEFAULT_CAMERA_POSITION);
   const defaultTarget = JSON.stringify(EXPORT_PACKAGE_DEFAULT_CONTROLS_TARGET);
   return `import * as THREE from 'three';
@@ -199,6 +201,8 @@ function findObjectById(root, id) {
 
 ${restoreScript}
 
+${normalizeScript}
+
 function tickTextureUvAnimations(root, animations, delta) {
   if (!animations || delta <= 0) return;
   const keysAll = ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'emissiveMap', 'aoMap', 'bumpMap'];
@@ -313,6 +317,7 @@ async function bootstrap() {
     const gltf = await loadModel('./' + assets.model);
     scene.add(gltf.scene);
     restoreEditorObjectIds(gltf.scene, config.editor?.objects || []);
+    normalizeModelTextureUvs(gltf.scene);
     applyTextureUvStates(gltf.scene, config.editor?.textureUvStates || {});
     prepareTextureAnimations(gltf.scene, config.editor?.textureUvAnimations || {});
     gltf.scene.traverse((child) => {
@@ -389,7 +394,7 @@ python -m http.server 8080
 - **改模型**：替换 \`assets/models/scene.glb\`，或在 \`js/main.js\` 中加载更多资源。
 - **改灯光 / 相机**：编辑 \`config/scene.json\`，\`runtimeLights\` 为场景中实际灯光数据。默认相机位置 \`(15, 10, 15)\`，控制点 \`(0, 0, 0)\`。
 - **改 HDR**：替换 \`assets/hdr/\` 下文件，并更新 \`scene.json\` 中 \`assets.hdr\` 路径。
-- **贴图动画**：\`config/scene.json\` 的 \`editor.textureUvAnimations\` 保存 UV 偏移动画；\`editor.textureUvStates\` 保存 repeat/offset/wrap 等 UV 参数。\`main.js\` 加载 GLB 后会恢复对象 id、应用 UV 状态并自动播放动画。
+- **贴图 / UV**：\`editor.textureUvStates\` 保存各对象 repeat/offset/wrap 等参数；加载 GLB 后会规范化出厂默认包裹为「重复」，并写入 \`scene.json\` 中的 UV 状态。
 - **后期处理**：\`config/scene.json\` 的 \`postProcess\` 节保存了编辑器中的后期参数，\`main.js\` 未内置完整后期管线，可按需接入 EffectComposer。
 
 ## 依赖

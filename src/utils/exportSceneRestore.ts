@@ -1,15 +1,12 @@
 import * as THREE from 'three';
-import { useAnimationStore } from '@/store/animationStore';
 import { useSceneStore } from '@/store/sceneStore';
 import { findThreeObjectById } from '@/utils/sceneUtils';
+import {
+  readTextureUvState,
+  type ExportedTextureUvState,
+} from '@/utils/textureUvUtils';
 
-export interface ExportedTextureUvState {
-  repeat: [number, number];
-  offset: [number, number];
-  wrapS: number;
-  wrapT: number;
-  rotation: number;
-}
+export type { ExportedTextureUvState };
 
 /** 导出前：确保 GLB 节点携带业务 id（clone 后仍保留） */
 export function stampModelUserDataForExport(exportScene: THREE.Scene) {
@@ -34,27 +31,20 @@ export function stampModelUserDataForExport(exportScene: THREE.Scene) {
   });
 }
 
-/** 收集带贴图动画对象的 UV 状态，供导出项目恢复 */
+/** 收集场景中所有带贴图对象的 UV 状态，供导出项目恢复 */
 export function collectTextureUvStates(scene: THREE.Scene): Record<string, ExportedTextureUvState> {
-  const animations = useAnimationStore.getState().textureUvAnimations;
   const states: Record<string, ExportedTextureUvState> = {};
+  const { objects, getThreeObject } = useSceneStore.getState();
 
-  Object.keys(animations).forEach((objectId) => {
-    const object = findThreeObjectById(scene, objectId);
-    if (!object) return;
+  objects.forEach((obj) => {
+    const root = getThreeObject(obj.id) || findThreeObjectById(scene, obj.id);
+    if (!root) return;
 
-    object.traverse((child) => {
-      if (!(child instanceof THREE.Mesh)) return;
+    root.traverse((child) => {
+      if (!(child instanceof THREE.Mesh) || states[obj.id]) return;
       const material = child.material as THREE.MeshStandardMaterial;
-      if (!material?.map || states[objectId]) return;
-
-      states[objectId] = {
-        repeat: [material.map.repeat.x, material.map.repeat.y],
-        offset: [material.map.offset.x, material.map.offset.y],
-        wrapS: material.map.wrapS,
-        wrapT: material.map.wrapT,
-        rotation: material.map.rotation,
-      };
+      if (!material?.map) return;
+      states[obj.id] = readTextureUvState(material.map);
     });
   });
 

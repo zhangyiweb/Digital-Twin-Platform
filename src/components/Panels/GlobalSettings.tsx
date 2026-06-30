@@ -68,6 +68,7 @@ export function GlobalSettings() {
   
   const isProgrammaticChange = useRef(false);
   const isUserInputChange = useRef(false);
+  const isCameraInputEditingRef = useRef(false);
   
   // 同步场景中已有的 HDR 状态（仅当用户手动添加过 HDRI 时）
   useEffect(() => {
@@ -130,16 +131,16 @@ export function GlobalSettings() {
     bgColorRef.current = bgColor; // 更新ref
   }, [bgColor]);
 
-  // 实时同步视口相机 / 控制点（仅「渲染」Tab 激活时轮询，降低无效 setState）
+  // 实时同步视口相机 / 控制点（「场景」Tab 显示这些字段时轮询）
   useEffect(() => {
-    if (activeTab !== 'render') return;
+    if (activeTab !== 'scene') return;
 
     let rafId = 0;
 
     const round2 = (n: number) => parseFloat(n.toFixed(2));
 
     const syncFromViewport = () => {
-      if (!isProgrammaticChange.current && !isUserInputChange.current) {
+      if (!isProgrammaticChange.current && !isUserInputChange.current && !isCameraInputEditingRef.current) {
         const camera = (window as any).__editorCamera as THREE.PerspectiveCamera | undefined;
         const controls = (window as any).__editorControls as { target: THREE.Vector3 } | undefined;
 
@@ -633,6 +634,8 @@ export function GlobalSettings() {
                     type="number"
                     step="0.1"
                     value={cameraPosition.x}
+                    onFocus={() => { isCameraInputEditingRef.current = true; }}
+                    onBlur={() => { isCameraInputEditingRef.current = false; }}
                     onChange={(e) => {
                       isUserInputChange.current = true; // 标记为用户手动输入
                       setCameraPosition((prev: {x: number, y: number, z: number}) => ({...prev, x: parseFloat(e.target.value) || 0}))
@@ -646,6 +649,8 @@ export function GlobalSettings() {
                     type="number"
                     step="0.1"
                     value={cameraPosition.y}
+                    onFocus={() => { isCameraInputEditingRef.current = true; }}
+                    onBlur={() => { isCameraInputEditingRef.current = false; }}
                     onChange={(e) => {
                       isUserInputChange.current = true; // 标记为用户手动输入
                       setCameraPosition((prev: {x: number, y: number, z: number}) => ({...prev, y: parseFloat(e.target.value) || 0}))
@@ -659,6 +664,8 @@ export function GlobalSettings() {
                     type="number"
                     step="0.1"
                     value={cameraPosition.z}
+                    onFocus={() => { isCameraInputEditingRef.current = true; }}
+                    onBlur={() => { isCameraInputEditingRef.current = false; }}
                     onChange={(e) => {
                       isUserInputChange.current = true; // 标记为用户手动输入
                       setCameraPosition((prev: {x: number, y: number, z: number}) => ({...prev, z: parseFloat(e.target.value) || 0}))
@@ -678,6 +685,8 @@ export function GlobalSettings() {
                     type="number"
                     step="0.1"
                     value={controlsTarget.x}
+                    onFocus={() => { isCameraInputEditingRef.current = true; }}
+                    onBlur={() => { isCameraInputEditingRef.current = false; }}
                     onChange={(e) => {
                       isUserInputChange.current = true;
                       setControlsTarget((prev: {x: number, y: number, z: number}) => ({...prev, x: parseFloat(e.target.value) || 0}));
@@ -691,6 +700,8 @@ export function GlobalSettings() {
                     type="number"
                     step="0.1"
                     value={controlsTarget.y}
+                    onFocus={() => { isCameraInputEditingRef.current = true; }}
+                    onBlur={() => { isCameraInputEditingRef.current = false; }}
                     onChange={(e) => {
                       isUserInputChange.current = true;
                       setControlsTarget((prev: {x: number, y: number, z: number}) => ({...prev, y: parseFloat(e.target.value) || 0}));
@@ -704,6 +715,8 @@ export function GlobalSettings() {
                     type="number"
                     step="0.1"
                     value={controlsTarget.z}
+                    onFocus={() => { isCameraInputEditingRef.current = true; }}
+                    onBlur={() => { isCameraInputEditingRef.current = false; }}
                     onChange={(e) => {
                       isUserInputChange.current = true;
                       setControlsTarget((prev: {x: number, y: number, z: number}) => ({...prev, z: parseFloat(e.target.value) || 0}));

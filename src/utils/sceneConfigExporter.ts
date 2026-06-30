@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { useSceneStore } from '@/store/sceneStore';
 import { useLightStore } from '@/store/lightStore';
 import { useAnimationStore } from '@/store/animationStore';
+import type { ExportedTextureUvState } from '@/utils/exportSceneRestore';
 
 const TONE_MAPPING_BY_NAME: Record<string, number> = {
   none: THREE.NoToneMapping,
@@ -24,6 +25,7 @@ export interface ExportedSceneConfig {
     objects: ReturnType<typeof useSceneStore.getState>['objects'];
     lights: ReturnType<typeof useLightStore.getState>['lights'];
     textureUvAnimations: ReturnType<typeof useAnimationStore.getState>['textureUvAnimations'];
+    textureUvStates?: Record<string, ExportedTextureUvState>;
     settings: Record<string, unknown> | null;
   };
   scene: {
@@ -269,7 +271,7 @@ export function generateSceneConfig(): ExportedSceneConfig {
     'aces';
 
   return {
-    version: '1.1.0',
+    version: '1.2.0',
     exportTime: new Date().toISOString(),
     editor: {
       objects: editorObjects,
@@ -281,7 +283,9 @@ export function generateSceneConfig(): ExportedSceneConfig {
       background,
       fog,
       environment: {
-        enabled: Boolean(scene.environment),
+        enabled: Boolean(
+          scene.environment && globalSettings?.envHdriEnabled !== false
+        ),
         name: globalSettings?.hdrEnvName ? String(globalSettings.hdrEnvName) : undefined,
         intensity: globalSettings?.envMapIntensity != null
           ? Number(globalSettings.envMapIntensity)

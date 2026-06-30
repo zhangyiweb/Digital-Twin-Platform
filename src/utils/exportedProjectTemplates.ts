@@ -1,4 +1,8 @@
-const THREE_VERSION = '0.184.0';
+import { buildObjectIdRestoreScript } from '@/utils/exportSceneRestore';
+import {
+  EXPORT_PACKAGE_DEFAULT_CAMERA_POSITION,
+  EXPORT_PACKAGE_DEFAULT_CONTROLS_TARGET,
+} from '@/config/exportDefaults';
 
 export function buildIndexHtml(title: string): string {
   return `<!DOCTYPE html>
@@ -68,7 +72,12 @@ html, body {
 `;
 }
 
+const THREE_VERSION = '0.184.0';
+
 export function buildMainJs(): string {
+  const restoreScript = buildObjectIdRestoreScript();
+  const defaultCamera = JSON.stringify(EXPORT_PACKAGE_DEFAULT_CAMERA_POSITION);
+  const defaultTarget = JSON.stringify(EXPORT_PACKAGE_DEFAULT_CONTROLS_TARGET);
   return `import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -76,6 +85,9 @@ import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 
 const canvas = document.getElementById('canvas');
 const loadingEl = document.getElementById('loading');
+
+const DEFAULT_CAMERA_POSITION = ${defaultCamera};
+const DEFAULT_CONTROLS_TARGET = ${defaultTarget};
 
 const TONE_MAPPING = {
   none: THREE.NoToneMapping,
@@ -179,11 +191,13 @@ function findObjectById(root, id) {
   let found = null;
   root.traverse((child) => {
     if (found) return;
-    const cid = child.userData?.id || child.userData?.businessId || child.uuid;
+    const cid = child.userData?.id || child.userData?.businessId || child.userData?.editorId;
     if (cid === id) found = child;
   });
   return found;
 }
+
+${restoreScript}
 
 function tickTextureUvAnimations(root, animations, delta) {
   if (!animations || delta <= 0) return;
@@ -277,16 +291,15 @@ async function bootstrap() {
     cameraCfg.near ?? 0.1,
     cameraCfg.far ?? 5000
   );
-  if (cameraCfg.position) {
-    camera.position.set(cameraCfg.position.x, cameraCfg.position.y, cameraCfg.position.z);
-  }
+  const camPos = cameraCfg.position ?? DEFAULT_CAMERA_POSITION;
+  camera.position.set(camPos.x, camPos.y, camPos.z);
 
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = controlsCfg.enableDamping !== false;
   controls.dampingFactor = controlsCfg.dampingFactor ?? 0.05;
-  if (controlsCfg.target) {
-    controls.target.set(controlsCfg.target.x, controlsCfg.target.y, controlsCfg.target.z);
-  }
+  const ctrlTarget = controlsCfg.target ?? DEFAULT_CONTROLS_TARGET;
+  controls.target.set(ctrlTarget.x, ctrlTarget.y, ctrlTarget.z);
+  controls.update();
 
   const lights = config.runtimeLights?.length ? config.runtimeLights : [];
   for (const lightData of lights) {
@@ -299,6 +312,9 @@ async function bootstrap() {
   if (assets.model) {
     const gltf = await loadModel('./' + assets.model);
     scene.add(gltf.scene);
+    restoreEditorObjectIds(gltf.scene, config.editor?.objects || []);
+    applyTextureUvStates(gltf.scene, config.editor?.textureUvStates || {});
+    prepareTextureAnimations(gltf.scene, config.editor?.textureUvAnimations || {});
     gltf.scene.traverse((child) => {
       if (child.isMesh) {
         child.castShadow = true;
@@ -371,9 +387,9 @@ python -m http.server 8080
 ## 二次开发说明
 
 - **改模型**：替换 \`assets/models/scene.glb\`，或在 \`js/main.js\` 中加载更多资源。
-- **改灯光 / 相机**：编辑 \`config/scene.json\`，\`runtimeLights\` 为场景中实际灯光数据。
+- **改灯光 / 相机**：编辑 \`config/scene.json\`，\`runtimeLights\` 为场景中实际灯光数据。默认相机位置 \`(15, 10, 15)\`，控制点 \`(0, 0, 0)\`。
 - **改 HDR**：替换 \`assets/hdr/\` 下文件，并更新 \`scene.json\` 中 \`assets.hdr\` 路径。
-- **贴图动画**：\`config/scene.json\` 的 \`editor.textureUvAnimations\` 保存 UV 偏移动画，\`main.js\` 已自动播放。
+- **贴图动画**：\`config/scene.json\` 的 \`editor.textureUvAnimations\` 保存 UV 偏移动画；\`editor.textureUvStates\` 保存 repeat/offset/wrap 等 UV 参数。\`main.js\` 加载 GLB 后会恢复对象 id、应用 UV 状态并自动播放动画。
 - **后期处理**：\`config/scene.json\` 的 \`postProcess\` 节保存了编辑器中的后期参数，\`main.js\` 未内置完整后期管线，可按需接入 EffectComposer。
 
 ## 依赖

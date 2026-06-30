@@ -2,7 +2,12 @@ import JSZip from 'jszip';
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import { createModelsExportScene } from '@/utils/sceneUtils';
+import { stampModelUserDataForExport, collectTextureUvStates } from '@/utils/exportSceneRestore';
 import { generateSceneConfig, type ExportedSceneConfig } from '@/utils/sceneConfigExporter';
+import {
+  EXPORT_PACKAGE_DEFAULT_CAMERA_POSITION,
+  EXPORT_PACKAGE_DEFAULT_CONTROLS_TARGET,
+} from '@/config/exportDefaults';
 import {
   buildIndexHtml,
   buildStyleCss,
@@ -25,6 +30,7 @@ export interface ProjectPackageExportResult {
 
 function exportGlbBuffer(scene: THREE.Scene): Promise<ArrayBuffer> {
   const exportScene = createModelsExportScene(scene);
+  stampModelUserDataForExport(exportScene);
 
   return new Promise((resolve, reject) => {
     const exporter = new GLTFExporter();
@@ -76,13 +82,51 @@ async function resolveHdrAsset(): Promise<{ data: ArrayBuffer; filename: string 
   return null;
 }
 
+function applyExportPackageCameraDefaults(
+  config: ExportedSceneConfig & {
+    assets: { model?: string; hdr?: string };
+    editor: ExportedSceneConfig['editor'] & { textureUvStates: Record<string, unknown> };
+  }
+) {
+  return {
+    ...config,
+    camera: {
+      fov: config.camera?.fov ?? 45,
+      near: config.camera?.near ?? 0.1,
+      far: config.camera?.far ?? 5000,
+      aspect: config.camera?.aspect ?? 1,
+      position: { ...EXPORT_PACKAGE_DEFAULT_CAMERA_POSITION },
+    },
+    controls: {
+      enableDamping: config.controls?.enableDamping ?? true,
+      dampingFactor: config.controls?.dampingFactor ?? 0.05,
+      enableZoom: config.controls?.enableZoom ?? true,
+      enableRotate: config.controls?.enableRotate ?? true,
+      enablePan: config.controls?.enablePan ?? true,
+      minDistance: config.controls?.minDistance ?? 0,
+      maxDistance: config.controls?.maxDistance ?? Infinity,
+      minPolarAngle: config.controls?.minPolarAngle ?? 0,
+      maxPolarAngle: config.controls?.maxPolarAngle ?? Math.PI,
+      target: { ...EXPORT_PACKAGE_DEFAULT_CONTROLS_TARGET },
+    },
+  };
+}
+
 function buildProjectConfig(
   baseConfig: ExportedSceneConfig,
-  assets: { model?: string; hdr?: string }
-): ExportedSceneConfig & { assets: { model?: string; hdr?: string } } {
+  assets: { model?: string; hdr?: string },
+  textureUvStates: Record<string, import('@/utils/exportSceneRestore').ExportedTextureUvState>
+): ExportedSceneConfig & {
+  assets: { model?: string; hdr?: string };
+  editor: ExportedSceneConfig['editor'] & { textureUvStates: typeof textureUvStates };
+} {
   return {
     ...baseConfig,
     assets,
+    editor: {
+      ...baseConfig.editor,
+      textureUvStates,
+    },
   };
 }
 
@@ -113,6 +157,7 @@ export async function exportProjectPackage(): Promise<ProjectPackageExportResult
   }
 
   const baseConfig = generateSceneConfig();
+  const textureUvStates = collectTextureUvStates(scene);
   const assets: { model?: string; hdr?: string } = {};
 
   let hasModel = false;
@@ -141,7 +186,9 @@ export async function exportProjectPackage(): Promise<ProjectPackageExportResult
     console.warn('HDR 资源导出失败，项目包将不包含 HDR 文件', error);
   }
 
-  const projectConfig = buildProjectConfig(baseConfig, assets);
+  const projectConfig = applyExportPackageCameraDefaults(
+    buildProjectConfig(baseConfig, assets, textureUvStates)
+  );
   const exportTitle = `数字孪生场景 ${new Date(baseConfig.exportTime).toLocaleString('zh-CN')}`;
 
   root.file('config/scene.json', JSON.stringify(projectConfig, null, 2));

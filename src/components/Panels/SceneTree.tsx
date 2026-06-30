@@ -29,6 +29,7 @@ function isHelperObject(obj: THREE.Object3D): boolean {
     obj.name === 'axes' ||
     obj.name.startsWith('helper_') ||
     obj.userData?.isLightPickProxy === true ||
+    obj.userData?.isLightTarget === true ||
     obj.type === 'TransformControlsGizmo' ||
     (obj.children.length === 2 && obj.children[0]?.type === 'TransformControlsGizmo') ||
     obj instanceof THREE.Light

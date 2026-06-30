@@ -79,8 +79,12 @@ function ensureLightPickProxy(light: THREE.Light, lightId: string) {
   if (light instanceof THREE.AmbientLight) return;
   if (light.getObjectByName('light_pick_proxy')) return;
 
+  const radius =
+    light instanceof THREE.DirectionalLight ? 3 :
+    light instanceof THREE.SpotLight ? 0.8 :
+    0.5;
   const proxy = new THREE.Mesh(
-    new THREE.SphereGeometry(0.4, 10, 10),
+    new THREE.SphereGeometry(radius, 10, 10),
     new THREE.MeshBasicMaterial({
       transparent: true,
       opacity: 0,
@@ -96,15 +100,36 @@ function ensureLightPickProxy(light: THREE.Light, lightId: string) {
 function createLightHelper(light: THREE.Light): THREE.Object3D | null {
   switch (light.type) {
     case 'DirectionalLight':
-      return new THREE.DirectionalLightHelper(light as THREE.DirectionalLight, 5);
+      return new THREE.DirectionalLightHelper(light as THREE.DirectionalLight, 10);
     case 'PointLight':
-      return new THREE.PointLightHelper(light as THREE.PointLight, 0.5);
+      return new THREE.PointLightHelper(light as THREE.PointLight, 0.6);
     case 'SpotLight':
       return new THREE.SpotLightHelper(light as THREE.SpotLight);
     case 'HemisphereLight':
-      return new THREE.HemisphereLightHelper(light as THREE.HemisphereLight, 1);
+      return new THREE.HemisphereLightHelper(light as THREE.HemisphereLight, 1.2);
     default:
       return null;
+  }
+}
+
+function disposeLightHelper(helper: THREE.Object3D) {
+  const disposable = helper as unknown as { dispose?: () => void };
+  disposable.dispose?.();
+}
+
+function addLightTargetToScene(scene: THREE.Scene, light: THREE.Light) {
+  if (light instanceof THREE.DirectionalLight || light instanceof THREE.SpotLight) {
+    light.target.userData.isLightTarget = true;
+    if (light.target.parent !== scene) {
+      scene.add(light.target);
+    }
+  }
+}
+
+function removeLightTargetFromScene(scene: THREE.Scene, light: THREE.Light) {
+  if (light instanceof THREE.DirectionalLight || light instanceof THREE.SpotLight) {
+    delete light.target.userData.isLightTarget;
+    scene.remove(light.target);
   }
 }
 
@@ -660,11 +685,14 @@ export function EditorViewport() {
 
         const isLightPick = child.userData?.isLightPickProxy === true;
         const isLightHelper = child.name.startsWith('helper_');
+        const isHelperLine =
+          (child instanceof THREE.Line || child instanceof THREE.LineSegments) &&
+          child.parent?.name?.startsWith('helper_');
         const isSceneObject =
           (child instanceof THREE.Mesh || child instanceof THREE.Group) &&
           !(child instanceof THREE.Light);
 
-        if (isLightPick || isLightHelper) {
+        if (isLightPick || isLightHelper || isHelperLine) {
           clickableObjects.push(child);
           return;
         }
@@ -1165,9 +1193,7 @@ export function EditorViewport() {
     // 移除不在lightStore中的灯光
     lightsRef.current.forEach((light, id) => {
       if (!lights.find(l => l.id === id)) {
-        if (light instanceof THREE.DirectionalLight) {
-          sceneRef.current!.remove(light.target);
-        }
+        removeLightTargetFromScene(sceneRef.current!, light);
         sceneRef.current!.remove(light);
         lightsRef.current.delete(id);
       }
@@ -1248,9 +1274,7 @@ export function EditorViewport() {
           light.visible = lightConfig.enabled !== false;
           ensureLightPickProxy(light, lightConfig.id);
           sceneRef.current!.add(light);
-          if (light instanceof THREE.DirectionalLight) {
-            sceneRef.current!.add(light.target);
-          }
+          addLightTargetToScene(sceneRef.current!, light);
           lightsRef.current.set(lightConfig.id, light);
         }
       } else {
@@ -1272,45 +1296,40 @@ export function EditorViewport() {
         if (lightConfig.position && !(light instanceof THREE.AmbientLight)) {
           light.position.set(...lightConfig.position);
         }
+
+        addLightTargetToScene(sceneRef.current!, light);
       }
     });
   }, [lights]);
 
-  // 灯光 Helper 显示 - 所有可定位灯光始终显示辅助线，便于视口拾取
+  // 灯光 Helper — 仅选中灯光时显示（环境光无 Helper）
   useEffect(() => {
     if (!sceneRef.current) return;
 
     const scene = sceneRef.current;
-    const positionalLightIds = new Set(
-      lights.filter((l) => l.type !== 'ambient').map((l) => l.id)
-    );
 
-    lightHelpersRef.current.forEach((helper, id) => {
-      if (!positionalLightIds.has(id)) {
-        scene.remove(helper);
-        if (typeof helper.dispose === 'function') helper.dispose();
-        lightHelpersRef.current.delete(id);
-      }
+    lightHelpersRef.current.forEach((helper) => {
+      scene.remove(helper);
+      disposeLightHelper(helper);
     });
+    lightHelpersRef.current.clear();
 
-    lights.forEach((lightConfig) => {
-      if (lightConfig.type === 'ambient') return;
+    if (!selectedLightId || selectedIds.length > 0) return;
 
-      const light = lightsRef.current.get(lightConfig.id);
-      if (!light) return;
+    const lightConfig = lights.find((l) => l.id === selectedLightId);
+    if (!lightConfig || lightConfig.type === 'ambient') return;
 
-      let helper = lightHelpersRef.current.get(lightConfig.id);
-      if (!helper) {
-        helper = createLightHelper(light);
-        if (!helper) return;
-        helper.name = `helper_${lightConfig.id}`;
-        scene.add(helper);
-        lightHelpersRef.current.set(lightConfig.id, helper);
-      } else if (helper.update) {
-        helper.update();
-      }
-    });
-  }, [lights, selectedLightId]);
+    const light = lightsRef.current.get(selectedLightId);
+    if (!light) return;
+
+    const helper = createLightHelper(light);
+    if (!helper) return;
+
+    helper.name = `helper_${selectedLightId}`;
+    scene.add(helper);
+    lightHelpersRef.current.set(selectedLightId, helper);
+    (helper as unknown as { update?: () => void }).update?.();
+  }, [lights, selectedLightId, selectedIds]);
 
   return (
     <div

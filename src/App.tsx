@@ -54,6 +54,7 @@ function App() {
       if (child.name === 'grid' || 
           child.name === 'axes' || 
           child.name.startsWith('helper_') ||
+          child.userData?.isLightTarget === true ||
           child instanceof THREE.Light ||
           child.type === 'TransformControlsGizmo' || // TransformControls的gizmo助手
           (child.children.length === 2 && child.children[0]?.type === 'TransformControlsGizmo')) { // 包含gizmo的Object3D

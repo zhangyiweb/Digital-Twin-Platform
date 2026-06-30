@@ -221,6 +221,12 @@
   font-size: 11px;
 }
 
+/* 深色面板：覆盖 Ant Design Typography secondary 的浅色主题黑字 */
+.bg-gray-900 .ant-typography.ant-typography-secondary,
+.property-panel .ant-typography.ant-typography-secondary {
+  color: #9ca3af !important;
+}
+
 /* 中间3D视口 */
 .viewport {
   flex: 1;

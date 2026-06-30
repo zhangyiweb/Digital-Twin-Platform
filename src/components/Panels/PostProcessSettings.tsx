@@ -90,7 +90,7 @@ function EffectHint({ effect }: { effect: PostProcessEffectId }) {
     .find((e) => e.id === effect)?.hint;
   if (!hint) return null;
   return (
-    <Text type="secondary" className="text-[10px] block mt-1.5 leading-relaxed">
+    <Text className="text-[10px] text-gray-400 block mt-1.5 leading-relaxed">
       {hint}
     </Text>
   );
@@ -286,7 +286,7 @@ export function PostProcessSettings() {
       case 'sobel':
       case 'none':
         return (
-          <Text type="secondary" className="text-[10px] block">
+          <Text className="text-[10px] text-gray-400 block">
             此效果无需额外参数，或参数由渲染器自动处理。
           </Text>
         );

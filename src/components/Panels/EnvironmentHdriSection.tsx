@@ -124,7 +124,7 @@ export function EnvironmentHdriSection({
               onUpload={(f) => onLoadLocalHdr(f, false)}
               onClear={onClearEnvironment}
             />
-            <Text type="secondary" className="text-[10px] block px-0.5">
+            <Text className="text-[10px] text-gray-400 block px-0.5">
               支持 .hdr / .exr，可分别上传背景与环境贴图
             </Text>
           </div>

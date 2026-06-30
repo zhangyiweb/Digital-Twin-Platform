@@ -865,7 +865,7 @@ export function GlobalSettings() {
                 onChange={(e) => setEnvMapIntensity(parseFloat(e.target.value))}
                 className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               />
-              <Typography.Text type="secondary" className="text-[10px] block mt-1 leading-relaxed">
+              <Typography.Text className="text-[10px] text-gray-400 block mt-1 leading-relaxed">
                 调节 PBR 材质的环境光与反射；需开启「环境光照」且模型为标准/物理材质。
               </Typography.Text>
             </div>

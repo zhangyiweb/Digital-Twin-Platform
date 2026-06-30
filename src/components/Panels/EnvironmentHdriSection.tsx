@@ -59,7 +59,7 @@ export function EnvironmentHdriSection({
       {/* 环境 / 背景开关 */}
       <div className="shrink-0 flex items-center justify-between gap-3 px-2.5 py-1.5 bg-gray-800/80 rounded-lg border border-gray-700/80">
         <div className="flex items-center gap-2">
-          <Text className="text-[11px] text-gray-400">环境光照</Text>
+          <Text className="text-[11px] text-gray-400">HDR 环境反射</Text>
           <Switch size="small" checked={envHdriEnabled} disabled={!hdriReady} onChange={onToggleEnv} />
         </div>
         <div className="w-px h-3.5 bg-gray-600" />

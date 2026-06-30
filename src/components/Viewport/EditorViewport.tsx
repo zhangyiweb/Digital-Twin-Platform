@@ -26,7 +26,6 @@ import { useLightStore } from '@/store/lightStore';
 import { useHistoryStore } from '@/store/historyStore';
 import {
   applyRendererLightingDefaults,
-  applyDefaultRoomEnvironment,
   applyDirectionalShadowSettings,
   DEFAULT_TONE_MAPPING_EXPOSURE,
 } from '@/config/defaultLighting';
@@ -506,12 +505,8 @@ export function EditorViewport() {
     });
     toRemove.forEach((child) => scene.remove(child));
 
-    // 标记场景初始化完成
+    // 标记场景初始化完成（HDR 环境反射需用户手动加载，默认无 scene.environment）
     (window as any).__sceneInitialized = true;
-
-    // ② 默认 IBL：RoomEnvironment
-    applyDefaultRoomEnvironment(renderer, scene);
-    (window as any).__defaultRoomEnvironmentActive = true;
 
     // 添加网格辅助 - 紫色主题,更大更美观
     const gridHelper = new THREE.GridHelper(1000, 50, 0x9333ea, 0x581c87);

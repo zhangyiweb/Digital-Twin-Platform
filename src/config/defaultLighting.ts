@@ -54,7 +54,7 @@ export function applyRendererLightingDefaults(
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 }
 
-/** ② 程序化 IBL：RoomEnvironment（无需 HDR 文件） */
+/** 程序化 IBL：RoomEnvironment（按需调用，非默认） */
 export function applyDefaultRoomEnvironment(
   renderer: THREE.WebGLRenderer,
   scene: THREE.Scene

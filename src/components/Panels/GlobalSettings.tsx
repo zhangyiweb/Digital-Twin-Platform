@@ -45,16 +45,16 @@ export function GlobalSettings() {
   
   // HDR状态跟踪
   const [hasHDRBackground, setHasHDRBackground] = useState(savedConfig?.hasHDRBackground ?? false);
-  const [hasHDREnvironment, setHasHDREnvironment] = useState(savedConfig?.hasHDREnvironment ?? true);
+  const [hasHDREnvironment, setHasHDREnvironment] = useState(savedConfig?.hasHDREnvironment ?? false);
   const [hdrBgName, setHdrBgName] = useState<string>(savedConfig?.hdrBgName || '');
-  const [hdrEnvName, setHdrEnvName] = useState<string>(savedConfig?.hdrEnvName || 'RoomEnvironment');
+  const [hdrEnvName, setHdrEnvName] = useState<string>(savedConfig?.hdrEnvName || '');
   const hasHDRBackgroundRef = useRef(savedConfig?.hasHDRBackground ?? false);
   const bgHdriEnabledRef = useRef(savedConfig?.bgHdriEnabled ?? false);
-  const envHdriEnabledRef = useRef(savedConfig?.envHdriEnabled ?? true);
+  const envHdriEnabledRef = useRef(savedConfig?.envHdriEnabled ?? false);
 
   // Poly Haven HDRI
   const [bgHdriEnabled, setBgHdriEnabled] = useState(savedConfig?.bgHdriEnabled ?? false);
-  const [envHdriEnabled, setEnvHdriEnabled] = useState(savedConfig?.envHdriEnabled ?? true);
+  const [envHdriEnabled, setEnvHdriEnabled] = useState(savedConfig?.envHdriEnabled ?? false);
   const [selectedHdriId, setSelectedHdriId] = useState<string | null>(savedConfig?.selectedHdriId ?? null);
   const [hdriResolution, setHdriResolution] = useState<HdrResolution>(savedConfig?.hdriResolution ?? DEFAULT_RESOLUTION);
   const [loadingHdriId, setLoadingHdriId] = useState<string | null>(null);
@@ -866,7 +866,7 @@ export function GlobalSettings() {
                 className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               />
               <Typography.Text className="text-[10px] text-gray-400 block mt-1 leading-relaxed">
-                调节 PBR 材质的环境光与反射；需开启「环境光照」且模型为标准/物理材质。
+                调节 PBR 材质的 HDR 环境反射强度；需先加载 HDRI 并开启「HDR 环境反射」。
               </Typography.Text>
             </div>
 

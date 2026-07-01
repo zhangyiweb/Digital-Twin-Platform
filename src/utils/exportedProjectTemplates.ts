@@ -75,7 +75,7 @@ html, body {
 
 const THREE_VERSION = '0.184.0';
 
-export function buildMainJs(): string {
+export function buildMainJs(hasCameraTour = false): string {
   const restoreScript = buildObjectIdRestoreScript();
   const normalizeScript = buildTextureUvNormalizeScript();
   const defaultCamera = JSON.stringify(EXPORT_PACKAGE_DEFAULT_CAMERA_POSITION);
@@ -84,6 +84,7 @@ export function buildMainJs(): string {
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
+${hasCameraTour ? "import { createCameraTourController } from './cameraTour.js';\n" : ''}
 
 const canvas = document.getElementById('canvas');
 const loadingEl = document.getElementById('loading');
@@ -342,11 +343,31 @@ async function bootstrap() {
   const timer = new THREE.Timer();
   timer.connect(document);
 
+  ${hasCameraTour ? `// 相机漫游工具包（详见 js/cameraTour.js 顶部注释）
+  // 二次开发：window.cameraTour.play() / goToStop(n) / getCurrentStop().name 等
+  let cameraTour = null;
+  try {
+    cameraTour = createCameraTourController({
+      camera,
+      controls,
+      configUrl: './config/camera-tour.json',
+    });
+    await cameraTour.ready;
+    window.cameraTour = cameraTour;
+  } catch (err) {
+    console.warn('漫游配置加载失败', err);
+  }
+` : ''}
   function animate() {
     requestAnimationFrame(animate);
     timer.update();
-    tickTextureUvAnimations(scene, textureUvAnimations, timer.getDelta());
-    controls.update();
+    const delta = timer.getDelta();
+    tickTextureUvAnimations(scene, textureUvAnimations, delta);
+    ${hasCameraTour ? `if (cameraTour?.isActive()) {
+      cameraTour.update(delta);
+    } else {
+      controls.update();
+    }` : 'controls.update();'}
     renderer.render(scene, camera);
   }
   animate();
@@ -377,12 +398,16 @@ export function buildReadme(exportTime: string): string {
 \`\`\`
 ├── index.html          # 入口页面
 ├── css/style.css       # 样式
-├── js/main.js          # Three.js 场景启动脚本（ES Module）
-├── config/scene.json   # 相机、灯光、雾效、渲染器、后期等完整配置
+├── js/
+│   ├── main.js         # Three.js 场景启动脚本（ES Module）
+│   └── cameraTour.js   # 相机漫游工具包（无 UI，详见文件顶部注释）
+├── config/
+│   ├── scene.json      # 相机、灯光、雾效、渲染器、后期等完整配置
+│   └── camera-tour.json # 漫游路线：折线路径 + 各漫游点名称/坐标（如有）
 ├── assets/
-│   ├── models/scene.glb   # 场景模型（几何体 + 材质贴图已嵌入 GLB）
-│   ├── textures/          # 外部贴图文件（含 Poly Haven 材质贴图、模型贴图）
-│   └── hdr/               # HDR 环境贴图（若导出时有加载）
+│   ├── models/scene.glb
+│   ├── textures/
+│   └── hdr/
 └── README.md
 \`\`\`
 
@@ -407,6 +432,11 @@ python -m http.server 8080
 - **改 HDR**：替换 \`assets/hdr/\` 下文件，并更新 \`scene.json\` 中 \`assets.hdr\` 路径。
 - **贴图 / UV**：\`editor.textureUvStates\` 保存各对象 repeat/offset/wrap 等参数；加载 GLB 后会规范化出厂默认包裹为「重复」，并写入 \`scene.json\` 中的 UV 状态。从 Poly Haven 应用的贴图会额外写入 \`assets.textures\` 目录，并在 \`scene.json\` 的 \`assets.textures\` 中记录路径与来源。
 - **Poly Haven 模型**：\`editor.polyhavenModels\` 记录从模型库导入的资产 id 与分辨率；模型几何与贴图已打包进 \`scene.glb\`，贴图原件另存于 \`assets/textures/\`。
+- **相机漫游工具包**：导出包内含 \`js/cameraTour.js\`（独立模块，无 UI）与 \`config/camera-tour.json\`。
+  - JSON 中 \`waypoints[]\` 每项含 \`name\`（漫游点名称）、\`position\`（相机坐标）、\`target\`（目标点）、\`dwellTime\` / \`transitionTime\`；
+  - \`route\` 为按顺序连接的折线，便于画路径，动画以 waypoints 为准。
+  - \`main.js\` 加载后挂载 \`window.cameraTour\`，可调用 \`play()\` / \`pause()\` / \`goToStop(n)\` 等；\`stopChange\` 事件会带回漫游点 \`name\`。
+  - 完整 API、JSON 字段说明与导航按钮示例见 \`js/cameraTour.js\` 文件顶部注释。
 - **后期处理**：\`config/scene.json\` 的 \`postProcess\` 节保存了编辑器中的后期参数，\`main.js\` 未内置完整后期管线，可按需接入 EffectComposer。
 
 ## 依赖

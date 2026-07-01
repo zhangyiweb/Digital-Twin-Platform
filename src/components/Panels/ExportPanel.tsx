@@ -77,6 +77,7 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
         result.hasHdr ? '含 HDR' : '无 HDR',
         result.hasTextures ? `含 ${result.textureCount} 张贴图` : '无外部贴图',
         result.polyhavenModelCount > 0 ? `Poly Haven 模型 ${result.polyhavenModelCount} 个` : null,
+        result.hasCameraTour ? '含漫游' : null,
       ].filter(Boolean).join(' · ');
       message.success(`项目包已导出（${detail}）`);
     } catch (error) {

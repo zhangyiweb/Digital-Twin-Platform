@@ -471,3 +471,16 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
   transform: translateY(-1px);
 }
+
+.tour-stop-actions .ant-btn-text:not(.ant-btn-dangerous) {
+  color: #d1d5db !important;
+}
+
+.tour-stop-actions .ant-btn-text:not(.ant-btn-dangerous):hover:not(:disabled) {
+  color: #f9fafb !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.tour-stop-actions .ant-btn-text:disabled {
+  color: #4b5563 !important;
+}

@@ -25,6 +25,7 @@ import { useModelLoader } from '@/hooks/useModelLoader';
 import { useLightStore } from '@/store/lightStore';
 import { useHistoryStore } from '@/store/historyStore';
 import { tickTextureUvAnimations } from '@/utils/textureAnimationRuntime';
+import { tickEditorCameraTour } from '@/components/Panels/CameraTourPanel';
 import { disposeObject3DResources } from '@/utils/sceneUtils';
 import {
   applyRendererLightingDefaults,
@@ -1047,7 +1048,11 @@ export function EditorViewport() {
     if (!renderLoopActiveRef.current) return;
     animationFrameRef.current = requestAnimationFrame(animate);
     
-    if (controlsRef.current) {
+    timerRef.current.update();
+    const delta = timerRef.current.getDelta();
+
+    const tourActive = tickEditorCameraTour(delta);
+    if (controlsRef.current && !tourActive) {
       controlsRef.current.update();
     }
     
@@ -1061,11 +1066,10 @@ export function EditorViewport() {
     });
     
     // 贴图 UV 偏移动画
-    timerRef.current.update();
     if (sceneRef.current) {
       tickTextureUvAnimations(
         sceneRef.current,
-        timerRef.current.getDelta(),
+        delta,
         useSceneStore.getState().getThreeObject
       );
     }

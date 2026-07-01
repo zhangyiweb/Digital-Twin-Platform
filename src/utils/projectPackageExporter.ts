@@ -15,6 +15,10 @@ import {
   buildMainJs,
   buildReadme,
 } from '@/utils/exportedProjectTemplates';
+import { buildCameraTourJs } from '@/utils/exportedCameraTourTemplate';
+import { buildCameraTourJson } from '@/utils/cameraTourJson';
+import { useTourStore } from '@/store/tourStore';
+import type { CameraTour } from '@/types/cameraTour';
 import { fetchHdriUrl, type HdrDownloadSource, type HdrResolution } from '@/utils/polyhaven';
 import {
   collectExternalTextures,
@@ -41,6 +45,7 @@ export interface ProjectPackageExportResult {
   hasTextures: boolean;
   textureCount: number;
   polyhavenModelCount: number;
+  hasCameraTour: boolean;
 }
 
 async function exportGlbBuffer(
@@ -167,6 +172,15 @@ function buildProjectConfig(
   };
 }
 
+function pickExportTour(tours: CameraTour[], activeTourId: string | null): CameraTour | null {
+  if (tours.length === 0) return null;
+  const active = activeTourId ? tours.find((t) => t.id === activeTourId) : null;
+  const withStops = (active && active.stops.length > 0)
+    ? active
+    : tours.find((t) => t.stops.length > 0);
+  return withStops ?? null;
+}
+
 function downloadBlob(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -243,12 +257,20 @@ export async function exportProjectPackage(): Promise<ProjectPackageExportResult
   const projectConfig = applyExportPackageCameraDefaults(
     buildProjectConfig(baseConfig, assets, textureUvStates, polyhavenModels)
   );
+
+  const { tours, activeTourId } = useTourStore.getState();
+  const exportTour = pickExportTour(tours, activeTourId);
+  if (exportTour) {
+    root.file('config/camera-tour.json', JSON.stringify(buildCameraTourJson(exportTour), null, 2));
+  }
+
   const exportTitle = `数字孪生场景 ${new Date(baseConfig.exportTime).toLocaleString('zh-CN')}`;
 
   root.file('config/scene.json', JSON.stringify(projectConfig, null, 2));
   root.file('index.html', buildIndexHtml(exportTitle));
   root.file('css/style.css', buildStyleCss());
-  root.file('js/main.js', buildMainJs());
+  root.file('js/main.js', buildMainJs(Boolean(exportTour)));
+  root.file('js/cameraTour.js', buildCameraTourJs());
   root.file('README.md', buildReadme(baseConfig.exportTime));
 
   const blob = await zip.generateAsync({ type: 'blob' });
@@ -262,5 +284,6 @@ export async function exportProjectPackage(): Promise<ProjectPackageExportResult
     hasTextures: textureEntries.length > 0,
     textureCount: textureEntries.length,
     polyhavenModelCount: polyhavenModels.length,
+    hasCameraTour: Boolean(exportTour),
   };
 }

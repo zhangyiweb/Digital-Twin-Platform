@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { useSceneStore } from '@/store/sceneStore';
 import { useLightStore } from '@/store/lightStore';
 import { useAnimationStore } from '@/store/animationStore';
+import { useTourStore } from '@/store/tourStore';
+import type { CameraTour } from '@/types/cameraTour';
 import type { ExportedTextureUvState } from '@/utils/exportSceneRestore';
 
 const TONE_MAPPING_BY_NAME: Record<string, number> = {
@@ -25,6 +27,8 @@ export interface ExportedSceneConfig {
     objects: ReturnType<typeof useSceneStore.getState>['objects'];
     lights: ReturnType<typeof useLightStore.getState>['lights'];
     textureUvAnimations: ReturnType<typeof useAnimationStore.getState>['textureUvAnimations'];
+    cameraTours?: CameraTour[];
+    activeCameraTourId?: string | null;
     textureUvStates?: Record<string, ExportedTextureUvState>;
     settings: Record<string, unknown> | null;
   };
@@ -230,6 +234,7 @@ export function generateSceneConfig(): ExportedSceneConfig {
   const editorObjects = useSceneStore.getState().objects;
   const editorLights = useLightStore.getState().lights;
   const textureUvAnimations = useAnimationStore.getState().textureUvAnimations;
+  const { tours: cameraTours, activeTourId: activeCameraTourId } = useTourStore.getState();
 
   const runtimeLights: Array<Record<string, unknown>> = [];
   scene.traverse((child) => {
@@ -280,6 +285,7 @@ export function generateSceneConfig(): ExportedSceneConfig {
       objects: editorObjects,
       lights: editorLights,
       textureUvAnimations,
+      ...(cameraTours.length > 0 ? { cameraTours, activeCameraTourId } : {}),
       settings: globalSettings,
     },
     scene: {

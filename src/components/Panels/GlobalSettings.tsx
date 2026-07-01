@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { Switch, Typography } from 'antd';
 import { EnvironmentHdriSection } from './EnvironmentHdriSection';
+import { CameraTourPanel } from './CameraTourPanel';
 import { PostProcessSettings } from './PostProcessSettings';
 import {
   fetchHdriUrl,
@@ -19,7 +20,7 @@ import { applyHdrRotationY } from '@/utils/hdrRotation';
 export function GlobalSettings() {
   const { backgroundColor, updateCamera } = useSceneStore();
   const { gridVisible, axesVisible, toggleGrid, toggleAxes } = useEditorStore();
-  const [activeTab, setActiveTab] = useState<'scene' | 'environment' | 'render' | 'postprocess'>('scene');
+  const [activeTab, setActiveTab] = useState<'scene' | 'environment' | 'render' | 'postprocess' | 'tour'>('scene');
   
   // 从全局配置恢复状态(防止组件重挂载时重置)
   const savedConfig = (window as any).__globalSettingsState;
@@ -595,6 +596,16 @@ export function GlobalSettings() {
           渲染
         </button>
         <button
+          onClick={() => setActiveTab('tour')}
+          className={`flex-1 py-2 text-xs font-semibold transition-colors ${
+            activeTab === 'tour'
+              ? 'text-white border-b-2 border-blue-500 bg-gray-700'
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          漫游
+        </button>
+        <button
           onClick={() => setActiveTab('postprocess')}
           className={`flex-1 py-2 text-xs font-semibold transition-colors ${
             activeTab === 'postprocess'
@@ -609,7 +620,7 @@ export function GlobalSettings() {
       {/* 内容区 */}
       <div
         className={
-          activeTab === 'environment'
+          activeTab === 'environment' || activeTab === 'tour'
             ? 'flex-1 min-h-0 flex flex-col overflow-hidden px-3 py-3 gap-2'
             : 'flex-1 overflow-y-auto p-4 space-y-4'
         }
@@ -1102,6 +1113,11 @@ export function GlobalSettings() {
               </select>
             </div>
           </>
+        )}
+
+        {/* 漫游编辑 */}
+        {activeTab === 'tour' && (
+          <CameraTourPanel />
         )}
 
         {/* 后期处理设置 */}

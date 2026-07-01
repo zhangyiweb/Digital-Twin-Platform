@@ -5,6 +5,8 @@ import {
   EXPORT_PACKAGE_DEFAULT_CONTROLS_TARGET,
 } from '@/config/exportDefaults';
 
+const THREE_VERSION = '0.184.0';
+
 export function buildIndexHtml(title: string): string {
   return `<!DOCTYPE html>
 <html lang="zh-CN">
@@ -72,8 +74,6 @@ html, body {
 }
 `;
 }
-
-const THREE_VERSION = '0.184.0';
 
 export function buildMainJs(hasCameraTour = false): string {
   const restoreScript = buildObjectIdRestoreScript();
@@ -343,8 +343,7 @@ async function bootstrap() {
   const timer = new THREE.Timer();
   timer.connect(document);
 
-  ${hasCameraTour ? `// 相机漫游工具包（详见 js/cameraTour.js 顶部注释）
-  // 二次开发：window.cameraTour.play() / goToStop(n) / getCurrentStop().name 等
+  ${hasCameraTour ? `// 相机漫游工具包（详见 js/cameraTour.js、docs/camera-tour-guide.md）
   let cameraTour = null;
   try {
     cameraTour = createCameraTourController({
@@ -354,6 +353,16 @@ async function bootstrap() {
     });
     await cameraTour.ready;
     window.cameraTour = cameraTour;
+    const loaded = cameraTour.getTour();
+    if (loaded) {
+      const modeLabel = loaded.mode === 'spline' ? '一镜到底' : '站点漫游';
+      console.info(
+        '[cameraTour] 已加载「' + loaded.name + '」',
+        modeLabel,
+        loaded.stops.length + ' 个漫游点'
+      );
+      console.info('[cameraTour] 试播: window.cameraTour.play()');
+    }
   } catch (err) {
     console.warn('漫游配置加载失败', err);
   }
@@ -400,10 +409,14 @@ export function buildReadme(exportTime: string): string {
 ├── css/style.css       # 样式
 ├── js/
 │   ├── main.js         # Three.js 场景启动脚本（ES Module）
-│   └── cameraTour.js   # 相机漫游工具包（无 UI，详见文件顶部注释）
+│   └── cameraTour.js   # 相机漫游工具包（无 UI，支持站点/一镜到底两种模式）
 ├── config/
-│   ├── scene.json      # 相机、灯光、雾效、渲染器、后期等完整配置
-│   └── camera-tour.json # 漫游路线：折线路径 + 各漫游点名称/坐标（如有）
+│   ├── scene.json           # 相机、灯光、雾效、渲染器、后期等完整配置
+│   ├── camera-tour.json     # 当前激活漫游路线（main.js 默认加载）
+│   ├── camera-tour-index.json # 全部漫游路线索引（如有）
+│   └── camera-tours/        # 各条漫游路线 JSON（如有）
+├── docs/
+│   └── camera-tour-guide.md # 漫游配置字段说明与 API 速查
 ├── assets/
 │   ├── models/scene.glb
 │   ├── textures/
@@ -432,10 +445,13 @@ python -m http.server 8080
 - **改 HDR**：替换 \`assets/hdr/\` 下文件，并更新 \`scene.json\` 中 \`assets.hdr\` 路径。
 - **贴图 / UV**：\`editor.textureUvStates\` 保存各对象 repeat/offset/wrap 等参数；加载 GLB 后会规范化出厂默认包裹为「重复」，并写入 \`scene.json\` 中的 UV 状态。从 Poly Haven 应用的贴图会额外写入 \`assets.textures\` 目录，并在 \`scene.json\` 的 \`assets.textures\` 中记录路径与来源。
 - **Poly Haven 模型**：\`editor.polyhavenModels\` 记录从模型库导入的资产 id 与分辨率；模型几何与贴图已打包进 \`scene.glb\`，贴图原件另存于 \`assets/textures/\`。
-- **相机漫游工具包**：导出包内含 \`js/cameraTour.js\` 与 \`config/camera-tour.json\`。
-  - \`tour.mode\`：\`stop\` 站点停靠（看设备），\`spline\` 一镜到底曲线漫游（园区参观）。
+- **相机漫游工具包**（\`js/cameraTour.js\` + \`config/camera-tour*.json\`）：
+  - **站点漫游** \`tour.mode = "stop"\`：逐站飞入、停留，适合看设备。
+  - **一镜到底** \`tour.mode = "spline"\`：Catmull-Rom 样条连续漫游，适合园区/厂区参观；\`tour.splineDuration\` 为全程秒数。
+  - \`config/camera-tour.json\` 为当前激活路线；多条路线时见 \`camera-tour-index.json\` 与 \`camera-tours/\` 目录。
   - \`waypoints[]\` 含漫游点名称、相机坐标、目标点；\`route.curveSamples\` 为曲线采样（spline 模式）。
-  - \`window.cameraTour.play()\` 等 API 详见 \`js/cameraTour.js\` 顶部注释。
+  - 加载后控制台执行 \`window.cameraTour.play()\` 试播；完整 API 见 \`js/cameraTour.js\` 顶部注释与 \`docs/camera-tour-guide.md\`。
+  - 切换路线：\`await window.cameraTour.loadConfig('./config/camera-tours/路线id.json')\`
 - **后期处理**：\`config/scene.json\` 的 \`postProcess\` 节保存了编辑器中的后期参数，\`main.js\` 未内置完整后期管线，可按需接入 EffectComposer。
 
 ## 依赖

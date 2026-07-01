@@ -16,7 +16,12 @@ import {
   buildReadme,
 } from '@/utils/exportedProjectTemplates';
 import { buildCameraTourJs } from '@/utils/exportedCameraTourTemplate';
-import { buildCameraTourJson } from '@/utils/cameraTourJson';
+import {
+  buildCameraTourGuideMarkdown,
+  buildCameraTourIndexJson,
+  buildCameraTourJson,
+  getExportableTours,
+} from '@/utils/cameraTourJson';
 import { useTourStore } from '@/store/tourStore';
 import type { CameraTour } from '@/types/cameraTour';
 import { fetchHdriUrl, type HdrDownloadSource, type HdrResolution } from '@/utils/polyhaven';
@@ -46,6 +51,9 @@ export interface ProjectPackageExportResult {
   textureCount: number;
   polyhavenModelCount: number;
   hasCameraTour: boolean;
+  cameraTourCount: number;
+  cameraTourName?: string;
+  cameraTourMode?: 'stop' | 'spline';
 }
 
 async function exportGlbBuffer(
@@ -153,12 +161,15 @@ function buildProjectConfig(
     textures?: ExportedTextureAssetEntry[];
   },
   textureUvStates: Record<string, import('@/utils/exportSceneRestore').ExportedTextureUvState>,
-  polyhavenModels: PolyhavenModelSource[]
+  polyhavenModels: PolyhavenModelSource[],
+  cameraTourOptions?: { cameraTours: CameraTour[]; activeCameraTourId: string | null }
 ): ExportedSceneConfig & {
   assets: typeof assets;
   editor: ExportedSceneConfig['editor'] & {
     textureUvStates: typeof textureUvStates;
     polyhavenModels?: PolyhavenModelSource[];
+    cameraTours?: CameraTour[];
+    activeCameraTourId?: string | null;
   };
 } {
   return {
@@ -168,17 +179,50 @@ function buildProjectConfig(
       ...baseConfig.editor,
       textureUvStates,
       ...(polyhavenModels.length > 0 ? { polyhavenModels } : {}),
+      ...(cameraTourOptions?.cameraTours.length
+        ? {
+            cameraTours: cameraTourOptions.cameraTours,
+            activeCameraTourId: cameraTourOptions.activeCameraTourId,
+          }
+        : {}),
     },
   };
 }
 
 function pickExportTour(tours: CameraTour[], activeTourId: string | null): CameraTour | null {
-  if (tours.length === 0) return null;
-  const active = activeTourId ? tours.find((t) => t.id === activeTourId) : null;
-  const withStops = (active && active.stops.length > 0)
-    ? active
-    : tours.find((t) => t.stops.length > 0);
-  return withStops ?? null;
+  const exportable = getExportableTours(tours);
+  if (exportable.length === 0) return null;
+  const active = activeTourId ? exportable.find((t) => t.id === activeTourId) : null;
+  return active ?? exportable[0];
+}
+
+function writeCameraTourFiles(
+  root: JSZip,
+  tours: CameraTour[],
+  activeTourId: string | null
+): CameraTour | null {
+  const exportable = getExportableTours(tours);
+  if (exportable.length === 0) return null;
+
+  const primary = pickExportTour(tours, activeTourId)!;
+
+  exportable.forEach((tour) => {
+    root.file(
+      `config/camera-tours/${tour.id}.json`,
+      JSON.stringify(buildCameraTourJson(tour), null, 2)
+    );
+  });
+
+  root.file('config/camera-tour.json', JSON.stringify(buildCameraTourJson(primary), null, 2));
+
+  const index = buildCameraTourIndexJson(tours, activeTourId);
+  if (index) {
+    root.file('config/camera-tour-index.json', JSON.stringify(index, null, 2));
+  }
+
+  root.file('docs/camera-tour-guide.md', buildCameraTourGuideMarkdown());
+
+  return primary;
 }
 
 function downloadBlob(blob: Blob, filename: string) {
@@ -254,15 +298,16 @@ export async function exportProjectPackage(): Promise<ProjectPackageExportResult
     console.warn('HDR 资源导出失败，项目包将不包含 HDR 文件', error);
   }
 
-  const projectConfig = applyExportPackageCameraDefaults(
-    buildProjectConfig(baseConfig, assets, textureUvStates, polyhavenModels)
-  );
-
   const { tours, activeTourId } = useTourStore.getState();
-  const exportTour = pickExportTour(tours, activeTourId);
-  if (exportTour) {
-    root.file('config/camera-tour.json', JSON.stringify(buildCameraTourJson(exportTour), null, 2));
-  }
+  const exportableTours = getExportableTours(tours);
+  const exportTour = writeCameraTourFiles(root, tours, activeTourId);
+
+  const projectConfig = applyExportPackageCameraDefaults(
+    buildProjectConfig(baseConfig, assets, textureUvStates, polyhavenModels, {
+      cameraTours: exportableTours,
+      activeCameraTourId: exportTour?.id ?? activeTourId,
+    })
+  );
 
   const exportTitle = `数字孪生场景 ${new Date(baseConfig.exportTime).toLocaleString('zh-CN')}`;
 
@@ -285,5 +330,8 @@ export async function exportProjectPackage(): Promise<ProjectPackageExportResult
     textureCount: textureEntries.length,
     polyhavenModelCount: polyhavenModels.length,
     hasCameraTour: Boolean(exportTour),
+    cameraTourCount: exportableTours.length,
+    cameraTourName: exportTour?.name,
+    cameraTourMode: exportTour?.mode,
   };
 }

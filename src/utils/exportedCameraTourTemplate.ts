@@ -15,7 +15,7 @@ export function buildCameraTourJs(): string {
  * ── 配置文件：config/camera-tour.json ──
  *
  * {
- *   "version": "1.0",
+ *   "version": "1.1",
  *   "tour": {
  *     "id": "tour_xxx",
  *     "name": "默认漫游",
@@ -56,7 +56,8 @@ export function buildCameraTourJs(): string {
  *
  * ── 播放控制 API ──
  *
- *   window.cameraTour.play();              // 从第 1 个漫游点开始顺序播放
+ *   window.cameraTour.play();
+ *     // stop 模式：逐站飞入+停留；spline 模式：沿样条一镜到底
  *   window.cameraTour.pause();             // 暂停
  *   window.cameraTour.resume();            // 继续
  *   window.cameraTour.stop();              // 停止并恢复手动 OrbitControls

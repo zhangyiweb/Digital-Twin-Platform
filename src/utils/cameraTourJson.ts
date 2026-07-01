@@ -179,3 +179,108 @@ export function tourFromExportedJson(json: ExportedCameraTourJson): CameraTour {
     })),
   });
 }
+
+export interface CameraTourIndexEntry {
+  id: string;
+  name: string;
+  mode: 'stop' | 'spline';
+  loop: boolean;
+  stopCount: number;
+  file: string;
+}
+
+export interface CameraTourIndexJson {
+  version: string;
+  exportTime: string;
+  activeTourId: string;
+  tours: CameraTourIndexEntry[];
+}
+
+/** 可导出的路线（已规范化且含漫游点） */
+export function getExportableTours(tours: CameraTour[]): CameraTour[] {
+  return tours.map(normalizeCameraTour).filter((t) => t.stops.length > 0);
+}
+
+export function buildCameraTourIndexJson(
+  tours: CameraTour[],
+  activeTourId: string | null
+): CameraTourIndexJson | null {
+  const exportable = getExportableTours(tours);
+  if (exportable.length === 0) return null;
+
+  const primary =
+    (activeTourId ? exportable.find((t) => t.id === activeTourId) : null) ?? exportable[0];
+
+  return {
+    version: '1.1',
+    exportTime: new Date().toISOString(),
+    activeTourId: primary.id,
+    tours: exportable.map((t) => ({
+      id: t.id,
+      name: t.name,
+      mode: t.mode,
+      loop: t.loop,
+      stopCount: t.stops.length,
+      file: `config/camera-tours/${t.id}.json`,
+    })),
+  };
+}
+
+/** 导出包内漫游配置字段说明（Markdown） */
+export function buildCameraTourGuideMarkdown(): string {
+  return `# 相机漫游配置说明
+
+本导出包在 \`config/\` 下包含漫游数据，由 \`js/cameraTour.js\` 工具包解析播放。
+
+## 文件说明
+
+| 文件 | 含义 |
+|------|------|
+| \`config/camera-tour.json\` | 当前激活路线（main.js 默认加载） |
+| \`config/camera-tour-index.json\` | 全部路线索引与激活 id |
+| \`config/camera-tours/*.json\` | 各条路线完整配置 |
+| \`js/cameraTour.js\` | 漫游控制器（无 UI，详见文件顶部注释） |
+
+## 漫游方式 tour.mode
+
+- **stop** — 站点漫游：逐站飞入、停留，适合看设备
+- **spline** — 一镜到底：关键点用 Catmull-Rom 样条连接，相机连续移动，适合园区/厂区参观
+
+## JSON 顶层字段
+
+- \`version\` — 数据格式版本（当前 1.1）
+- \`exportTime\` — 导出时间
+- \`tour\` — 路线元信息：\`id\`、\`name\`、\`mode\`、\`loop\`、\`splineDuration\`（仅 spline）
+- \`route\` — 可视化路径：\`points\`、\`lineSegments\`、\`curveSamples\`（仅 spline）
+- \`waypoints\` — 漫游点列表（播放核心数据）
+
+## waypoints 每项字段
+
+- \`index\` — 序号（从 0 开始）
+- \`name\` — 漫游点名称
+- \`type\` — \`waypoint\` 路径点 | \`focus\` 设备聚焦
+- \`position\` — 相机坐标 \`{ x, y, z }\`
+- \`target\` — 注视目标点 \`{ x, y, z }\`
+- \`dwellTime\` — 停留秒数（站点模式）
+- \`transitionTime\` — 飞入秒数（站点模式）
+- \`objectId\` / \`objectName\` — 绑定设备（可选）
+
+## 快速试播
+
+打开页面后，在浏览器控制台执行：
+
+\`\`\`js
+window.cameraTour.play();    // 开始漫游
+window.cameraTour.pause();   // 暂停
+window.cameraTour.resume();  // 继续
+window.cameraTour.stop();    // 停止
+
+// 跳到第 3 个漫游点（index 从 0 起）
+window.cameraTour.goToStop(2);
+
+// 切换另一条路线
+await window.cameraTour.loadConfig('./config/camera-tours/其他id.json');
+window.cameraTour.play();
+\`\`\`
+`;
+}

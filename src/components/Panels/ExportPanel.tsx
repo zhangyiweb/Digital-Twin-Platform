@@ -77,7 +77,11 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
         result.hasHdr ? '含 HDR' : '无 HDR',
         result.hasTextures ? `含 ${result.textureCount} 张贴图` : '无外部贴图',
         result.polyhavenModelCount > 0 ? `Poly Haven 模型 ${result.polyhavenModelCount} 个` : null,
-        result.hasCameraTour ? '含漫游' : null,
+        result.hasCameraTour
+          ? `含漫游「${result.cameraTourName}」(${
+              result.cameraTourMode === 'spline' ? '一镜到底' : '站点'
+            }${result.cameraTourCount > 1 ? ` 等${result.cameraTourCount}条` : ''})`
+          : null,
       ].filter(Boolean).join(' · ');
       message.success(`项目包已导出（${detail}）`);
     } catch (error) {
@@ -105,8 +109,8 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
           <div className="bg-gray-700 rounded-lg p-4 border border-purple-500/30">
             <h3 className="text-white font-medium mb-2">🚀 导出项目包 (ZIP)</h3>
             <p className="text-xs text-gray-400 mb-3">
-              导出完整 HTML + CSS + JS 项目，包含场景 GLB、Poly Haven 贴图/模型资源、HDR（如有）。
-              解压后用静态服务器打开即可预览，便于二次开发。
+              导出完整 HTML + CSS + JS 项目，包含场景 GLB、贴图/HDR、相机漫游工具包（站点漫游 / 一镜到底）。
+              解压后用静态服务器打开即可预览，详见包内 docs/camera-tour-guide.md。
             </p>
             <button
               onClick={handleExportProjectPackage}

@@ -26,7 +26,7 @@ import {
   cancelEditorCameraFly,
 } from '@/utils/cameraTourPlayer';
 import { buildCameraTourJsonPreview, downloadCameraTourJson } from '@/utils/cameraTourJson';
-import { syncTourPathVisual } from '@/utils/cameraTourVisual';
+import { syncTourPathVisual, removeTourPathVisual } from '@/utils/cameraTourVisual';
 import type { CameraTourMode, CameraTourStop } from '@/types/cameraTour';
 import { DEFAULT_SPLINE_DURATION, normalizeCameraTour } from '@/types/cameraTour';
 import * as THREE from 'three';
@@ -324,6 +324,7 @@ export function CameraTourPanel() {
     const scene = (window as { __editorScene?: THREE.Scene }).__editorScene;
     if (!scene) return;
     syncTourPathVisual(scene, activeTour);
+    return () => removeTourPathVisual(scene);
   }, [activeTour, activeTour?.stops]);
 
   const ensurePlayer = useCallback(() => {

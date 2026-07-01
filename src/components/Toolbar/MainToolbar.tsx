@@ -1,18 +1,27 @@
 import { useState, useRef } from 'react';
+import { message } from 'antd';
 import { useModelLoader } from '@/hooks/useModelLoader';
 import { ExportPanel } from '@/components/Panels/ExportPanel';
+import { ModelPickerModal } from '@/components/Panels/ModelPickerModal';
+import {
+  DEFAULT_MODEL_RESOLUTION,
+  type ModelAsset,
+  type ModelResolution,
+} from '@/utils/polyhaven';
 
 export function Toolbar() {
   const [showExport, setShowExport] = useState(false);
+  const [modelModalOpen, setModelModalOpen] = useState(false);
+  const [modelResolution, setModelResolution] = useState<ModelResolution>(DEFAULT_MODEL_RESOLUTION);
+  const [selectedModelId, setSelectedModelId] = useState<string | null>(null);
+  const [loadingModelId, setLoadingModelId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { handleFileImport } = useModelLoader();
+  const { handleFileImport, loadPolyhavenModel } = useModelLoader();
 
-  // 处理导入 - 直接打开系统文件选择器
   const handleImport = () => {
     fileInputRef.current?.click();
   };
 
-  // 文件选择后的处理
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
@@ -21,18 +30,36 @@ export function Toolbar() {
         await handleFileImport(files, scene);
       }
     }
-    // 清空input,允许重复选择同一文件
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
 
-  // 处理导出 - 从EditorViewport获取引用 (通过全局变量)
+  const handlePolyhavenModelSelect = async (asset: ModelAsset) => {
+    const scene = (window as any).__editorScene;
+    if (!scene) {
+      message.error('场景尚未初始化');
+      return;
+    }
+
+    setLoadingModelId(asset.id);
+    try {
+      await loadPolyhavenModel(asset, scene, modelResolution);
+      setSelectedModelId(asset.id);
+      message.success(`已导入模型：${asset.name}`);
+      setModelModalOpen(false);
+    } catch (error) {
+      console.error(error);
+      message.error(error instanceof Error ? error.message : '模型加载失败');
+    } finally {
+      setLoadingModelId(null);
+    }
+  };
+
   const handleExport = () => {
     setShowExport(true);
   };
 
-  // 导出完成后回调
   const handleExportComplete = () => {
     setShowExport(false);
   };
@@ -58,7 +85,6 @@ export function Toolbar() {
         </div>
 
         <div className="toolbar-right">
-          {/* 隐藏的文件输入 */}
           <input
             ref={fileInputRef}
             type="file"
@@ -68,8 +94,7 @@ export function Toolbar() {
             className="hidden"
           />
 
-          {/* 导入按钮 */}
-          <button 
+          <button
             onClick={handleImport}
             className="toolbar-btn btn-import"
           >
@@ -80,8 +105,19 @@ export function Toolbar() {
             <span>导入模型</span>
           </button>
 
-          {/* 导出按钮 */}
-          <button 
+          <button
+            onClick={() => setModelModalOpen(true)}
+            disabled={!!loadingModelId}
+            className="toolbar-btn btn-import"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 13V6L8 3L13 6V13H3Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+              <path d="M3 9H13" stroke="currentColor" strokeWidth="1.5"/>
+            </svg>
+            <span>模型库</span>
+          </button>
+
+          <button
             onClick={handleExport}
             className="toolbar-btn btn-export"
           >
@@ -94,11 +130,18 @@ export function Toolbar() {
         </div>
       </div>
 
-      {/* 导出面板 */}
+      <ModelPickerModal
+        open={modelModalOpen}
+        onClose={() => setModelModalOpen(false)}
+        resolution={modelResolution}
+        onResolutionChange={setModelResolution}
+        selectedId={selectedModelId}
+        loadingId={loadingModelId}
+        onSelect={handlePolyhavenModelSelect}
+      />
+
       {showExport && (
-        <ExportPanel
-          onClose={handleExportComplete}
-        />
+        <ExportPanel onClose={handleExportComplete} />
       )}
     </header>
   );

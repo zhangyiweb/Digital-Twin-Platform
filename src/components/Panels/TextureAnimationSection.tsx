@@ -86,8 +86,8 @@ export function TextureAnimationSection({ objectId, material }: TextureAnimation
           onChange={(e) => update({ target: e.target.value as TextureAnimationTarget })}
           className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded disabled:opacity-50"
         >
-          <option value="map">漫反射贴图 (map)</option>
           <option value="all">全部贴图</option>
+          <option value="map">漫反射贴图 (map)</option>
         </select>
       </div>
     </div>

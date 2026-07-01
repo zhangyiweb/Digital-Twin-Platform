@@ -15,5 +15,5 @@ export const DEFAULT_TEXTURE_UV_ANIMATION: TextureUvAnimationConfig = {
   enabled: false,
   speedU: 0.1,
   speedV: 0,
-  target: 'map',
+  target: 'all',
 };

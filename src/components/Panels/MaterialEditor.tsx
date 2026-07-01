@@ -1,6 +1,14 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import * as THREE from 'three';
+import { message } from 'antd';
 import { TextureAnimationSection } from './TextureAnimationSection';
+import { TexturePickerModal } from './TexturePickerModal';
+import {
+  DEFAULT_TEXTURE_RESOLUTION,
+  type TextureAsset,
+  type TextureResolution,
+} from '@/utils/polyhaven';
+import { loadPolyhavenTextureSet } from '@/utils/loadPolyhavenTextures';
 
 interface MaterialEditorProps {
   material: THREE.Material | null;
@@ -88,6 +96,11 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
   const [uvRotation, setUvRotation] = useState(0);
   const [wrapS, setWrapS] = useState<number>(THREE.RepeatWrapping);
   const [wrapT, setWrapT] = useState<number>(THREE.RepeatWrapping);
+
+  const [textureModalOpen, setTextureModalOpen] = useState(false);
+  const [textureResolution, setTextureResolution] = useState<TextureResolution>(DEFAULT_TEXTURE_RESOLUTION);
+  const [selectedTextureId, setSelectedTextureId] = useState<string | null>(null);
+  const [loadingTextureId, setLoadingTextureId] = useState<string | null>(null);
 
   const DEFAULT_UV = {
     repeatX: 1,
@@ -226,6 +239,7 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
       }
 
       syncUvStateFromMaterial(material);
+      setSelectedTextureId(null);
     } else {
       setUvRepeatX(DEFAULT_UV.repeatX);
       setUvRepeatY(DEFAULT_UV.repeatY);
@@ -280,6 +294,51 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
     if (axis === 'S') { params.wrapS = value; setWrapS(value); }
     else { params.wrapT = value; setWrapT(value); }
     applyUvParams(params);
+  };
+
+  const handlePolyhavenTextureSelect = async (asset: TextureAsset) => {
+    if (!material) return;
+
+    setLoadingTextureId(asset.id);
+    try {
+      const loaded = await loadPolyhavenTextureSet(asset.id, textureResolution, getUvParams());
+      const mat = material as THREE.MeshStandardMaterial;
+
+      if (loaded.map) {
+        mat.map = loaded.map;
+        setMapPreview(loaded.urls.map ?? null);
+      }
+      if (loaded.normalMap) {
+        mat.normalMap = loaded.normalMap;
+        setNormalMapPreview(loaded.urls.normalMap ?? null);
+      }
+      if (loaded.roughnessMap) {
+        mat.roughnessMap = loaded.roughnessMap;
+        setRoughnessMapPreview(loaded.urls.roughnessMap ?? null);
+      }
+      if (loaded.aoMap) {
+        mat.aoMap = loaded.aoMap;
+      }
+
+      if (!loaded.map && !loaded.normalMap && !loaded.roughnessMap) {
+        throw new Error('该贴图没有可用的 JPG 资源');
+      }
+
+      mat.metalness = 0;
+      mat.roughness = 1;
+      setMetalness(0);
+      setRoughness(1);
+      mat.needsUpdate = true;
+      setSelectedTextureId(asset.id);
+      onMaterialChange(material);
+      message.success(`已应用贴图：${asset.name} (${loaded.urls.resolution})`);
+      setTextureModalOpen(false);
+    } catch (error) {
+      console.error(error);
+      message.error(error instanceof Error ? error.message : '贴图加载失败');
+    } finally {
+      setLoadingTextureId(null);
+    }
   };
 
   const textureToDataUrl = (texture: THREE.Texture): string | null => {
@@ -899,6 +958,27 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
       {(selectedType === 'MeshStandardMaterial' || selectedType === 'MeshPhysicalMaterial') && (
         <div className="mb-6">
           <h4 className="text-xs font-medium text-gray-300 mb-3">贴图 (Textures)</h4>
+
+          <div className="mb-4">
+            <button
+              type="button"
+              onClick={() => setTextureModalOpen(true)}
+              disabled={!!loadingTextureId}
+              className="w-full px-3 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs rounded transition-colors"
+            >
+              {loadingTextureId ? '贴图加载中…' : '从 Poly Haven 选择贴图'}
+            </button>
+          </div>
+
+          <TexturePickerModal
+            open={textureModalOpen}
+            onClose={() => setTextureModalOpen(false)}
+            resolution={textureResolution}
+            onResolutionChange={setTextureResolution}
+            selectedId={selectedTextureId}
+            loadingId={loadingTextureId}
+            onSelect={handlePolyhavenTextureSelect}
+          />
           
           {/* 基础贴图 */}
           <div className="mb-3">

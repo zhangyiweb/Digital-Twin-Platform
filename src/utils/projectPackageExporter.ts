@@ -16,6 +16,17 @@ import {
   buildReadme,
 } from '@/utils/exportedProjectTemplates';
 import { fetchHdriUrl, type HdrDownloadSource, type HdrResolution } from '@/utils/polyhaven';
+import {
+  collectExternalTextures,
+  collectPolyhavenModels,
+  deepCloneSceneMaterials,
+  downloadTextureAssets,
+  getTextureZipFiles,
+  inlineDownloadedTextures,
+  packTextureAssetsForZip,
+  type ExportedTextureAssetEntry,
+  type PolyhavenModelSource,
+} from '@/utils/exportExternalAssets';
 
 declare global {
   interface Window {
@@ -27,12 +38,20 @@ export interface ProjectPackageExportResult {
   filename: string;
   hasModel: boolean;
   hasHdr: boolean;
+  hasTextures: boolean;
+  textureCount: number;
+  polyhavenModelCount: number;
 }
 
-function exportGlbBuffer(scene: THREE.Scene): Promise<ArrayBuffer> {
+async function exportGlbBuffer(
+  scene: THREE.Scene,
+  downloadedTextures: Map<string, { data: ArrayBuffer; filename: string }>
+): Promise<ArrayBuffer> {
   const exportScene = createModelsExportScene(scene);
+  deepCloneSceneMaterials(exportScene);
   normalizeObjectTextureUvs(exportScene);
   stampModelUserDataForExport(exportScene);
+  await inlineDownloadedTextures(exportScene, downloadedTextures);
 
   return new Promise((resolve, reject) => {
     const exporter = new GLTFExporter();
@@ -86,8 +105,15 @@ async function resolveHdrAsset(): Promise<{ data: ArrayBuffer; filename: string 
 
 function applyExportPackageCameraDefaults(
   config: ExportedSceneConfig & {
-    assets: { model?: string; hdr?: string };
-    editor: ExportedSceneConfig['editor'] & { textureUvStates: Record<string, unknown> };
+    assets: {
+      model?: string;
+      hdr?: string;
+      textures?: ExportedTextureAssetEntry[];
+    };
+    editor: ExportedSceneConfig['editor'] & {
+      textureUvStates: Record<string, unknown>;
+      polyhavenModels?: PolyhavenModelSource[];
+    };
   }
 ) {
   return {
@@ -116,11 +142,19 @@ function applyExportPackageCameraDefaults(
 
 function buildProjectConfig(
   baseConfig: ExportedSceneConfig,
-  assets: { model?: string; hdr?: string },
-  textureUvStates: Record<string, import('@/utils/exportSceneRestore').ExportedTextureUvState>
+  assets: {
+    model?: string;
+    hdr?: string;
+    textures?: ExportedTextureAssetEntry[];
+  },
+  textureUvStates: Record<string, import('@/utils/exportSceneRestore').ExportedTextureUvState>,
+  polyhavenModels: PolyhavenModelSource[]
 ): ExportedSceneConfig & {
-  assets: { model?: string; hdr?: string };
-  editor: ExportedSceneConfig['editor'] & { textureUvStates: typeof textureUvStates };
+  assets: typeof assets;
+  editor: ExportedSceneConfig['editor'] & {
+    textureUvStates: typeof textureUvStates;
+    polyhavenModels?: PolyhavenModelSource[];
+  };
 } {
   return {
     ...baseConfig,
@@ -128,6 +162,7 @@ function buildProjectConfig(
     editor: {
       ...baseConfig.editor,
       textureUvStates,
+      ...(polyhavenModels.length > 0 ? { polyhavenModels } : {}),
     },
   };
 }
@@ -160,11 +195,28 @@ export async function exportProjectPackage(): Promise<ProjectPackageExportResult
 
   const baseConfig = generateSceneConfig();
   const textureUvStates = collectTextureUvStates(scene);
-  const assets: { model?: string; hdr?: string } = {};
+  const assets: {
+    model?: string;
+    hdr?: string;
+    textures?: ExportedTextureAssetEntry[];
+  } = {};
+
+  const externalTextures = collectExternalTextures(scene);
+  const polyhavenModels = collectPolyhavenModels(scene);
+  const downloadedTextures = await downloadTextureAssets(externalTextures);
+  const textureEntries = packTextureAssetsForZip(externalTextures, downloadedTextures);
+  const textureZipFiles = getTextureZipFiles(externalTextures, downloadedTextures, textureEntries);
+
+  textureZipFiles.forEach(({ path, data }) => {
+    root.file(path, data);
+  });
+  if (textureEntries.length > 0) {
+    assets.textures = textureEntries;
+  }
 
   let hasModel = false;
   try {
-    const glbBuffer = await exportGlbBuffer(scene);
+    const glbBuffer = await exportGlbBuffer(scene, downloadedTextures);
     if (glbBuffer.byteLength > 0) {
       root.file('assets/models/scene.glb', glbBuffer);
       assets.model = 'assets/models/scene.glb';
@@ -189,7 +241,7 @@ export async function exportProjectPackage(): Promise<ProjectPackageExportResult
   }
 
   const projectConfig = applyExportPackageCameraDefaults(
-    buildProjectConfig(baseConfig, assets, textureUvStates)
+    buildProjectConfig(baseConfig, assets, textureUvStates, polyhavenModels)
   );
   const exportTitle = `数字孪生场景 ${new Date(baseConfig.exportTime).toLocaleString('zh-CN')}`;
 
@@ -203,5 +255,12 @@ export async function exportProjectPackage(): Promise<ProjectPackageExportResult
   const filename = `${folderName}.zip`;
   downloadBlob(blob, filename);
 
-  return { filename, hasModel, hasHdr };
+  return {
+    filename,
+    hasModel,
+    hasHdr,
+    hasTextures: textureEntries.length > 0,
+    textureCount: textureEntries.length,
+    polyhavenModelCount: polyhavenModels.length,
+  };
 }

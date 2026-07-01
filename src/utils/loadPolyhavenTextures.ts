@@ -4,6 +4,7 @@ import {
   type TextureResolution,
   type PolyhavenTextureMapUrls,
 } from '@/utils/polyhaven';
+import { tagPolyhavenTexture } from '@/utils/exportExternalAssets';
 
 export interface LoadedPolyhavenTextures {
   urls: PolyhavenTextureMapUrls;
@@ -55,6 +56,11 @@ export async function loadPolyhavenTextureSet(
     urls.roughnessMap ? loadTexture(urls.roughnessMap, THREE.LinearSRGBColorSpace) : Promise.resolve(undefined),
     urls.aoMap ? loadTexture(urls.aoMap, THREE.LinearSRGBColorSpace) : Promise.resolve(undefined),
   ]);
+
+  if (map && urls.map) tagPolyhavenTexture(map, urls.map, id, urls.resolution, 'map');
+  if (normalMap && urls.normalMap) tagPolyhavenTexture(normalMap, urls.normalMap, id, urls.resolution, 'normalMap');
+  if (roughnessMap && urls.roughnessMap) tagPolyhavenTexture(roughnessMap, urls.roughnessMap, id, urls.resolution, 'roughnessMap');
+  if (aoMap && urls.aoMap) tagPolyhavenTexture(aoMap, urls.aoMap, id, urls.resolution, 'aoMap');
 
   [map, normalMap, roughnessMap, aoMap].forEach((tex) => {
     if (tex) applyUvParams(tex, uvParams);

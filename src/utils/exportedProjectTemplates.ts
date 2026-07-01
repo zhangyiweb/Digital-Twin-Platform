@@ -370,7 +370,8 @@ export function buildReadme(exportTime: string): string {
 ├── js/main.js          # Three.js 场景启动脚本（ES Module）
 ├── config/scene.json   # 相机、灯光、雾效、渲染器、后期等完整配置
 ├── assets/
-│   ├── models/scene.glb   # 场景模型（几何体 + 材质贴图已嵌入）
+│   ├── models/scene.glb   # 场景模型（几何体 + 材质贴图已嵌入 GLB）
+│   ├── textures/          # 外部贴图文件（含 Poly Haven 材质贴图、模型贴图）
 │   └── hdr/               # HDR 环境贴图（若导出时有加载）
 └── README.md
 \`\`\`
@@ -394,7 +395,8 @@ python -m http.server 8080
 - **改模型**：替换 \`assets/models/scene.glb\`，或在 \`js/main.js\` 中加载更多资源。
 - **改灯光 / 相机**：编辑 \`config/scene.json\`，\`runtimeLights\` 为场景中实际灯光数据。默认相机位置 \`(15, 10, 15)\`，控制点 \`(0, 0, 0)\`。
 - **改 HDR**：替换 \`assets/hdr/\` 下文件，并更新 \`scene.json\` 中 \`assets.hdr\` 路径。
-- **贴图 / UV**：\`editor.textureUvStates\` 保存各对象 repeat/offset/wrap 等参数；加载 GLB 后会规范化出厂默认包裹为「重复」，并写入 \`scene.json\` 中的 UV 状态。
+- **贴图 / UV**：\`editor.textureUvStates\` 保存各对象 repeat/offset/wrap 等参数；加载 GLB 后会规范化出厂默认包裹为「重复」，并写入 \`scene.json\` 中的 UV 状态。从 Poly Haven 应用的贴图会额外写入 \`assets.textures\` 目录，并在 \`scene.json\` 的 \`assets.textures\` 中记录路径与来源。
+- **Poly Haven 模型**：\`editor.polyhavenModels\` 记录从模型库导入的资产 id 与分辨率；模型几何与贴图已打包进 \`scene.glb\`，贴图原件另存于 \`assets/textures/\`。
 - **后期处理**：\`config/scene.json\` 的 \`postProcess\` 节保存了编辑器中的后期参数，\`main.js\` 未内置完整后期管线，可按需接入 EffectComposer。
 
 ## 依赖

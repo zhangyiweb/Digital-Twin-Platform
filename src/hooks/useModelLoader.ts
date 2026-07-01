@@ -10,6 +10,7 @@ import {
   type ModelResolution,
   DEFAULT_MODEL_RESOLUTION,
 } from '@/utils/polyhaven';
+import { tagMeshExternalTextures } from '@/utils/exportExternalAssets';
 
 function resolvePolyhavenResourceUrl(
   requestedUrl: string,
@@ -102,7 +103,16 @@ export function useModelLoader() {
     resolution: ModelResolution = DEFAULT_MODEL_RESOLUTION
   ): Promise<THREE.Group | null> => {
     const info = await fetchModelGltfUrl(asset.id, resolution);
-    return loadModelFromUrl(info.url, asset.name, scene, info.resources);
+    const model = await loadModelFromUrl(info.url, asset.name, scene, info.resources);
+    if (model) {
+      model.userData.polyhavenModel = {
+        id: asset.id,
+        resolution: info.resolution,
+        name: asset.name,
+      };
+      tagMeshExternalTextures(model);
+    }
+    return model;
   }, [loadModelFromUrl]);
 
   const loadModel = useCallback(async (

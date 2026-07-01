@@ -289,6 +289,16 @@ async function bootstrap() {
     scene.environmentIntensity = sceneCfg.environment.intensity ?? 1;
   }
 
+  const hdrRotationY = sceneCfg.environment?.rotationY
+    ?? sceneCfg.background?.rotationY
+    ?? config.editor?.settings?.hdrRotationY
+    ?? 0;
+  if (hdrTexture && hdrRotationY) {
+    const rad = THREE.MathUtils.degToRad(hdrRotationY);
+    scene.environmentRotation.set(0, rad, 0);
+    scene.backgroundRotation.set(0, rad, 0);
+  }
+
   const camera = new THREE.PerspectiveCamera(
     cameraCfg.fov ?? 45,
     window.innerWidth / window.innerHeight,

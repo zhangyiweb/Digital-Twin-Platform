@@ -33,6 +33,7 @@ export interface ExportedSceneConfig {
       type: 'color' | 'texture' | 'none';
       value: string | null;
       name?: string;
+      rotationY?: number;
     };
     fog: {
       enabled: boolean;
@@ -44,6 +45,7 @@ export interface ExportedSceneConfig {
       enabled: boolean;
       name?: string;
       intensity?: number;
+      rotationY?: number;
     };
   };
   camera: {
@@ -245,6 +247,7 @@ export function generateSceneConfig(): ExportedSceneConfig {
       type: 'texture',
       value: null,
       name: String(globalSettings?.hdrBgName ?? 'HDR Background'),
+      rotationY: Number(globalSettings?.hdrRotationY ?? 0),
     };
   }
 
@@ -290,6 +293,7 @@ export function generateSceneConfig(): ExportedSceneConfig {
         intensity: globalSettings?.envMapIntensity != null
           ? Number(globalSettings.envMapIntensity)
           : undefined,
+        rotationY: Number(globalSettings?.hdrRotationY ?? 0),
       },
     },
     camera: camera

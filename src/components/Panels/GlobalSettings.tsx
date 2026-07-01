@@ -14,6 +14,7 @@ import {
   type HdrResolution,
   type HdrDownloadSource,
 } from '@/utils/polyhaven';
+import { applyHdrRotationY } from '@/utils/hdrRotation';
 
 export function GlobalSettings() {
   const { backgroundColor, updateCamera } = useSceneStore();
@@ -32,6 +33,7 @@ export function GlobalSettings() {
   const [toneMapping, setToneMapping] = useState(savedConfig?.toneMapping || 'aces');
   const [exposure, setExposure] = useState(savedConfig?.exposure ?? 0.4);
   const [envMapIntensity, setEnvMapIntensity] = useState(savedConfig?.envMapIntensity ?? 1.0);
+  const [hdrRotationY, setHdrRotationY] = useState(savedConfig?.hdrRotationY ?? 0);
   const [correctLights, setCorrectLights] = useState(savedConfig?.correctLights ?? false);
   const [cameraPosition, setCameraPosition] = useState(savedConfig?.cameraPosition || { x: 10, y: 10, z: 10 });
   const [controlsTarget, setControlsTarget] = useState(savedConfig?.controlsTarget || { x: 0, y: 0, z: 0 });
@@ -266,6 +268,13 @@ export function GlobalSettings() {
       scene.environmentIntensity = envMapIntensity;
     }
   }, [toneMapping, exposure, envMapIntensity]);
+
+  // HDR 水平旋转（背景 + 环境同步）
+  useEffect(() => {
+    const scene = (window as any).__editorScene as THREE.Scene | undefined;
+    if (!scene) return;
+    applyHdrRotationY(scene, hdrRotationY);
+  }, [hdrRotationY]);
 
   // 同步CorrectLights
   useEffect(() => {
@@ -527,6 +536,7 @@ export function GlobalSettings() {
       toneMapping,
       exposure,
       envMapIntensity,
+      hdrRotationY,
       correctLights,
       cameraPosition,
       controlsTarget,
@@ -546,7 +556,7 @@ export function GlobalSettings() {
       hdriResolution,
       hdriReady,
     };
-  }, [bgColor, fogEnabled, fogColor, fogNear, fogFar, pixelRatio, toneMapping, exposure, envMapIntensity, correctLights, cameraPosition, controlsTarget, cameraFov, cameraNear, cameraFar, antialias, alpha, logarithmicDepthBuffer, hasHDRBackground, hasHDREnvironment, hdrBgName, hdrEnvName, bgHdriEnabled, envHdriEnabled, selectedHdriId, hdriResolution, hdriReady]);
+  }, [bgColor, fogEnabled, fogColor, fogNear, fogFar, pixelRatio, toneMapping, exposure, envMapIntensity, hdrRotationY, correctLights, cameraPosition, controlsTarget, cameraFov, cameraNear, cameraFar, antialias, alpha, logarithmicDepthBuffer, hasHDRBackground, hasHDREnvironment, hdrBgName, hdrEnvName, bgHdriEnabled, envHdriEnabled, selectedHdriId, hdriResolution, hdriReady]);
 
   // 处理HDR文件选择
 
@@ -884,6 +894,26 @@ export function GlobalSettings() {
               />
               <Typography.Text className="text-[10px] text-gray-400 block mt-1 leading-relaxed">
                 调节 PBR 材质的 HDR 环境反射强度；需先加载 HDRI 并开启「HDR 环境反射」。
+              </Typography.Text>
+            </div>
+
+            {/* HDR 旋转 */}
+            <div className="shrink-0 p-2.5 rounded-lg border border-gray-700/80 bg-gray-800/40">
+              <Typography.Text className="text-[10px] text-gray-500 block mb-1">
+                HDR 水平旋转: {hdrRotationY.toFixed(0)}°
+              </Typography.Text>
+              <input
+                type="range"
+                min="0"
+                max="360"
+                step="1"
+                value={hdrRotationY}
+                disabled={!hdriReady}
+                onChange={(e) => setHdrRotationY(parseFloat(e.target.value))}
+                className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              />
+              <Typography.Text className="text-[10px] text-gray-400 block mt-1 leading-relaxed">
+                绕垂直轴旋转天空背景与环境反射方向，用于对齐太阳/光源位置。
               </Typography.Text>
             </div>
 

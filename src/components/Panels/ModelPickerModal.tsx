@@ -32,7 +32,7 @@ export function ModelPickerModal({
       open={open}
       onCancel={onClose}
       footer={null}
-      width={800}
+      width={1100}
       centered
       destroyOnHidden={false}
       className="texture-picker-modal"
@@ -54,7 +54,7 @@ export function ModelPickerModal({
         body: { padding: '16px 20px 20px', background: '#141419' },
       }}
     >
-      <div className="h-[min(70vh,600px)] flex flex-col">
+      <div className="h-[min(85vh,780px)] flex flex-col">
         <ModelPicker
           resolution={resolution}
           onResolutionChange={onResolutionChange}

@@ -484,3 +484,45 @@
 .tour-stop-actions .ant-btn-text:disabled {
   color: #4b5563 !important;
 }
+
+/* 导出面板：Select 暗色（选中项 + 下拉列表） */
+.export-panel-select .ant-select-selector {
+  background: #161922 !important;
+  border-color: #343848 !important;
+  color: #e5e7eb !important;
+}
+
+.export-panel-select .ant-select-selection-item,
+.export-panel-select .ant-select-selection-placeholder {
+  color: #e5e7eb !important;
+}
+
+.export-panel-select .ant-select-arrow {
+  color: #9ca3af !important;
+}
+
+.export-panel-select-popup {
+  background: #1e2129 !important;
+}
+
+.export-panel-select-popup .rc-virtual-list-holder-inner {
+  background: #1e2129;
+}
+
+.export-panel-select-popup .ant-select-item {
+  color: #e5e7eb !important;
+}
+
+.export-panel-select-popup .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background: #2a3040 !important;
+}
+
+.export-panel-select-popup .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background: #343b4d !important;
+  color: #f9fafb !important;
+  font-weight: 500;
+}
+
+.export-panel-select-popup .ant-select-item-option-disabled {
+  color: #6b7280 !important;
+}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback, useState, useMemo } from 'react';
 import { Button, Input, Select, Switch, Typography, Modal, message } from 'antd';
 import {
   PlusOutlined,
@@ -26,7 +26,11 @@ import {
   cancelEditorCameraFly,
 } from '@/utils/cameraTourPlayer';
 import { buildCameraTourJsonPreview, downloadCameraTourJson } from '@/utils/cameraTourJson';
-import { syncTourPathVisual, removeTourPathVisual } from '@/utils/cameraTourVisual';
+import {
+  syncTourPathVisual,
+  removeTourPathVisual,
+  isSceneCaptureVisualsLocked,
+} from '@/utils/cameraTourVisual';
 import type { CameraTourMode, CameraTourStop } from '@/types/cameraTour';
 import { DEFAULT_SPLINE_DURATION, normalizeCameraTour } from '@/types/cameraTour';
 import * as THREE from 'three';
@@ -311,6 +315,24 @@ export function CameraTourPanel() {
   const activeTourRaw = getActiveTour();
   const activeTour = activeTourRaw ? normalizeCameraTour(activeTourRaw) : null;
 
+  const tourVisualKey = useMemo(() => {
+    const tour = tours.find((t) => t.id === activeTourId);
+    if (!tour) return '';
+    const normalized = normalizeCameraTour(tour);
+    return [
+      normalized.id,
+      normalized.mode,
+      normalized.loop,
+      normalized.splineDuration,
+      normalized.stops
+        .map(
+          (s) =>
+            `${s.id}:${s.name}:${s.position.x},${s.position.y},${s.position.z}:${s.target.x},${s.target.y},${s.target.z}:${s.transitionTime}:${s.dwellTime}:${s.type}`
+        )
+        .join('|'),
+    ].join('#');
+  }, [activeTourId, tours]);
+
   const initializedRef = useRef(false);
 
   useEffect(() => {
@@ -322,10 +344,15 @@ export function CameraTourPanel() {
 
   useEffect(() => {
     const scene = (window as { __editorScene?: THREE.Scene }).__editorScene;
-    if (!scene) return;
-    syncTourPathVisual(scene, activeTour);
-    return () => removeTourPathVisual(scene);
-  }, [activeTour, activeTour?.stops]);
+    if (!scene || isSceneCaptureVisualsLocked()) return;
+
+    const tour = tours.find((t) => t.id === activeTourId) ?? null;
+    syncTourPathVisual(scene, tour ? normalizeCameraTour(tour) : null);
+    return () => {
+      if (isSceneCaptureVisualsLocked()) return;
+      removeTourPathVisual(scene);
+    };
+  }, [activeTourId, tourVisualKey, tours]);
 
   const ensurePlayer = useCallback(() => {
     const camera = (window as { __editorCamera?: THREE.PerspectiveCamera }).__editorCamera;

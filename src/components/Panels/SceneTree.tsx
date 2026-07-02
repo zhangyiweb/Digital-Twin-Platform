@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useSceneStore } from '@/store/sceneStore';
 import { useLightStore } from '@/store/lightStore';
 import {
@@ -6,6 +6,7 @@ import {
   DownOutlined,
   RightOutlined,
   DeleteOutlined,
+  EditOutlined,
   BulbOutlined,
   BoxPlotOutlined,
   AppstoreOutlined,
@@ -44,6 +45,7 @@ function TreeNodeItem({
   isNodeSelected,
   onSelect,
   onDelete,
+  onRename,
 }: {
   node: TreeNode;
   depth: number;
@@ -52,10 +54,43 @@ function TreeNodeItem({
   isNodeSelected: (node: TreeNode) => boolean;
   onSelect: (node: TreeNode) => void;
   onDelete: (node: TreeNode) => void;
+  onRename: (node: TreeNode, newName: string) => void;
 }) {
   const expanded = expandedKeys.has(node.key);
   const hasChildren = node.children.length > 0;
   const selected = isNodeSelected(node);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState(node.name);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!isEditing) {
+      setEditValue(node.name);
+    }
+  }, [node.name, isEditing]);
+
+  useEffect(() => {
+    if (isEditing) {
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    }
+  }, [isEditing]);
+
+  const commitRename = () => {
+    const trimmed = editValue.trim();
+    if (trimmed && trimmed !== node.name) {
+      onRename(node, trimmed);
+    } else {
+      setEditValue(node.name);
+    }
+    setIsEditing(false);
+  };
+
+  const startRename = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEditValue(node.name || '');
+    setIsEditing(true);
+  };
 
   const icon =
     node.type === 'light' ? (
@@ -71,7 +106,7 @@ function TreeNodeItem({
   return (
     <div>
       <div
-        onClick={() => onSelect(node)}
+        onClick={() => !isEditing && onSelect(node)}
         className={`group scene-tree-row flex items-center gap-1 min-h-[26px] py-0.5 cursor-pointer transition-colors hover:bg-gray-800/80 ${
           selected ? 'bg-blue-600/25 border-l-2 border-blue-500' : 'border-l-2 border-transparent'
         }`}
@@ -92,9 +127,41 @@ function TreeNodeItem({
         <span className="scene-tree-icon-wrap inline-flex items-center justify-center shrink-0">
           {icon}
         </span>
-        <span className="scene-tree-label flex-1 text-white text-xs truncate">
-          {node.name || '未命名'}
-        </span>
+
+        {isEditing ? (
+          <input
+            ref={inputRef}
+            type="text"
+            value={editValue}
+            onChange={(e) => setEditValue(e.target.value)}
+            onClick={(e) => e.stopPropagation()}
+            onBlur={commitRename}
+            onKeyDown={(e) => {
+              e.stopPropagation();
+              if (e.key === 'Enter') commitRename();
+              if (e.key === 'Escape') {
+                setEditValue(node.name);
+                setIsEditing(false);
+              }
+            }}
+            className="scene-tree-rename-input flex-1 min-w-0 mr-1 px-1 py-0 text-white text-xs bg-gray-700 border border-blue-500 rounded focus:outline-none"
+          />
+        ) : (
+          <span className="scene-tree-label flex-1 text-white text-xs truncate">
+            {node.name || '未命名'}
+          </span>
+        )}
+
+        {!isEditing && (
+          <button
+            type="button"
+            onClick={startRename}
+            className="scene-tree-rename inline-flex items-center justify-center w-5 h-5 text-gray-600 hover:text-blue-400 rounded opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+            title="重命名"
+          >
+            <EditOutlined />
+          </button>
+        )}
 
         <button
           type="button"
@@ -120,6 +187,7 @@ function TreeNodeItem({
             isNodeSelected={isNodeSelected}
             onSelect={onSelect}
             onDelete={onDelete}
+            onRename={onRename}
           />
         ))}
     </div>
@@ -127,9 +195,9 @@ function TreeNodeItem({
 }
 
 export function SceneTree() {
-  const { objects, selectedIds, selectObject, removeObject, getThreeObject, deselectAll } =
+  const { objects, selectedIds, selectObject, removeObject, getThreeObject, deselectAll, updateObject } =
     useSceneStore();
-  const { lights, selectedLightId, selectLight, removeLight } = useLightStore();
+  const { lights, selectedLightId, selectLight, removeLight, updateLight } = useLightStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [treeData, setTreeData] = useState<TreeNode[]>([]);
   const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set());
@@ -290,6 +358,29 @@ export function SceneTree() {
     [selectedLightId, selectedIds, selectLight, removeLight, getThreeObject, deselectAll, objects, removeObject]
   );
 
+  const handleRename = useCallback(
+    (node: TreeNode, newName: string) => {
+      if (node.type === 'light') {
+        updateLight(node.id, { name: newName });
+        return;
+      }
+
+      const scene = (window as any).__editorScene as THREE.Scene | undefined;
+      if (!scene) return;
+
+      const targetObj = findThreeObjectById(scene, node.id, getThreeObject);
+      if (targetObj) {
+        targetObj.name = newName;
+      }
+
+      const storeId = objects.find((o) => o.id === node.id || o.id === targetObj?.uuid)?.id;
+      if (storeId) {
+        updateObject(storeId, { name: newName });
+      }
+    },
+    [updateLight, getThreeObject, objects, updateObject]
+  );
+
   const toggleExpand = useCallback((key: string) => {
     setExpandedKeys((prev) => {
       const next = new Set(prev);
@@ -344,6 +435,7 @@ export function SceneTree() {
               isNodeSelected={isNodeSelected}
               onSelect={handleSelect}
               onDelete={handleDelete}
+              onRename={handleRename}
             />
           ))
         )}

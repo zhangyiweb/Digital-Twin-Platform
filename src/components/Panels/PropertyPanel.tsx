@@ -11,6 +11,7 @@ export function PropertyPanel() {
   const [activeTab, setActiveTab] = useState<'details' | 'material'>('details');
   const objectRef = useRef<THREE.Object3D | null>(null);
   const [currentMaterial, setCurrentMaterial] = useState<THREE.Material | null>(null);
+  const [objectVisible, setObjectVisible] = useState(true);
   const isLightInputEditingRef = useRef(false);
   const [lightLiveTransform, setLightLiveTransform] = useState<{
     position: [number, number, number];
@@ -46,6 +47,12 @@ export function PropertyPanel() {
       }
       
       objectRef.current = threeObj || null;
+
+      if (threeObj) {
+        setObjectVisible(threeObj.visible);
+      } else {
+        setObjectVisible(true);
+      }
 
       // 获取材质 - 支持Mesh和Group/模型
       if (threeObj) {
@@ -94,6 +101,22 @@ export function PropertyPanel() {
       setCurrentMaterial(null);
     }
   }, [selectedIds, getThreeObject]);
+
+  const handleVisibilityToggle = () => {
+    if (!objectRef.current) return;
+
+    const nextVisible = !objectRef.current.visible;
+    objectRef.current.visible = nextVisible;
+    setObjectVisible(nextVisible);
+
+    const storeId =
+      selectedObject?.id ||
+      objects.find((obj) => getThreeObject(obj.id) === objectRef.current)?.id;
+
+    if (storeId) {
+      updateObject(storeId, { visible: nextVisible });
+    }
+  };
 
   // 实时同步灯光坐标（Gizmo 拖拽时更新右侧面板）
   useEffect(() => {
@@ -737,18 +760,19 @@ export function PropertyPanel() {
             </div>
 
             {/* 可见性 */}
-            {selectedObject && (
+            {(selectedObject || objectRef.current) && (
               <div className="flex items-center justify-between">
                 <span className="text-xs text-gray-400">可见</span>
                 <button
-                  onClick={() => updateObject(selectedObject.id, { visible: !selectedObject.visible })}
+                  type="button"
+                  onClick={handleVisibilityToggle}
                   className={`w-10 h-5 rounded-full transition-colors ${
-                    selectedObject.visible ? 'bg-green-500' : 'bg-gray-600'
+                    objectVisible ? 'bg-green-500' : 'bg-gray-600'
                   }`}
                 >
                   <div
                     className={`w-4 h-4 bg-white rounded-full transform transition-transform ${
-                      selectedObject.visible ? 'translate-x-5' : 'translate-x-0.5'
+                      objectVisible ? 'translate-x-5' : 'translate-x-0.5'
                     }`}
                   />
                 </button>

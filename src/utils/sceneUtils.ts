@@ -45,6 +45,8 @@ export function syncSceneObjectsToStore(scene: THREE.Scene) {
 export function isEditorHelperObject(obj: THREE.Object3D): boolean {
   if (obj.name === 'grid' || obj.name === 'axes') return true;
   if (obj.name.startsWith('helper_')) return true;
+  if (obj.userData?.isEditorHelper) return true;
+  if (obj.userData?.tourVisual) return true;
   if (obj.type === 'TransformControlsGizmo') return true;
 
   let parent = obj.parent;
@@ -53,6 +55,25 @@ export function isEditorHelperObject(obj: THREE.Object3D): boolean {
     parent = parent.parent;
   }
   return false;
+}
+
+/** 录制/截图前隐藏编辑器辅助对象，返回可见性快照以便恢复 */
+export function hideEditorHelpersForCapture(scene: THREE.Scene): Map<THREE.Object3D, boolean> {
+  const snapshot = new Map<THREE.Object3D, boolean>();
+  scene.traverse((child) => {
+    if (isEditorHelperObject(child)) {
+      snapshot.set(child, child.visible);
+      child.visible = false;
+    }
+  });
+  return snapshot;
+}
+
+/** 恢复编辑器辅助对象可见性 */
+export function restoreEditorHelpersAfterCapture(snapshot: Map<THREE.Object3D, boolean>) {
+  snapshot.forEach((visible, obj) => {
+    obj.visible = visible;
+  });
 }
 
 /** 创建用于导出的场景副本（仅模型，不含灯光与辅助对象） */

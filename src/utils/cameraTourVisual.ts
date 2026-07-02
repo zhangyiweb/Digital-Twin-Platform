@@ -6,6 +6,26 @@ import { buildTourSplines, sampleSplinePath } from '@/utils/cameraTourSpline';
 const PATH_NAME = 'helper_tour_path';
 const MARKER_PREFIX = 'helper_tour_marker_';
 
+/** 截图/录制期间禁止 syncTourPathVisual 写回场景（避免 React 重渲染时把辅助线加回来） */
+let sceneCaptureLockCount = 0;
+
+export function lockSceneCaptureVisuals() {
+  sceneCaptureLockCount += 1;
+}
+
+export function unlockSceneCaptureVisuals() {
+  sceneCaptureLockCount = Math.max(0, sceneCaptureLockCount - 1);
+}
+
+export function isSceneCaptureVisualsLocked(): boolean {
+  return sceneCaptureLockCount > 0;
+}
+
+function markTourVisual(obj: THREE.Object3D) {
+  obj.userData.tourVisual = true;
+  obj.userData.isEditorHelper = true;
+}
+
 const LABEL_FONT = 'bold 22px "Microsoft YaHei", "PingFang SC", sans-serif';
 const LABEL_MAX_WIDTH = 220;
 
@@ -87,11 +107,13 @@ function createLabelSprite(text: string, accent: number): THREE.Sprite {
   sprite.scale.set(worldHeight * aspect, worldHeight, 1);
   sprite.position.y = 0.42;
   sprite.renderOrder = 1000;
-  sprite.userData.isEditorHelper = true;
+  markTourVisual(sprite);
   return sprite;
 }
 
 export function syncTourPathVisual(scene: THREE.Scene, tour: CameraTour | null) {
+  if (isSceneCaptureVisualsLocked()) return;
+
   removeTourPathVisual(scene);
 
   if (!tour || tour.stops.length === 0) return;
@@ -120,7 +142,7 @@ export function syncTourPathVisual(scene: THREE.Scene, tour: CameraTour | null) 
         new THREE.LineBasicMaterial({ color: pathColor, linewidth: 2 })
       );
       line.name = PATH_NAME;
-      line.userData.isEditorHelper = true;
+      markTourVisual(line);
       scene.add(line);
     }
   }
@@ -128,7 +150,7 @@ export function syncTourPathVisual(scene: THREE.Scene, tour: CameraTour | null) 
   normalized.stops.forEach((stop, index) => {
     const group = new THREE.Group();
     group.name = `${MARKER_PREFIX}${index}`;
-    group.userData.isEditorHelper = true;
+    markTourVisual(group);
     group.position.set(stop.position.x, stop.position.y, stop.position.z);
 
     const markerColor = stop.type === 'focus' ? 0x3b82f6 : markerDefault;
@@ -136,7 +158,7 @@ export function syncTourPathVisual(scene: THREE.Scene, tour: CameraTour | null) 
       new THREE.SphereGeometry(0.15, 12, 12),
       new THREE.MeshBasicMaterial({ color: markerColor })
     );
-    marker.userData.isEditorHelper = true;
+    markTourVisual(marker);
     group.add(marker);
 
     const label = createLabelSprite(`${index + 1}. ${stop.name}`, markerColor);
@@ -147,14 +169,30 @@ export function syncTourPathVisual(scene: THREE.Scene, tour: CameraTour | null) 
 }
 
 export function removeTourPathVisual(scene: THREE.Scene) {
+  const shouldRemove = (obj: THREE.Object3D) =>
+    obj.name === PATH_NAME ||
+    obj.name.startsWith(MARKER_PREFIX) ||
+    obj.userData?.tourVisual === true;
+
   const toRemove: THREE.Object3D[] = [];
   scene.traverse((child) => {
-    if (child.name === PATH_NAME || child.name.startsWith(MARKER_PREFIX)) {
-      toRemove.push(child);
+    if (child === scene || !shouldRemove(child)) return;
+
+    let parent = child.parent;
+    while (parent && parent !== scene) {
+      if (shouldRemove(parent)) return;
+      parent = parent.parent;
     }
+    toRemove.push(child);
   });
+
   toRemove.forEach((obj) => {
-    scene.remove(obj);
+    obj.parent?.remove(obj);
     disposeObject3D(obj);
   });
+}
+
+/** 每帧渲染前调用，确保漫游辅助线不会被重新 sync 进画面 */
+export function stripTourPathVisualForRender(scene: THREE.Scene) {
+  removeTourPathVisual(scene);
 }

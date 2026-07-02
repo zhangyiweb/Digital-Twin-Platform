@@ -101,6 +101,34 @@ export class CameraTourPlayer {
     this.setState('playing');
   }
 
+  /** 从路线第一站开始播放（录制用，不从编辑器当前视角飞入首站） */
+  playFromTourStart() {
+    if (this.tour.stops.length === 0) return;
+
+    this.controls.enabled = false;
+
+    if (this.tour.mode === 'spline') {
+      if (this.tour.stops.length < 2) return;
+      this.splines = buildTourSplines(this.tour);
+      if (!this.splines) return;
+      this.splineElapsed = 0;
+      this.lastSplineStopIndex = 0;
+      this.applySpline(0);
+      this.setState('playing');
+      return;
+    }
+
+    const first = this.tour.stops[0];
+    this.camera.position.set(first.position.x, first.position.y, first.position.z);
+    this.controls.target.set(first.target.x, first.target.y, first.target.z);
+    this.controls.update();
+
+    this.stopIndex = 0;
+    this.phase = 'dwell';
+    this.phaseElapsed = 0;
+    this.setState('dwelling');
+  }
+
   pause() {
     if (this.state === 'playing' || this.state === 'dwelling') {
       this.setState('paused');

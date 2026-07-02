@@ -526,3 +526,23 @@
 .export-panel-select-popup .ant-select-item-option-disabled {
   color: #6b7280 !important;
 }
+
+/* 右下角通知：与编辑器暗色主题一致 */
+.ant-notification {
+  z-index: 10050;
+}
+
+.ant-notification .ant-notification-notice {
+  background: #1e2129;
+  border: 1px solid #343848;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.ant-notification .ant-notification-notice-message {
+  color: #f3f4f6;
+  font-weight: 500;
+}
+
+.ant-notification .ant-notification-notice-description {
+  color: #9ca3af;
+}

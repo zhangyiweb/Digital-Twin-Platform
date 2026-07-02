@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import * as THREE from 'three';
-import { Button, message } from 'antd';
+import { Button } from 'antd';
+import { useEditorNotify } from '@/hooks/useEditorNotify';
 import { TextureAnimationSection } from './TextureAnimationSection';
 import { TexturePickerModal } from './TexturePickerModal';
 import {
@@ -51,6 +52,7 @@ const materialTypes = [
 ];
 
 export function MaterialEditor({ material, object3D, onMaterialChange }: MaterialEditorProps) {
+  const notify = useEditorNotify();
   const [selectedType, setSelectedType] = useState<string>('MeshStandardMaterial');
   const [originalMaterial, setOriginalMaterial] = useState<THREE.Material | null>(null); // 保存初始材质
   
@@ -333,11 +335,11 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
       mat.needsUpdate = true;
       setSelectedTextureId(asset.id);
       onMaterialChange(material);
-      message.success(`已应用贴图：${asset.name} (${loaded.urls.resolution})`);
+      notify.success(`已应用贴图：${asset.name} (${loaded.urls.resolution})`);
       setTextureModalOpen(false);
     } catch (error) {
       console.error(error);
-      message.error(error instanceof Error ? error.message : '贴图加载失败');
+      notify.error(error instanceof Error ? error.message : '贴图加载失败');
     } finally {
       setLoadingTextureId(null);
     }

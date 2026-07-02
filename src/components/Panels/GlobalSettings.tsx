@@ -4,6 +4,7 @@ import { useEditorStore } from '@/store/editorStore';
 import * as THREE from 'three';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { Switch, Typography } from 'antd';
+import { useEditorNotify } from '@/hooks/useEditorNotify';
 import { EnvironmentHdriSection } from './EnvironmentHdriSection';
 import { CameraTourPanel } from './CameraTourPanel';
 import { PostProcessSettings } from './PostProcessSettings';
@@ -19,6 +20,7 @@ import { applyHdrRotationY } from '@/utils/hdrRotation';
 import { EDITOR_PROJECT_RESTORE_EVENT } from '@/utils/editorProjectImporter';
 
 export function GlobalSettings() {
+  const notify = useEditorNotify();
   const { backgroundColor, updateCamera } = useSceneStore();
   const { gridVisible, axesVisible, toggleGrid, toggleAxes } = useEditorStore();
   const [activeTab, setActiveTab] = useState<'scene' | 'environment' | 'render' | 'postprocess' | 'tour'>('scene');
@@ -442,7 +444,7 @@ export function GlobalSettings() {
       }
     } catch (err) {
       console.error('HDRI 加载失败:', err);
-      alert(err instanceof Error ? err.message : 'HDRI 加载失败，请检查网络后重试');
+      notify.error(err instanceof Error ? err.message : 'HDRI 加载失败，请检查网络后重试');
     } finally {
       setLoadingHdriId(null);
     }
@@ -451,7 +453,7 @@ export function GlobalSettings() {
   const handleDownloadCurrentHdr = useCallback(async () => {
     const source = hdrDownloadSourceRef.current;
     if (!source || !hdriReady) {
-      alert('当前没有可下载的 HDR，请先选择或上传 HDRI');
+      notify.warning('当前没有可下载的 HDR，请先选择或上传 HDRI');
       return;
     }
 
@@ -460,7 +462,7 @@ export function GlobalSettings() {
       await downloadHdrFromSource(source);
     } catch (err) {
       console.error('HDR 下载失败:', err);
-      alert(err instanceof Error ? err.message : 'HDR 下载失败，请检查网络后重试');
+      notify.error(err instanceof Error ? err.message : 'HDR 下载失败，请检查网络后重试');
     } finally {
       setDownloadingHdr(false);
     }

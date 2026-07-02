@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, type CSSProperties, type ReactNode } from 'react';
-import { Button, Checkbox, ConfigProvider, InputNumber, App, Progress, Select } from 'antd';
+import { Button, Checkbox, ConfigProvider, InputNumber, Progress, Select } from 'antd';
+import { useEditorNotify } from '@/hooks/useEditorNotify';
 import * as THREE from 'three';
 import { useSceneExporter } from '@/hooks/useSceneExporter';
 import { downloadSceneConfig } from '@/utils/sceneConfigExporter';
@@ -215,7 +216,7 @@ function TileButton({
 }
 
 export function ExportPanel({ onClose }: ExportPanelProps) {
-  const { message } = App.useApp();
+  const notify = useEditorNotify();
   const { exportGLB } = useSceneExporter();
   const { tours, activeTourId } = useTourStore();
   const [exporting, setExporting] = useState(false);
@@ -300,10 +301,10 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
     setConfigExporting(true);
     try {
       downloadSceneConfig();
-      message.success('场景配置已导出');
+      notify.success('场景配置已导出');
     } catch (error) {
       console.error('配置导出失败:', error);
-      message.error(error instanceof Error ? error.message : '配置导出失败');
+      notify.error(error instanceof Error ? error.message : '配置导出失败');
     } finally {
       setConfigExporting(false);
     }
@@ -314,10 +315,10 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
     setExporting(true);
     try {
       await exportGLB(scene);
-      message.success('GLB 已导出');
+      notify.success('GLB 已导出');
     } catch (error) {
       console.error('GLB 导出失败:', error);
-      message.error('GLB 导出失败，请查看控制台');
+      notify.error('GLB 导出失败，请查看控制台');
     } finally {
       setExporting(false);
     }
@@ -332,10 +333,10 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
         height: useViewportSize ? renderer.domElement.height : shotHeight,
         transparent: shotTransparent,
       });
-      message.success('截图已导出');
+      notify.success('截图已导出');
     } catch (error) {
       console.error('截图失败:', error);
-      message.error(error instanceof Error ? error.message : '截图导出失败');
+      notify.error(error instanceof Error ? error.message : '截图导出失败');
     } finally {
       setScreenshotExporting(false);
     }
@@ -344,7 +345,7 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
   const handleRecordTour = async () => {
     const tour = exportableTours.find((t) => t.id === selectedTourId);
     if (!tour) {
-      message.warning('请先创建并配置漫游路线');
+      notify.warning('请先创建并配置漫游路线');
       return;
     }
 
@@ -362,10 +363,10 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
       });
       const label =
         recordFormat === 'frames' ? '帧序列' : recordFormat === 'mp4' ? 'MP4' : 'WebM';
-      message.success(`漫游视频已导出（${label}）`);
+      notify.success(`漫游视频已导出（${label}）`);
     } catch (error) {
       console.error('漫游录制失败:', error);
-      message.error(error instanceof Error ? error.message : '漫游录制失败');
+      notify.error(error instanceof Error ? error.message : '漫游录制失败');
     } finally {
       setRecording(false);
       setRecordProgress(0);
@@ -388,10 +389,10 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
             }${result.cameraTourCount > 1 ? ` 等${result.cameraTourCount}条` : ''})`
           : null,
       ].filter(Boolean).join(' · ');
-      message.success(`项目包已导出（${detail}）`);
+      notify.success(`项目包已导出（${detail}）`);
     } catch (error) {
       console.error('项目包导出失败:', error);
-      message.error(error instanceof Error ? error.message : '项目包导出失败');
+      notify.error(error instanceof Error ? error.message : '项目包导出失败');
     } finally {
       setPackageExporting(false);
     }

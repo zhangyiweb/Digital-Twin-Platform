@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
-import { message, Modal } from 'antd';
+import { Modal } from 'antd';
+import { useEditorNotify } from '@/hooks/useEditorNotify';
 import { useModelLoader } from '@/hooks/useModelLoader';
 import { ExportPanel } from '@/components/Panels/ExportPanel';
 import { ModelPickerModal } from '@/components/Panels/ModelPickerModal';
@@ -16,6 +17,7 @@ import {
 } from '@/utils/polyhaven';
 
 export function Toolbar() {
+  const notify = useEditorNotify();
   const [showExport, setShowExport] = useState(false);
   const [modelModalOpen, setModelModalOpen] = useState(false);
   const [modelResolution, setModelResolution] = useState<ModelResolution>(DEFAULT_MODEL_RESOLUTION);
@@ -47,7 +49,7 @@ export function Toolbar() {
   const handlePolyhavenModelSelect = async (asset: ModelAsset) => {
     const scene = (window as any).__editorScene;
     if (!scene) {
-      message.error('场景尚未初始化');
+      notify.error('场景尚未初始化');
       return;
     }
 
@@ -55,11 +57,11 @@ export function Toolbar() {
     try {
       await loadPolyhavenModel(asset, scene, modelResolution);
       setSelectedModelId(asset.id);
-      message.success(`已导入模型：${asset.name}`);
+      notify.success(`已导入模型：${asset.name}`);
       setModelModalOpen(false);
     } catch (error) {
       console.error(error);
-      message.error(error instanceof Error ? error.message : '模型加载失败');
+      notify.error(error instanceof Error ? error.message : '模型加载失败');
     } finally {
       setLoadingModelId(null);
     }
@@ -77,10 +79,10 @@ export function Toolbar() {
     setSavingProject(true);
     try {
       const result = await saveEditorProject();
-      message.success(`项目已保存：${result.filename}`);
+      notify.success(`项目已保存：${result.filename}`);
     } catch (error) {
       console.error(error);
-      message.error(error instanceof Error ? error.message : '项目保存失败');
+      notify.error(error instanceof Error ? error.message : '项目保存失败');
     } finally {
       setSavingProject(false);
     }
@@ -101,10 +103,10 @@ export function Toolbar() {
       } else {
         throw new Error('仅支持 .zip 项目包或 .json 场景配置');
       }
-      message.success(`项目已打开：${file.name}`);
+      notify.success(`项目已打开：${file.name}`);
     } catch (error) {
       console.error(error);
-      message.error(error instanceof Error ? error.message : '项目打开失败');
+      notify.error(error instanceof Error ? error.message : '项目打开失败');
     } finally {
       setOpeningProject(false);
     }

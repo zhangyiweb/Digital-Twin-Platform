@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback, useState, useMemo } from 'react';
-import { Button, Input, Select, Switch, Typography, Modal, App } from 'antd';
+import { Button, Input, Select, Switch, Typography, Modal } from 'antd';
+import { useEditorNotify } from '@/hooks/useEditorNotify';
 import {
   PlusOutlined,
   DeleteOutlined,
@@ -282,7 +283,7 @@ function StopCard({
 }
 
 export function CameraTourPanel() {
-  const { message } = App.useApp();
+  const notify = useEditorNotify();
   const {
     tours,
     activeTourId,
@@ -392,7 +393,7 @@ export function CameraTourPanel() {
     const tour = getActiveTour();
     const captured = captureCurrentCameraState();
     if (!tour || !captured) {
-      message.warning('请先在场景中调整好视角');
+      notify.warning('请先在场景中调整好视角');
       return;
     }
 
@@ -409,7 +410,7 @@ export function CameraTourPanel() {
           target: captured.target,
         })
       );
-      message.success('已添加曲线关键帧');
+      notify.success('已添加曲线关键帧');
       return;
     }
 
@@ -427,7 +428,7 @@ export function CameraTourPanel() {
           objectName: selected.name,
         })
       );
-      message.success(`已添加漫游点（绑定设备：${selected.name}）`);
+      notify.success(`已添加漫游点（绑定设备：${selected.name}）`);
       return;
     }
 
@@ -440,7 +441,7 @@ export function CameraTourPanel() {
         target: captured.target,
       })
     );
-    message.success('已添加漫游点');
+    notify.success('已添加漫游点');
   };
 
   const handlePreviewPlay = () => {
@@ -448,11 +449,11 @@ export function CameraTourPanel() {
     const player = ensurePlayer();
     const tour = activeTour;
     if (!player || !tour?.stops.length) {
-      message.warning('请先添加漫游点');
+      notify.warning('请先添加漫游点');
       return;
     }
     if (tour.mode === 'spline' && tour.stops.length < 2) {
-      message.warning('一镜到底至少需要 2 个漫游点');
+      notify.warning('一镜到底至少需要 2 个漫游点');
       return;
     }
     if (player.getState() === 'paused') {
@@ -488,10 +489,10 @@ export function CameraTourPanel() {
       }
       cancelEditorCameraFly();
       if (!startEditorCameraFly(stop.position, stop.target, stop.transitionTime)) {
-        message.warning('场景未就绪，请稍后再试');
+        notify.warning('场景未就绪，请稍后再试');
         return;
       }
-      message.success(`正在前往「${stop.name}」`);
+      notify.success(`正在前往「${stop.name}」`);
     },
     [playerUiState, setPreviewPlaying]
   );
@@ -501,14 +502,14 @@ export function CameraTourPanel() {
       const tour = getActiveTour();
       const captured = captureCurrentCameraState();
       if (!tour || !captured) {
-        message.warning('无法读取当前视角');
+        notify.warning('无法读取当前视角');
         return;
       }
       updateStop(tour.id, stop.id, {
         position: captured.position,
         target: captured.target,
       });
-      message.success(`已更新「${stop.name}」的视角`);
+      notify.success(`已更新「${stop.name}」的视角`);
     },
     [getActiveTour, updateStop]
   );
@@ -516,7 +517,7 @@ export function CameraTourPanel() {
   const openExportModal = () => {
     const tour = getActiveTour();
     if (!tour?.stops.length) {
-      message.warning('当前路线没有漫游点');
+      notify.warning('当前路线没有漫游点');
       return;
     }
     setExportPreview(buildCameraTourJsonPreview(tour));
@@ -528,7 +529,7 @@ export function CameraTourPanel() {
     if (!tour) return;
     downloadCameraTourJson(tour);
     setExportModalOpen(false);
-    message.success('漫游 JSON 已下载');
+    notify.success('漫游 JSON 已下载');
   };
 
   const handleRemoveTour = () => {
@@ -540,7 +541,7 @@ export function CameraTourPanel() {
     if (scene) {
       syncTourPathVisual(scene, useTourStore.getState().getActiveTour());
     }
-    message.success(isLastTour ? '已清空当前漫游路线' : '已删除漫游路线');
+    notify.success(isLastTour ? '已清空当前漫游路线' : '已删除漫游路线');
   };
 
   const startRename = () => {

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
-import { App as AntApp } from 'antd'
+import { App as AntApp, ConfigProvider } from 'antd'
+import { editorAntdTheme } from '@/theme/editorAntdTheme'
 import { useSceneStore } from '@/store/sceneStore'
 import { useEditorStore } from '@/store/editorStore'
 import { useLightStore } from '@/store/lightStore'
@@ -116,7 +117,8 @@ function App() {
     : null;
 
   return (
-    <AntApp>
+    <ConfigProvider theme={editorAntdTheme}>
+    <AntApp notification={{ placement: 'bottomRight', duration: 3.5, showProgress: true }}>
     <div className="app-container">
       {/* 顶部工具栏 */}
       <Toolbar />
@@ -168,6 +170,7 @@ function App() {
       <GizmoToolbar />
     </div>
     </AntApp>
+    </ConfigProvider>
   )
 }
 

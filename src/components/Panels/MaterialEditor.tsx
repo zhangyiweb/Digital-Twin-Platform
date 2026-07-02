@@ -1,8 +1,17 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import * as THREE from 'three';
-import { message } from 'antd';
+import { Button, message } from 'antd';
 import { TextureAnimationSection } from './TextureAnimationSection';
 import { TexturePickerModal } from './TexturePickerModal';
+import {
+  PanelButton,
+  PanelColorField,
+  PanelFileButton,
+  PanelInputNumber,
+  PanelSelect,
+  PanelSliderRow,
+  PanelSwitch,
+} from '@/components/common/PanelForm';
 import {
   DEFAULT_TEXTURE_RESOLUTION,
   type TextureAsset,
@@ -81,13 +90,6 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
   const [metalnessMapPreview, setMetalnessMapPreview] = useState<string | null>(null);
   const [emissiveMapPreview, setEmissiveMapPreview] = useState<string | null>(null);
   
-  // 文件引用
-  const mapFileRef = useRef<HTMLInputElement>(null);
-  const normalMapFileRef = useRef<HTMLInputElement>(null);
-  const roughnessMapFileRef = useRef<HTMLInputElement>(null);
-  const metalnessMapFileRef = useRef<HTMLInputElement>(null);
-  const emissiveMapFileRef = useRef<HTMLInputElement>(null);
-
   // UV 参数
   const [uvRepeatX, setUvRepeatX] = useState(1);
   const [uvRepeatY, setUvRepeatY] = useState(1);
@@ -691,8 +693,8 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
 
   // 贴图上传处理
   const handleMapUpload = (type: 'map' | 'normalMap' | 'roughnessMap' | 'metalnessMap' | 'emissiveMap') => {
-    return (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
+    return (files: FileList) => {
+      const file = files[0];
       if (!file || !material) return;
 
       const reader = new FileReader();
@@ -726,9 +728,6 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
         img.src = event.target?.result as string;
       };
       reader.readAsDataURL(file);
-      
-      // 清空input value,允许重复选择同一文件
-      e.target.value = '';
     };
   };
 
@@ -846,15 +845,12 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
       {/* 材质类型选择 */}
       <div>
         <label className="text-xs text-gray-400 block mb-1">材质类型 (Material Type)</label>
-        <select
+        <PanelSelect
           value={selectedType}
-          onChange={(e) => handleTypeChange(e.target.value)}
+          onChange={(value) => handleTypeChange(value as string)}
+          options={materialTypes.map((type) => ({ label: type, value: type }))}
           className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded focus:outline-none focus:border-blue-500"
-        >
-          {materialTypes.map(type => (
-            <option key={type} value={type}>{type}</option>
-          ))}
-        </select>
+        />
         {selectedType.includes('Node') && (
           <p className="text-xs text-yellow-500 mt-1">⚠️ NodeMaterial需要WebGPU支持,已降级到普通材质</p>
         )}
@@ -864,55 +860,30 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
       {hasColor && (
         <div>
           <label className="text-xs text-gray-400 block mb-1">颜色 (Color)</label>
-          <div className="flex items-center gap-2">
-            <input
-              type="color"
-              value={color}
-              onChange={(e) => handleColorChange(e.target.value)}
-              className="w-10 h-8 rounded cursor-pointer border border-gray-600"
-            />
-            <input
-              type="text"
-              value={color}
-              onChange={(e) => handleColorChange(e.target.value)}
-              className="flex-1 px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded font-mono"
-            />
-          </div>
+          <PanelColorField value={color} onChange={handleColorChange} />
         </div>
       )}
 
       {/* 金属度和粗糙度 */}
       {hasMetalnessRoughness && (
         <>
-          <div>
-            <label className="text-xs text-gray-400 block mb-1">
-              金属度 (Metalness): {metalness.toFixed(2)}
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={metalness}
-              onChange={(e) => handleMetalnessChange(parseFloat(e.target.value))}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
+          <PanelSliderRow
+            label="金属度 (Metalness)"
+            min={0}
+            max={1}
+            step={0.01}
+            value={metalness}
+            onChange={handleMetalnessChange}
+          />
 
-          <div>
-            <label className="text-xs text-gray-400 block mb-1">
-              粗糙度 (Roughness): {roughness.toFixed(2)}
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={roughness}
-              onChange={(e) => handleRoughnessChange(parseFloat(e.target.value))}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
+          <PanelSliderRow
+            label="粗糙度 (Roughness)"
+            min={0}
+            max={1}
+            step={0.01}
+            value={roughness}
+            onChange={handleRoughnessChange}
+          />
         </>
       )}
 
@@ -921,36 +892,17 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
         <>
           <div>
             <label className="text-xs text-gray-400 block mb-1">自发光颜色 (Emissive)</label>
-            <div className="flex items-center gap-2">
-              <input
-                type="color"
-                value={emissive}
-                onChange={(e) => handleEmissiveChange(e.target.value)}
-                className="w-10 h-8 rounded cursor-pointer border border-gray-600"
-              />
-              <input
-                type="text"
-                value={emissive}
-                onChange={(e) => handleEmissiveChange(e.target.value)}
-                className="flex-1 px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded font-mono"
-              />
-            </div>
+            <PanelColorField value={emissive} onChange={handleEmissiveChange} />
           </div>
 
-          <div>
-            <label className="text-xs text-gray-400 block mb-1">
-              自发光强度 (Emissive Intensity): {emissiveIntensity.toFixed(2)}
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="10"
-              step="0.1"
-              value={emissiveIntensity}
-              onChange={(e) => handleEmissiveIntensityChange(parseFloat(e.target.value))}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
+          <PanelSliderRow
+            label="自发光强度 (Emissive Intensity)"
+            min={0}
+            max={10}
+            step={0.1}
+            value={emissiveIntensity}
+            onChange={handleEmissiveIntensityChange}
+          />
         </>
       )}
 
@@ -960,14 +912,15 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
           <h4 className="text-xs font-medium text-gray-300 mb-3">贴图 (Textures)</h4>
 
           <div className="mb-4">
-            <button
-              type="button"
+            <PanelButton
+              type="primary"
               onClick={() => setTextureModalOpen(true)}
               disabled={!!loadingTextureId}
+              loading={!!loadingTextureId}
               className="w-full px-3 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs rounded transition-colors"
             >
               {loadingTextureId ? '贴图加载中…' : '从 Poly Haven 选择贴图'}
-            </button>
+            </PanelButton>
           </div>
 
           <TexturePickerModal
@@ -984,26 +937,23 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
           <div className="mb-3">
             <label className="text-xs text-gray-400 block mb-2">基础贴图 (Map)</label>
             <div className="flex items-center gap-2">
-              <input
-                type="file"
-                ref={mapFileRef}
+              <PanelFileButton
                 accept="image/*"
-                onChange={handleMapUpload('map')}
-                className="hidden"
-              />
-              <button
-                onClick={() => mapFileRef.current?.click()}
+                block={false}
+                onFiles={handleMapUpload('map')}
                 className="px-3 py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
               >
                 {mapPreview ? '更换贴图' : '上传贴图'}
-              </button>
+              </PanelFileButton>
               {mapPreview && (
-                <button
+                <Button
+                  size="small"
+                  danger
                   onClick={() => handleRemoveMap('map')}
                   className="px-3 py-1.5 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors"
                 >
                   移除
-                </button>
+                </Button>
               )}
             </div>
             {mapPreview && (
@@ -1017,26 +967,23 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
           <div className="mb-3">
             <label className="text-xs text-gray-400 block mb-2">法线贴图 (Normal Map)</label>
             <div className="flex items-center gap-2">
-              <input
-                type="file"
-                ref={normalMapFileRef}
+              <PanelFileButton
                 accept="image/*"
-                onChange={handleMapUpload('normalMap')}
-                className="hidden"
-              />
-              <button
-                onClick={() => normalMapFileRef.current?.click()}
+                block={false}
+                onFiles={handleMapUpload('normalMap')}
                 className="px-3 py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
               >
                 {normalMapPreview ? '更换贴图' : '上传贴图'}
-              </button>
+              </PanelFileButton>
               {normalMapPreview && (
-                <button
+                <Button
+                  size="small"
+                  danger
                   onClick={() => handleRemoveMap('normalMap')}
                   className="px-3 py-1.5 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors"
                 >
                   移除
-                </button>
+                </Button>
               )}
             </div>
             {normalMapPreview && (
@@ -1050,26 +997,23 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
           <div className="mb-3">
             <label className="text-xs text-gray-400 block mb-2">粗糙度贴图 (Roughness Map)</label>
             <div className="flex items-center gap-2">
-              <input
-                type="file"
-                ref={roughnessMapFileRef}
+              <PanelFileButton
                 accept="image/*"
-                onChange={handleMapUpload('roughnessMap')}
-                className="hidden"
-              />
-              <button
-                onClick={() => roughnessMapFileRef.current?.click()}
+                block={false}
+                onFiles={handleMapUpload('roughnessMap')}
                 className="px-3 py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
               >
                 {roughnessMapPreview ? '更换贴图' : '上传贴图'}
-              </button>
+              </PanelFileButton>
               {roughnessMapPreview && (
-                <button
+                <Button
+                  size="small"
+                  danger
                   onClick={() => handleRemoveMap('roughnessMap')}
                   className="px-3 py-1.5 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors"
                 >
                   移除
-                </button>
+                </Button>
               )}
             </div>
             {roughnessMapPreview && (
@@ -1083,26 +1027,23 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
           <div className="mb-3">
             <label className="text-xs text-gray-400 block mb-2">金属度贴图 (Metalness Map)</label>
             <div className="flex items-center gap-2">
-              <input
-                type="file"
-                ref={metalnessMapFileRef}
+              <PanelFileButton
                 accept="image/*"
-                onChange={handleMapUpload('metalnessMap')}
-                className="hidden"
-              />
-              <button
-                onClick={() => metalnessMapFileRef.current?.click()}
+                block={false}
+                onFiles={handleMapUpload('metalnessMap')}
                 className="px-3 py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
               >
                 {metalnessMapPreview ? '更换贴图' : '上传贴图'}
-              </button>
+              </PanelFileButton>
               {metalnessMapPreview && (
-                <button
+                <Button
+                  size="small"
+                  danger
                   onClick={() => handleRemoveMap('metalnessMap')}
                   className="px-3 py-1.5 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors"
                 >
                   移除
-                </button>
+                </Button>
               )}
             </div>
             {metalnessMapPreview && (
@@ -1116,26 +1057,23 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
           <div className="mb-3">
             <label className="text-xs text-gray-400 block mb-2">自发光贴图 (Emissive Map)</label>
             <div className="flex items-center gap-2">
-              <input
-                type="file"
-                ref={emissiveMapFileRef}
+              <PanelFileButton
                 accept="image/*"
-                onChange={handleMapUpload('emissiveMap')}
-                className="hidden"
-              />
-              <button
-                onClick={() => emissiveMapFileRef.current?.click()}
+                block={false}
+                onFiles={handleMapUpload('emissiveMap')}
                 className="px-3 py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
               >
                 {emissiveMapPreview ? '更换贴图' : '上传贴图'}
-              </button>
+              </PanelFileButton>
               {emissiveMapPreview && (
-                <button
+                <Button
+                  size="small"
+                  danger
                   onClick={() => handleRemoveMap('emissiveMap')}
                   className="px-3 py-1.5 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors"
                 >
                   移除
-                </button>
+                </Button>
               )}
             </div>
             {emissiveMapPreview && (
@@ -1154,85 +1092,78 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
           <div className="grid grid-cols-2 gap-2 mb-2">
             <div>
               <label className="text-[10px] text-gray-500 block mb-0.5">重复 U</label>
-              <input
-                type="number"
-                step="0.1"
-                min="0.01"
+              <PanelInputNumber
+                step={0.1}
+                min={0.01}
                 value={uvRepeatX}
-                onChange={(e) => handleUvChange('repeatX', parseFloat(e.target.value) || 1)}
+                onChange={(value) => handleUvChange('repeatX', typeof value === 'number' ? value : 1)}
                 className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
               />
             </div>
             <div>
               <label className="text-[10px] text-gray-500 block mb-0.5">重复 V</label>
-              <input
-                type="number"
-                step="0.1"
-                min="0.01"
+              <PanelInputNumber
+                step={0.1}
+                min={0.01}
                 value={uvRepeatY}
-                onChange={(e) => handleUvChange('repeatY', parseFloat(e.target.value) || 1)}
+                onChange={(value) => handleUvChange('repeatY', typeof value === 'number' ? value : 1)}
                 className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
               />
             </div>
             <div>
               <label className="text-[10px] text-gray-500 block mb-0.5">偏移 U</label>
-              <input
-                type="number"
-                step="0.01"
+              <PanelInputNumber
+                step={0.01}
                 value={uvOffsetX}
-                onChange={(e) => handleUvChange('offsetX', parseFloat(e.target.value) || 0)}
+                onChange={(value) => handleUvChange('offsetX', typeof value === 'number' ? value : 0)}
                 className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
               />
             </div>
             <div>
               <label className="text-[10px] text-gray-500 block mb-0.5">偏移 V</label>
-              <input
-                type="number"
-                step="0.01"
+              <PanelInputNumber
+                step={0.01}
                 value={uvOffsetY}
-                onChange={(e) => handleUvChange('offsetY', parseFloat(e.target.value) || 0)}
+                onChange={(value) => handleUvChange('offsetY', typeof value === 'number' ? value : 0)}
                 className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
               />
             </div>
           </div>
-          <div className="mb-2">
-            <label className="text-[10px] text-gray-500 block mb-0.5">
-              旋转 (°): {uvRotation.toFixed(1)}
-            </label>
-            <input
-              type="range"
-              min="-180"
-              max="180"
-              step="1"
-              value={uvRotation}
-              onChange={(e) => handleUvChange('rotation', parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
+          <PanelSliderRow
+            label="旋转 (°)"
+            min={-180}
+            max={180}
+            step={1}
+            value={uvRotation}
+            onChange={(value) => handleUvChange('rotation', value)}
+            format={(value) => value.toFixed(1)}
+          />
           <div className="grid grid-cols-2 gap-2">
             <div>
               <label className="text-[10px] text-gray-500 block mb-0.5">包裹 U</label>
-              <select
+              <PanelSelect
                 value={wrapS}
-                onChange={(e) => handleWrapChange('S', parseInt(e.target.value))}
+                onChange={(value) => handleWrapChange('S', value as number)}
+                options={[
+                  { label: '重复', value: THREE.RepeatWrapping },
+                  { label: '拉伸', value: THREE.ClampToEdgeWrapping },
+                  { label: '镜像', value: THREE.MirroredRepeatWrapping },
+                ]}
                 className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-              >
-                <option value={THREE.RepeatWrapping}>重复</option>
-                <option value={THREE.ClampToEdgeWrapping}>拉伸</option>
-                <option value={THREE.MirroredRepeatWrapping}>镜像</option>
-              </select>
+              />
             </div>
             <div>
               <label className="text-[10px] text-gray-500 block mb-0.5">包裹 V</label>
-              <select
+              <PanelSelect
                 value={wrapT}
-                onChange={(e) => handleWrapChange('T', parseInt(e.target.value))}
+                onChange={(value) => handleWrapChange('T', value as number)}
+                options={[
+                  { label: '重复', value: THREE.RepeatWrapping },
+                  { label: '拉伸', value: THREE.ClampToEdgeWrapping },
+                  { label: '镜像', value: THREE.MirroredRepeatWrapping },
+                ]}
                 className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-              >
-                <option value={THREE.RepeatWrapping}>重复</option>
-                <option value={THREE.ClampToEdgeWrapping}>拉伸</option>
-                <option value={THREE.MirroredRepeatWrapping}>镜像</option>
-              </select>
+              />
             </div>
           </div>
           <p className="text-[10px] text-gray-600 mt-2">同步应用于所有已加载贴图</p>
@@ -1246,63 +1177,39 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
         <>
           <div>
             <label className="text-xs text-gray-400 block mb-1">高光颜色 (Specular)</label>
-            <div className="flex items-center gap-2">
-              <input
-                type="color"
-                value={specular}
-                onChange={(e) => {
-                  setSpecular(e.target.value);
-                  setTimeout(updateMaterial, 0);
-                }}
-                className="w-10 h-8 rounded cursor-pointer border border-gray-600"
-              />
-              <input
-                type="text"
-                value={specular}
-                onChange={(e) => {
-                  setSpecular(e.target.value);
-                  setTimeout(updateMaterial, 0);
-                }}
-                className="flex-1 px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded font-mono"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="text-xs text-gray-400 block mb-1">
-              光泽度 (Shininess): {shininess.toFixed(2)}
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="200"
-              step="1"
-              value={shininess}
-              onChange={(e) => {
-                setShininess(parseFloat(e.target.value));
+            <PanelColorField
+              value={specular}
+              onChange={(value) => {
+                setSpecular(value);
                 setTimeout(updateMaterial, 0);
               }}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
             />
           </div>
+
+          <PanelSliderRow
+            label="光泽度 (Shininess)"
+            min={0}
+            max={200}
+            step={1}
+            value={shininess}
+            onChange={(value) => {
+              setShininess(value);
+              setTimeout(updateMaterial, 0);
+            }}
+            format={(value) => value.toFixed(2)}
+          />
         </>
       )}
 
       {/* 透明度 */}
-      <div>
-        <label className="text-xs text-gray-400 block mb-1">
-          透明度 (Opacity): {opacity.toFixed(2)}
-        </label>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={opacity}
-          onChange={(e) => handleOpacityChange(parseFloat(e.target.value))}
-          className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-        />
-      </div>
+      <PanelSliderRow
+        label="透明度 (Opacity)"
+        min={0}
+        max={1}
+        step={0.01}
+        value={opacity}
+        onChange={handleOpacityChange}
+      />
 
       {/* Physical材质高级参数 */}
       {isPhysical && (
@@ -1310,80 +1217,50 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
           <h5 className="text-xs font-semibold text-gray-400 mb-2">Physical 高级参数</h5>
           
           <div className="space-y-3">
-            <div>
-              <label className="text-xs text-gray-400 block mb-1">
-                清漆层 (Clearcoat): {clearcoat.toFixed(2)}
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={clearcoat}
-                onChange={(e) => handleClearcoatChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
+            <PanelSliderRow
+              label="清漆层 (Clearcoat)"
+              min={0}
+              max={1}
+              step={0.01}
+              value={clearcoat}
+              onChange={handleClearcoatChange}
+            />
 
-            <div>
-              <label className="text-xs text-gray-400 block mb-1">
-                清漆粗糙度 (Clearcoat Roughness): {clearcoatRoughness.toFixed(2)}
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={clearcoatRoughness}
-                onChange={(e) => handleClearcoatRoughnessChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
+            <PanelSliderRow
+              label="清漆粗糙度 (Clearcoat Roughness)"
+              min={0}
+              max={1}
+              step={0.01}
+              value={clearcoatRoughness}
+              onChange={handleClearcoatRoughnessChange}
+            />
 
-            <div>
-              <label className="text-xs text-gray-400 block mb-1">
-                透射 (Transmission): {transmission.toFixed(2)}
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={transmission}
-                onChange={(e) => handleTransmissionChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
+            <PanelSliderRow
+              label="透射 (Transmission)"
+              min={0}
+              max={1}
+              step={0.01}
+              value={transmission}
+              onChange={handleTransmissionChange}
+            />
 
-            <div>
-              <label className="text-xs text-gray-400 block mb-1">
-                厚度 (Thickness): {thickness.toFixed(2)}
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                step="0.1"
-                value={thickness}
-                onChange={(e) => handleThicknessChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
+            <PanelSliderRow
+              label="厚度 (Thickness)"
+              min={0}
+              max={10}
+              step={0.1}
+              value={thickness}
+              onChange={handleThicknessChange}
+            />
 
-            <div>
-              <label className="text-xs text-gray-400 block mb-1">
-                折射率 (IOR): {ior.toFixed(2)}
-              </label>
-              <input
-                type="range"
-                min="1"
-                max="3"
-                step="0.01"
-                value={ior}
-                onChange={(e) => handleIorChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
+            <PanelSliderRow
+              label="折射率 (IOR)"
+              min={1}
+              max={3}
+              step={0.01}
+              value={ior}
+              onChange={handleIorChange}
+            />
           </div>
         </div>
       )}
@@ -1391,41 +1268,30 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
       {/* 反射率和折射率 (Physical & Phong) */}
       {(isPhysical || hasPhongParams) && (
         <>
-          <div>
-            <label className="text-xs text-gray-400 block mb-1">
-              反射率 (Reflectivity): {reflectivity.toFixed(2)}
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={reflectivity}
-              onChange={(e) => {
-                setReflectivity(parseFloat(e.target.value));
-                setTimeout(updateMaterial, 0);
-              }}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
+          <PanelSliderRow
+            label="反射率 (Reflectivity)"
+            min={0}
+            max={1}
+            step={0.01}
+            value={reflectivity}
+            onChange={(value) => {
+              setReflectivity(value);
+              setTimeout(updateMaterial, 0);
+            }}
+          />
 
-          <div>
-            <label className="text-xs text-gray-400 block mb-1">
-              折射率比例 (Refraction Ratio): {refractionRatio.toFixed(3)}
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.001"
-              value={refractionRatio}
-              onChange={(e) => {
-                setRefractionRatio(parseFloat(e.target.value));
-                setTimeout(updateMaterial, 0);
-              }}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
+          <PanelSliderRow
+            label="折射率比例 (Refraction Ratio)"
+            min={0}
+            max={1}
+            step={0.001}
+            value={refractionRatio}
+            onChange={(value) => {
+              setRefractionRatio(value);
+              setTimeout(updateMaterial, 0);
+            }}
+            format={(value) => value.toFixed(3)}
+          />
         </>
       )}
 
@@ -1436,63 +1302,40 @@ export function MaterialEditor({ material, object3D, onMaterialChange }: Materia
         {/* 线框模式 */}
         <div className="flex items-center justify-between">
           <span className="text-xs text-gray-400">线框模式 (Wireframe)</span>
-          <button
-            onClick={() => handleWireframeChange(!wireframe)}
-            className={`w-10 h-5 rounded-full transition-colors ${wireframe ? 'bg-blue-500' : 'bg-gray-600'}`}
-          >
-            <div className={`w-4 h-4 bg-white rounded-full transform transition-transform ${wireframe ? 'translate-x-5' : 'translate-x-0.5'}`} />
-          </button>
+          <PanelSwitch checked={wireframe} onChange={handleWireframeChange} />
         </div>
 
         {/* 平面着色 */}
         {hasFlatShadingSupport && (
           <div className="flex items-center justify-between">
             <span className="text-xs text-gray-400">平面着色 (Flat Shading)</span>
-            <button
-              onClick={() => handleFlatShadingChange(!flatShading)}
-              className={`w-10 h-5 rounded-full transition-colors ${flatShading ? 'bg-green-500' : 'bg-gray-600'}`}
-            >
-              <div className={`w-4 h-4 bg-white rounded-full transform transition-transform ${flatShading ? 'translate-x-5' : 'translate-x-0.5'}`} />
-            </button>
+            <PanelSwitch checked={flatShading} onChange={handleFlatShadingChange} />
           </div>
         )}
 
         {/* 深度写入 */}
         <div className="flex items-center justify-between">
           <span className="text-xs text-gray-400">深度写入 (Depth Write)</span>
-          <button
-            onClick={() => handleDepthWriteChange(!depthWrite)}
-            className={`w-10 h-5 rounded-full transition-colors ${depthWrite ? 'bg-green-500' : 'bg-gray-600'}`}
-          >
-            <div className={`w-4 h-4 bg-white rounded-full transform transition-transform ${depthWrite ? 'translate-x-5' : 'translate-x-0.5'}`} />
-          </button>
+          <PanelSwitch checked={depthWrite} onChange={handleDepthWriteChange} />
         </div>
 
         {/* 雾效 */}
         {hasFogSupport && (
           <div className="flex items-center justify-between">
             <span className="text-xs text-gray-400">受雾影响 (Fog)</span>
-            <button
-              onClick={() => {
-                setFog(!fog);
-                updateMaterial();
-              }}
-              className={`w-10 h-5 rounded-full transition-colors ${fog ? 'bg-green-500' : 'bg-gray-600'}`}
-            >
-              <div className={`w-4 h-4 bg-white rounded-full transform transition-transform ${fog ? 'translate-x-5' : 'translate-x-0.5'}`} />
-            </button>
+            <PanelSwitch checked={fog} onChange={handleFogChange} />
           </div>
         )}
       </div>
 
       {/* 恢复默认值按钮 */}
       <div className="pt-4 border-t border-gray-700">
-        <button
+        <PanelButton
           onClick={handleResetToDefault}
           className="w-full px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-xs rounded transition-colors"
         >
           恢复默认值 (Reset to Default)
-        </button>
+        </PanelButton>
       </div>
     </div>
   );

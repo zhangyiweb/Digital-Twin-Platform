@@ -5,6 +5,7 @@ import { useAnimationStore } from '@/store/animationStore';
 import { useTourStore } from '@/store/tourStore';
 import type { CameraTour } from '@/types/cameraTour';
 import type { ExportedTextureUvState } from '@/utils/exportSceneRestore';
+import { syncSceneObjectsToStore } from '@/utils/sceneUtils';
 
 const TONE_MAPPING_BY_NAME: Record<string, number> = {
   none: THREE.NoToneMapping,
@@ -227,6 +228,8 @@ export function generateSceneConfig(): ExportedSceneConfig {
   if (!scene) {
     throw new Error('场景尚未初始化，请等待编辑器加载完成后再导出');
   }
+
+  syncSceneObjectsToStore(scene);
 
   const globalSettings = ((window as any).__globalSettingsState ?? null) as Record<string, unknown> | null;
   const postProcessRaw = (window as any).__postProcessConfig as Record<string, unknown> | undefined;

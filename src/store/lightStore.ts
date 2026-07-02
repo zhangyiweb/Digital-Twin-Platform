@@ -23,6 +23,9 @@ interface LightStore extends LightState {
   
   // 重置所有灯光
   resetLights: () => void;
+
+  /** 批量替换灯光列表（用于项目导入） */
+  replaceLights: (lights: LightConfig[]) => void;
 }
 
 const initialState: LightState = {
@@ -77,4 +80,10 @@ export const useLightStore = create<LightStore>((set) => ({
   },
 
   resetLights: () => set(initialState),
+
+  replaceLights: (lights) =>
+    set({
+      lights: lights.length > 0 ? lights : [...DEFAULT_LIGHTS],
+      selectedLightId: null,
+    }),
 }));

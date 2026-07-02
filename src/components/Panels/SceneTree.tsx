@@ -11,7 +11,7 @@ import {
   AppstoreOutlined,
   BlockOutlined,
 } from '@ant-design/icons';
-import { findThreeObjectById } from '@/utils/sceneUtils';
+import { disposeObject3DResources, findThreeObjectById } from '@/utils/sceneUtils';
 import * as THREE from 'three';
 
 interface TreeNode {
@@ -127,55 +127,42 @@ function TreeNodeItem({
 }
 
 export function SceneTree() {
-  const { objects, selectedIds, selectObject, removeObject, getThreeObject, deselectAll, registerThreeObject } =
+  const { objects, selectedIds, selectObject, removeObject, getThreeObject, deselectAll } =
     useSceneStore();
   const { lights, selectedLightId, selectLight, removeLight } = useLightStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [treeData, setTreeData] = useState<TreeNode[]>([]);
   const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set());
 
-  const buildTreeNode = useCallback(
-    (obj: THREE.Object3D, term: string): TreeNode | null => {
-      const name = obj.name || '';
-      const nameMatch = !term || name.toLowerCase().includes(term.toLowerCase());
+  const buildTreeNode = useCallback((obj: THREE.Object3D, term: string): TreeNode | null => {
+    const name = obj.name || '';
+    const nameMatch = !term || name.toLowerCase().includes(term.toLowerCase());
 
-      const children: TreeNode[] = [];
-      obj.children.forEach((child) => {
-        if (isHelperObject(child)) return;
-        const childNode = buildTreeNode(child, term);
-        if (childNode) children.push(childNode);
-      });
+    const children: TreeNode[] = [];
+    obj.children.forEach((child) => {
+      if (isHelperObject(child)) return;
+      const childNode = buildTreeNode(child, term);
+      if (childNode) children.push(childNode);
+    });
 
-      const childMatch = children.length > 0;
-      if (!nameMatch && !childMatch) return null;
+    const childMatch = children.length > 0;
+    if (!nameMatch && !childMatch) return null;
 
-      const id = obj.userData?.id || obj.userData?.businessId || obj.uuid;
-      if (!obj.userData?.businessId) {
-        obj.userData = obj.userData || {};
-        obj.userData.businessId = obj.uuid;
-      }
+    const id = obj.userData?.id || obj.userData?.businessId || obj.uuid;
 
-      // 根级导入模型注册到 store 映射
-      if (obj.userData?.id && !getThreeObject(obj.userData.id)) {
-        registerThreeObject(obj.userData.id, obj);
-      }
+    let type: TreeNode['type'] = 'model';
+    if (obj instanceof THREE.Mesh) type = 'mesh';
+    else if (obj instanceof THREE.Group || children.length > 0) type = 'group';
 
-      let type: TreeNode['type'] = 'group';
-      if (obj instanceof THREE.Mesh) type = 'mesh';
-      else if (obj.children.length > 0) type = 'group';
-      else type = 'model';
-
-      return {
-        key: `obj-${obj.uuid}`,
-        id,
-        uuid: obj.uuid,
-        name: name || (type === 'mesh' ? 'Mesh' : 'Group'),
-        type,
-        children,
-      };
-    },
-    [getThreeObject, registerThreeObject]
-  );
+    return {
+      key: `obj-${obj.uuid}`,
+      id,
+      uuid: obj.uuid,
+      name: name || (type === 'mesh' ? 'Mesh' : 'Group'),
+      type,
+      children,
+    };
+  }, []);
 
   const buildSceneTree = useCallback(() => {
     const scene = (window as any).__editorScene as THREE.Scene | undefined;
@@ -246,8 +233,11 @@ export function SceneTree() {
       const transformControls = (window as any).__editorTransformControls;
 
       if (node.type === 'light') {
-        selectLight(node.id);
         deselectAll();
+        selectLight(node.id);
+        if (transformControls) {
+          transformControls.detach();
+        }
         return;
       }
 
@@ -271,14 +261,6 @@ export function SceneTree() {
       if (node.type === 'light') {
         if (selectedLightId === node.id) selectLight(null);
         removeLight(node.id);
-        const scene = (window as any).__editorScene as THREE.Scene | undefined;
-        if (scene) {
-          const toRemove: THREE.Object3D[] = [];
-          scene.traverse((child) => {
-            if (child.userData?.id === node.id) toRemove.push(child);
-          });
-          toRemove.forEach((c) => scene.remove(c));
-        }
         return;
       }
 
@@ -296,9 +278,14 @@ export function SceneTree() {
       }
 
       targetObj.parent?.remove(targetObj);
+      disposeObject3DResources(targetObj);
 
       const storeId = objects.find((o) => o.id === node.id || o.id === targetObj.uuid)?.id;
-      if (storeId) removeObject(storeId);
+      if (storeId) {
+        removeObject(storeId);
+      } else if (targetObj.userData?.id) {
+        removeObject(targetObj.userData.id);
+      }
     },
     [selectedLightId, selectedIds, selectLight, removeLight, getThreeObject, deselectAll, objects, removeObject]
   );

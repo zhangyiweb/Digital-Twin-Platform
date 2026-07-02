@@ -51,6 +51,35 @@ export function collectTextureUvStates(scene: THREE.Scene): Record<string, Expor
   return states;
 }
 
+/** 根据 editor.objects 为加载的模型恢复业务 id */
+export function restoreEditorObjectIds(
+  modelRoot: THREE.Object3D,
+  editorObjects: Array<{ id: string; name: string }>
+) {
+  if (!modelRoot || !editorObjects?.length) return;
+
+  const pending = [...editorObjects];
+
+  const bind = (node: THREE.Object3D) => {
+    if (!node || node.userData?.id) return;
+    const index = pending.findIndex((item) => item.name && item.name === node.name);
+    if (index < 0) return;
+    node.userData.id = pending[index].id;
+    node.userData.businessId = pending[index].id;
+    pending.splice(index, 1);
+  };
+
+  bind(modelRoot);
+  modelRoot.traverse((child) => {
+    if (child !== modelRoot) bind(child);
+  });
+
+  if (!modelRoot.userData?.id && pending.length === 1 && editorObjects.length === 1) {
+    modelRoot.userData.id = pending[0].id;
+    modelRoot.userData.businessId = pending[0].id;
+  }
+}
+
 /** 根据 editor.objects 为运行时生成的 JS 恢复 id（写入导出模板） */
 export function buildObjectIdRestoreScript(): string {
   return `

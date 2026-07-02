@@ -8,6 +8,7 @@ import {
   mergePostProcessParams,
   buildPostProcessConfig,
 } from '@/config/postProcessPresets';
+import { EDITOR_PROJECT_RESTORE_EVENT } from '@/utils/editorProjectImporter';
 
 const { Text } = Typography;
 
@@ -138,6 +139,27 @@ export function PostProcessSettings() {
       postProcess: { enabled, effect, presetId, params },
     };
   }, [enabled, effect, presetId, params]);
+
+  useEffect(() => {
+    const syncFromRestoredProject = () => {
+      const cfg = (window as any).__postProcessConfig as {
+        enabled?: boolean;
+        effect?: PostProcessEffectId;
+        presetId?: string;
+        params?: PostProcessParams;
+      } | undefined;
+      if (!cfg) return;
+      setEnabled(Boolean(cfg.enabled));
+      setEffect(cfg.effect ?? 'none');
+      setPresetId(cfg.presetId ?? 'custom');
+      if (cfg.params) {
+        setParams(mergePostProcessParams(DEFAULT_POST_PROCESS_PARAMS, cfg.params as never));
+      }
+    };
+
+    window.addEventListener(EDITOR_PROJECT_RESTORE_EVENT, syncFromRestoredProject);
+    return () => window.removeEventListener(EDITOR_PROJECT_RESTORE_EVENT, syncFromRestoredProject);
+  }, []);
 
   const renderParams = () => {
     switch (effect) {

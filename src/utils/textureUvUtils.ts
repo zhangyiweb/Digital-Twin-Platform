@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { findThreeObjectById } from '@/utils/sceneUtils';
 
 export interface ExportedTextureUvState {
   repeat: [number, number];
@@ -76,6 +77,47 @@ export function readTextureUvState(tex: THREE.Texture): ExportedTextureUvState {
     wrapT: tex.wrapT,
     rotation: tex.rotation,
   };
+}
+
+/** 将导出的 UV 状态写回贴图 */
+export function applyTextureUvStateToTexture(tex: THREE.Texture, state: ExportedTextureUvState): void {
+  tex.repeat.set(state.repeat[0], state.repeat[1]);
+  tex.offset.set(state.offset[0], state.offset[1]);
+  tex.wrapS = state.wrapS as THREE.Wrapping;
+  tex.wrapT = state.wrapT as THREE.Wrapping;
+  tex.rotation = state.rotation ?? 0;
+  tex.needsUpdate = true;
+}
+
+/** 按对象 ID 恢复场景中贴图的 UV 参数 */
+export function applyTextureUvStates(
+  scene: THREE.Scene,
+  root: THREE.Object3D | null,
+  states: Record<string, ExportedTextureUvState>,
+  getThreeObject?: (id: string) => THREE.Object3D | undefined
+): void {
+  if (!root || !states) return;
+
+  Object.entries(states).forEach(([objectId, state]) => {
+    const target =
+      getThreeObject?.(objectId) ||
+      findThreeObjectById(scene, objectId, getThreeObject) ||
+      findThreeObjectById(scene, objectId);
+    if (!target) return;
+
+    target.traverse((child) => {
+      if (!(child instanceof THREE.Mesh)) return;
+      const materials = Array.isArray(child.material) ? child.material : [child.material];
+      materials.forEach((material) => {
+        if (!material) return;
+        const record = material as unknown as Record<string, THREE.Texture | undefined>;
+        TEXTURE_MAP_KEYS.forEach((key) => {
+          const tex = record[key];
+          if (tex) applyTextureUvStateToTexture(tex, state);
+        });
+      });
+    });
+  });
 }
 
 /** 写入导出项目 main.js 的运行时规范化逻辑 */

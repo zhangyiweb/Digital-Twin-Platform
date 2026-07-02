@@ -16,6 +16,7 @@ import {
   type HdrDownloadSource,
 } from '@/utils/polyhaven';
 import { applyHdrRotationY } from '@/utils/hdrRotation';
+import { EDITOR_PROJECT_RESTORE_EVENT } from '@/utils/editorProjectImporter';
 
 export function GlobalSettings() {
   const { backgroundColor, updateCamera } = useSceneStore();
@@ -558,6 +559,78 @@ export function GlobalSettings() {
       hdriReady,
     };
   }, [bgColor, fogEnabled, fogColor, fogNear, fogFar, pixelRatio, toneMapping, exposure, envMapIntensity, hdrRotationY, correctLights, cameraPosition, controlsTarget, cameraFov, cameraNear, cameraFar, antialias, alpha, logarithmicDepthBuffer, hasHDRBackground, hasHDREnvironment, hdrBgName, hdrEnvName, bgHdriEnabled, envHdriEnabled, selectedHdriId, hdriResolution, hdriReady]);
+
+  // 项目导入后从 window 全局状态同步 UI
+  useEffect(() => {
+    const syncFromRestoredProject = () => {
+      const saved = (window as any).__globalSettingsState as Record<string, unknown> | undefined;
+      if (!saved) return;
+
+      const scene = (window as any).__editorScene as THREE.Scene | undefined;
+      const cachedTexture = (window as any).__hdrTextureCache as THREE.Texture | undefined;
+
+      if (cachedTexture) {
+        hdrTextureCache.current = cachedTexture;
+      } else if (scene?.background && (scene.background as THREE.Texture).isTexture) {
+        hdrTextureCache.current = scene.background as THREE.Texture;
+      } else if (scene?.environment) {
+        hdrTextureCache.current = scene.environment;
+      }
+
+      const hasBg = Boolean(saved.hasHDRBackground ?? saved.bgHdriEnabled);
+      const hasEnv = Boolean(saved.hasHDREnvironment ?? saved.envHdriEnabled);
+      hasHDRBackgroundRef.current = hasBg;
+      bgHdriEnabledRef.current = Boolean(saved.bgHdriEnabled ?? hasBg);
+      envHdriEnabledRef.current = Boolean(saved.envHdriEnabled ?? hasEnv);
+
+      if (saved.bgColor) {
+        const color = String(saved.bgColor);
+        setBgColor(color);
+        bgColorRef.current = color;
+      }
+      if (saved.fogEnabled != null) setFogEnabled(Boolean(saved.fogEnabled));
+      if (saved.fogColor) setFogColor(String(saved.fogColor));
+      if (saved.fogNear != null) setFogNear(Number(saved.fogNear));
+      if (saved.fogFar != null) setFogFar(Number(saved.fogFar));
+      if (saved.pixelRatio) setPixelRatio(String(saved.pixelRatio));
+      if (saved.toneMapping) setToneMapping(String(saved.toneMapping));
+      if (saved.exposure != null) setExposure(Number(saved.exposure));
+      if (saved.envMapIntensity != null) setEnvMapIntensity(Number(saved.envMapIntensity));
+      if (saved.hdrRotationY != null) setHdrRotationY(Number(saved.hdrRotationY));
+      if (saved.correctLights != null) setCorrectLights(Boolean(saved.correctLights));
+      if (saved.cameraPosition) setCameraPosition(saved.cameraPosition as { x: number; y: number; z: number });
+      if (saved.controlsTarget) setControlsTarget(saved.controlsTarget as { x: number; y: number; z: number });
+      if (saved.cameraFov != null) setCameraFov(Number(saved.cameraFov));
+      if (saved.cameraNear != null) setCameraNear(Number(saved.cameraNear));
+      if (saved.cameraFar != null) setCameraFar(Number(saved.cameraFar));
+      if (saved.antialias != null) setAntialias(Boolean(saved.antialias));
+      if (saved.alpha != null) setAlpha(Boolean(saved.alpha));
+      if (saved.logarithmicDepthBuffer != null) setLogarithmicDepthBuffer(Boolean(saved.logarithmicDepthBuffer));
+      if (saved.hasHDRBackground != null) setHasHDRBackground(Boolean(saved.hasHDRBackground));
+      if (saved.hasHDREnvironment != null) setHasHDREnvironment(Boolean(saved.hasHDREnvironment));
+      if (saved.hdrBgName) setHdrBgName(String(saved.hdrBgName));
+      if (saved.hdrEnvName) setHdrEnvName(String(saved.hdrEnvName));
+      if (saved.bgHdriEnabled != null) setBgHdriEnabled(Boolean(saved.bgHdriEnabled));
+      if (saved.envHdriEnabled != null) setEnvHdriEnabled(Boolean(saved.envHdriEnabled));
+      if (saved.selectedHdriId != null) setSelectedHdriId(saved.selectedHdriId as string | null);
+      if (saved.hdriResolution) setHdriResolution(saved.hdriResolution as HdrResolution);
+      if (saved.hdriReady != null) setHdriReady(Boolean(saved.hdriReady));
+
+      if (scene && hdrTextureCache.current) {
+        if (bgHdriEnabledRef.current) {
+          scene.background = hdrTextureCache.current;
+        }
+        if (envHdriEnabledRef.current) {
+          scene.environment = hdrTextureCache.current;
+          scene.environmentIntensity = Number(saved.envMapIntensity ?? envMapIntensity);
+        }
+        applyHdrRotationY(scene, Number(saved.hdrRotationY ?? hdrRotationY));
+      }
+    };
+
+    window.addEventListener(EDITOR_PROJECT_RESTORE_EVENT, syncFromRestoredProject);
+    return () => window.removeEventListener(EDITOR_PROJECT_RESTORE_EVENT, syncFromRestoredProject);
+  }, [envMapIntensity, hdrRotationY]);
 
   // 处理HDR文件选择
 

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { useSceneStore } from '@/store/sceneStore';
 
 /** 根据业务 ID / UUID 在场景中查找 Three.js 对象 */
 export function findThreeObjectById(
@@ -20,6 +21,24 @@ export function findThreeObjectById(
     }
   });
   return found;
+}
+
+/** 将场景中已注册对象的变换同步回 store（保存前调用，避免 store 与视口不一致） */
+export function syncSceneObjectsToStore(scene: THREE.Scene) {
+  const { objects, getThreeObject, updateObject } = useSceneStore.getState();
+
+  objects.forEach((obj) => {
+    const threeObj = getThreeObject(obj.id) || findThreeObjectById(scene, obj.id, getThreeObject);
+    if (!threeObj) return;
+
+    updateObject(obj.id, {
+      name: threeObj.name || obj.name,
+      visible: threeObj.visible,
+      position: [threeObj.position.x, threeObj.position.y, threeObj.position.z],
+      rotation: [threeObj.rotation.x, threeObj.rotation.y, threeObj.rotation.z],
+      scale: [threeObj.scale.x, threeObj.scale.y, threeObj.scale.z],
+    });
+  });
 }
 
 /** 判断对象是否为编辑器辅助对象（不应导出） */

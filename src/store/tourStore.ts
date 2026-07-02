@@ -36,6 +36,9 @@ interface TourStore {
   ensureDefaultTour: () => void;
   /** 清理重复 id 的路线（开发模式热重载偶发） */
   dedupeTours: () => void;
+
+  /** 批量加载漫游路线（用于项目导入） */
+  loadTours: (tours: CameraTour[], activeTourId: string | null) => void;
 }
 
 export const useTourStore = create<TourStore>((set, get) => ({
@@ -223,6 +226,16 @@ export const useTourStore = create<TourStore>((set, get) => ({
           ? state.activeTourId
           : tours[0]?.id ?? null;
       return { tours, activeTourId };
+    }),
+
+  loadTours: (tours, activeTourId) =>
+    set({
+      tours: tours.length > 0 ? tours : [],
+      activeTourId:
+        activeTourId && tours.some((t) => t.id === activeTourId)
+          ? activeTourId
+          : tours[0]?.id ?? null,
+      isPreviewPlaying: false,
     }),
 }));
 

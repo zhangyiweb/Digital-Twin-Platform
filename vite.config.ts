@@ -2,8 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
-/** GitHub Pages 项目站：https://zhangyiweb.github.io/Digital-Twin-Platform/ */
-const GITHUB_PAGES_BASE = '/Digital-Twin-Platform/'
+/** GitHub Pages 使用相对路径，避免子目录部署时资源 404 */
+const GITHUB_PAGES_BASE = './'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {

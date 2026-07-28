@@ -2,6 +2,8 @@
 
 基于 **Three.js + React + TypeScript** 的轻量级 3D 场景编辑器，用于数字孪生场景的快速搭建、编辑与导出。
 
+> 最后更新：2026-07-28
+
 [![GitHub](https://img.shields.io/badge/GitHub-Digital--Twin--Platform-blue)](https://github.com/zhangyiweb/Digital-Twin-Platform)
 [![Gitee](https://img.shields.io/badge/Gitee-3d--editor-red)](https://gitee.com/zhangyiweb/3d-editor)
 

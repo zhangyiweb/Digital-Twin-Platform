@@ -666,8 +666,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_panels_cameratourpanel",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "cameratourpanel.tsx"
     },
     {
@@ -677,8 +677,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "src_components_panels_cameratourpanel_formatvec3",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "formatvec3()"
     },
     {
@@ -688,8 +688,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "src_components_panels_cameratourpanel_stopcardprops",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "stopcardprops"
     },
     {
@@ -699,8 +699,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "src_components_panels_cameratourpanel_stopcard",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "stopcard()"
     },
     {
@@ -710,8 +710,8 @@
       "source_location": "L285",
       "_origin": "ast",
       "id": "src_components_panels_cameratourpanel_cameratourpanel",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 62,
+      "community_name": "Camera Tour / Camera Tour Panel",
       "norm_label": "cameratourpanel()"
     },
     {
@@ -787,8 +787,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_components_panels_environmenthdrisection_environmenthdrisection",
-      "community": 7,
-      "community_name": "Three.js Vector Math (3)",
+      "community": 88,
+      "community_name": "Polyhaven / Environment Hdri",
       "norm_label": "environmenthdrisection()"
     },
     {
@@ -1018,8 +1018,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_panels_importpanel",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "importpanel.tsx"
     },
     {
@@ -1029,8 +1029,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_components_panels_importpanel_importpanelprops",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "importpanelprops"
     },
     {
@@ -1040,8 +1040,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_components_panels_importpanel_importpanel",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "importpanel()"
     },
     {
@@ -1326,8 +1326,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_panels_propertypanel",
-      "community": 21,
-      "community_name": "History / Undo Redo / Scene Utils",
+      "community": 32,
+      "community_name": "Scene Label",
       "norm_label": "propertypanel.tsx"
     },
     {
@@ -1337,8 +1337,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_components_panels_propertypanel_propertypanel",
-      "community": 21,
-      "community_name": "History / Undo Redo / Scene Utils",
+      "community": 32,
+      "community_name": "Scene Label",
       "norm_label": "propertypanel()"
     },
     {
@@ -1403,8 +1403,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_panels_textureanimationsection",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "textureanimationsection.tsx"
     },
     {
@@ -1414,8 +1414,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_panels_textureanimationsection_textureanimationsectionprops",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "textureanimationsectionprops"
     },
     {
@@ -1425,8 +1425,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_components_panels_textureanimationsection_textureanimationsection",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "textureanimationsection()"
     },
     {
@@ -1491,8 +1491,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_components_panels_texturepickermodal_texturepickermodal",
-      "community": 61,
-      "community_name": "Polyhaven",
+      "community": 71,
+      "community_name": "Panel Form",
       "norm_label": "texturepickermodal()"
     },
     {
@@ -1502,8 +1502,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_toolbar_gizmotoolbar",
-      "community": 2,
-      "community_name": "Resource Lifecycle",
+      "community": 21,
+      "community_name": "History / Undo Redo / Scene Utils",
       "norm_label": "gizmotoolbar.tsx"
     },
     {
@@ -1513,8 +1513,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_components_toolbar_gizmotoolbar_tools",
-      "community": 2,
-      "community_name": "Resource Lifecycle",
+      "community": 21,
+      "community_name": "History / Undo Redo / Scene Utils",
       "norm_label": "tools"
     },
     {
@@ -1535,8 +1535,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_toolbar_maintoolbar",
-      "community": 78,
-      "community_name": "Polyhaven / Model",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "maintoolbar.tsx"
     },
     {
@@ -1546,8 +1546,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_components_toolbar_maintoolbar_toolbar",
-      "community": 21,
-      "community_name": "History / Undo Redo / Scene Utils",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "toolbar()"
     },
     {
@@ -1744,8 +1744,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_components_uieditor_layertree_layernodeprops",
-      "community": 14,
-      "community_name": "UI Editor Store / UI Editor Core",
+      "community": 1,
+      "community_name": "Three.js Vector Math (2)",
       "norm_label": "layernodeprops"
     },
     {
@@ -1854,8 +1854,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_components_uieditor_uielementview_resizehandle",
-      "community": 37,
-      "community_name": "Ui Element Dom / Uielement View",
+      "community": 1,
+      "community_name": "Three.js Vector Math (2)",
       "norm_label": "resizehandle"
     },
     {
@@ -2074,8 +2074,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_uieditor_index_uieditor",
-      "community": 21,
-      "community_name": "History / Undo Redo / Scene Utils",
+      "community": 1,
+      "community_name": "Three.js Vector Math (2)",
       "norm_label": "uieditor()"
     },
     {
@@ -2580,8 +2580,8 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "src_config_defaultlighting_enablemeshshadows",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "enablemeshshadows()"
     },
     {
@@ -2844,8 +2844,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_config_exportdefaults",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "exportdefaults.ts"
     },
     {
@@ -2855,8 +2855,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "src_config_exportdefaults_export_package_default_camera_position",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "export_package_default_camera_position"
     },
     {
@@ -2866,8 +2866,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_config_exportdefaults_export_package_default_controls_target",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "export_package_default_controls_target"
     },
     {
@@ -2943,8 +2943,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_hooks_useeditornotify",
-      "community": 83,
-      "community_name": "Uiexport Modal / Use Editor",
+      "community": 7,
+      "community_name": "Three.js Vector Math (3)",
       "norm_label": "useeditornotify.ts"
     },
     {
@@ -2954,8 +2954,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_hooks_useeditornotify_notify_defaults",
-      "community": 83,
-      "community_name": "Uiexport Modal / Use Editor",
+      "community": 7,
+      "community_name": "Three.js Vector Math (3)",
       "norm_label": "notify_defaults"
     },
     {
@@ -2965,8 +2965,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_hooks_useeditornotify_editornotifyapi",
-      "community": 83,
-      "community_name": "Uiexport Modal / Use Editor",
+      "community": 7,
+      "community_name": "Three.js Vector Math (3)",
       "norm_label": "editornotifyapi"
     },
     {
@@ -2976,8 +2976,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_hooks_useeditornotify_useeditornotify",
-      "community": 83,
-      "community_name": "Uiexport Modal / Use Editor",
+      "community": 7,
+      "community_name": "Three.js Vector Math (3)",
       "norm_label": "useeditornotify()"
     },
     {
@@ -3020,8 +3020,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_hooks_usemodelloader",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "usemodelloader.ts"
     },
     {
@@ -3031,8 +3031,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_hooks_usemodelloader_resolvepolyhavenresourceurl",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "resolvepolyhavenresourceurl()"
     },
     {
@@ -3042,8 +3042,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "src_hooks_usemodelloader_creategltfloader",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "creategltfloader()"
     },
     {
@@ -3053,8 +3053,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "src_hooks_usemodelloader_usemodelloader",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "usemodelloader()"
     },
     {
@@ -3064,8 +3064,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_hooks_usesceneexporter",
-      "community": 3,
-      "community_name": "Object3D Transforms",
+      "community": 72,
+      "community_name": "Export Panel",
       "norm_label": "usesceneexporter.ts"
     },
     {
@@ -3075,8 +3075,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_hooks_usesceneexporter_usesceneexporter",
-      "community": 3,
-      "community_name": "Object3D Transforms",
+      "community": 72,
+      "community_name": "Export Panel",
       "norm_label": "usesceneexporter()"
     },
     {
@@ -3845,8 +3845,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_store_animationstore",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "animationstore.ts"
     },
     {
@@ -3856,8 +3856,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_store_animationstore_animationstore",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "animationstore"
     },
     {
@@ -3867,8 +3867,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_store_animationstore_useanimationstore",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "useanimationstore"
     },
     {
@@ -4043,8 +4043,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_store_lightstore_uselightstore",
-      "community": 21,
-      "community_name": "History / Undo Redo / Scene Utils",
+      "community": 85,
+      "community_name": "Light / Light Store",
       "norm_label": "uselightstore"
     },
     {
@@ -4131,8 +4131,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "src_store_scenestore_usescenestore",
-      "community": 21,
-      "community_name": "History / Undo Redo / Scene Utils",
+      "community": 32,
+      "community_name": "Scene Label",
       "norm_label": "usescenestore"
     },
     {
@@ -4142,8 +4142,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_store_tourstore",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "tourstore.ts"
     },
     {
@@ -4153,8 +4153,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_store_tourstore_tourstore",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "tourstore"
     },
     {
@@ -4164,8 +4164,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "src_store_tourstore_usetourstore",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 22,
+      "community_name": "Scene API / UI Interaction Bindings",
       "norm_label": "usetourstore"
     },
     {
@@ -4175,8 +4175,8 @@
       "source_location": "L242",
       "_origin": "ast",
       "id": "src_store_tourstore_createdefaultstopfields",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "createdefaultstopfields()"
     },
     {
@@ -4395,8 +4395,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_types_cameratour",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "cameratour.ts"
     },
     {
@@ -4406,8 +4406,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "src_types_cameratour_cameratourstoptype",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "cameratourstoptype"
     },
     {
@@ -4417,8 +4417,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_types_cameratour_cameratourmode",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "cameratourmode"
     },
     {
@@ -4439,8 +4439,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_types_cameratour_cameratourstop",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "cameratourstop"
     },
     {
@@ -4472,8 +4472,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "src_types_cameratour_createstopid",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "createstopid()"
     },
     {
@@ -4483,8 +4483,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "src_types_cameratour_createtourid",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "createtourid()"
     },
     {
@@ -4780,8 +4780,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_types_scenelabel",
-      "community": 32,
-      "community_name": "Scene Label",
+      "community": 2,
+      "community_name": "Resource Lifecycle",
       "norm_label": "types/scenelabel.ts"
     },
     {
@@ -4791,8 +4791,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "src_types_scenelabel_scenelabelmode",
-      "community": 55,
-      "community_name": "Default / Particle",
+      "community": 2,
+      "community_name": "Resource Lifecycle",
       "norm_label": "scenelabelmode"
     },
     {
@@ -4802,8 +4802,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_types_scenelabel_scenelabelcontentmode",
-      "community": 32,
-      "community_name": "Scene Label",
+      "community": 2,
+      "community_name": "Resource Lifecycle",
       "norm_label": "scenelabelcontentmode"
     },
     {
@@ -4813,8 +4813,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_types_scenelabel_scenelabelconfig",
-      "community": 32,
-      "community_name": "Scene Label",
+      "community": 2,
+      "community_name": "Resource Lifecycle",
       "norm_label": "scenelabelconfig"
     },
     {
@@ -4824,8 +4824,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "src_types_scenelabel_scene_label_mode_options",
-      "community": 32,
-      "community_name": "Scene Label",
+      "community": 55,
+      "community_name": "Default / Particle",
       "norm_label": "scene_label_mode_options"
     },
     {
@@ -4857,8 +4857,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_types_textureanimation",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "textureanimation.ts"
     },
     {
@@ -4868,8 +4868,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "src_types_textureanimation_textureanimationtarget",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "textureanimationtarget"
     },
     {
@@ -4879,8 +4879,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_types_textureanimation_textureuvanimationconfig",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "textureuvanimationconfig"
     },
     {
@@ -4890,8 +4890,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_types_textureanimation_default_texture_uv_animation",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "default_texture_uv_animation"
     },
     {
@@ -5055,8 +5055,8 @@
       "source_location": "L220",
       "_origin": "ast",
       "id": "src_types_uieditor_ui_component_defaults",
-      "community": 0,
-      "community_name": "Three.js Vector Math",
+      "community": 1,
+      "community_name": "Three.js Vector Math (2)",
       "norm_label": "ui_component_defaults"
     },
     {
@@ -5220,8 +5220,8 @@
       "source_location": "L155",
       "_origin": "ast",
       "id": "src_types_uiinteraction_uibindingexportentry",
-      "community": 10,
-      "community_name": "sceneConfigExporter.ts",
+      "community": 22,
+      "community_name": "Scene API / UI Interaction Bindings",
       "norm_label": "uibindingexportentry"
     },
     {
@@ -5440,8 +5440,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_utils_cameratourplayer_easeinoutcubic",
-      "community": 97,
-      "community_name": "Camera Tour (2)",
+      "community": 65,
+      "community_name": "Camera Tour",
       "norm_label": "easeinoutcubic()"
     },
     {
@@ -5451,8 +5451,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_utils_cameratourplayer_lerpvec3",
-      "community": 97,
-      "community_name": "Camera Tour (2)",
+      "community": 65,
+      "community_name": "Camera Tour",
       "norm_label": "lerpvec3()"
     },
     {
@@ -5704,8 +5704,8 @@
       "source_location": "L322",
       "_origin": "ast",
       "id": "src_utils_cameratourplayer_capturecurrentcamerastate",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 97,
+      "community_name": "Camera Tour (2)",
       "norm_label": "capturecurrentcamerastate()"
     },
     {
@@ -5770,8 +5770,8 @@
       "source_location": "L385",
       "_origin": "ast",
       "id": "src_utils_cameratourplayer_starteditorcamerafly",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 97,
+      "community_name": "Camera Tour (2)",
       "norm_label": "starteditorcamerafly()"
     },
     {
@@ -5781,8 +5781,8 @@
       "source_location": "L408",
       "_origin": "ast",
       "id": "src_utils_cameratourplayer_canceleditorcamerafly",
-      "community": 77,
-      "community_name": "Camera Tour / Tour Store",
+      "community": 97,
+      "community_name": "Camera Tour (2)",
       "norm_label": "canceleditorcamerafly()"
     },
     {
@@ -5803,8 +5803,8 @@
       "source_location": "L419",
       "_origin": "ast",
       "id": "src_utils_cameratourplayer_tickeditorcamerafly",
-      "community": 97,
-      "community_name": "Camera Tour (2)",
+      "community": 65,
+      "community_name": "Camera Tour",
       "norm_label": "tickeditorcamerafly()"
     },
     {
@@ -6353,8 +6353,8 @@
       "source_location": "L501",
       "_origin": "ast",
       "id": "src_utils_editorprojectimporter_hasprojectcontent",
-      "community": 21,
-      "community_name": "History / Undo Redo / Scene Utils",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "hasprojectcontent()"
     },
     {
@@ -6364,8 +6364,8 @@
       "source_location": "L507",
       "_origin": "ast",
       "id": "src_utils_editorprojectimporter_haseditorscenecontent",
-      "community": 21,
-      "community_name": "History / Undo Redo / Scene Utils",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "haseditorscenecontent()"
     },
     {
@@ -6639,8 +6639,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_exportlabelassets",
-      "community": 10,
-      "community_name": "sceneConfigExporter.ts",
+      "community": 83,
+      "community_name": "Uiexport Modal / Use Editor",
       "norm_label": "exportlabelassets.ts"
     },
     {
@@ -6650,8 +6650,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_utils_exportlabelassets_exportedlabelpagepack",
-      "community": 10,
-      "community_name": "sceneConfigExporter.ts",
+      "community": 22,
+      "community_name": "Scene API / UI Interaction Bindings",
       "norm_label": "exportedlabelpagepack"
     },
     {
@@ -6661,8 +6661,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "src_utils_exportlabelassets_collectreferencedlabelpageids",
-      "community": 10,
-      "community_name": "sceneConfigExporter.ts",
+      "community": 83,
+      "community_name": "Uiexport Modal / Use Editor",
       "norm_label": "collectreferencedlabelpageids()"
     },
     {
@@ -6672,8 +6672,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "src_utils_exportlabelassets_countscenelabels",
-      "community": 10,
-      "community_name": "sceneConfigExporter.ts",
+      "community": 9,
+      "community_name": "External Asset Export / Project Package Expor",
       "norm_label": "countscenelabels()"
     },
     {
@@ -6683,8 +6683,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "src_utils_exportlabelassets_buildlabelpagepacks",
-      "community": 10,
-      "community_name": "sceneConfigExporter.ts",
+      "community": 83,
+      "community_name": "Uiexport Modal / Use Editor",
       "norm_label": "buildlabelpagepacks()"
     },
     {
@@ -6694,8 +6694,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_exportparticleassets",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 9,
+      "community_name": "External Asset Export / Project Package Expor",
       "norm_label": "exportparticleassets.ts"
     },
     {
@@ -6705,8 +6705,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_utils_exportparticleassets_particletexturezipfile",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 9,
+      "community_name": "External Asset Export / Project Package Expor",
       "norm_label": "particletexturezipfile"
     },
     {
@@ -6716,8 +6716,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_utils_exportparticleassets_resolvetexturebinary",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 9,
+      "community_name": "External Asset Export / Project Package Expor",
       "norm_label": "resolvetexturebinary()"
     },
     {
@@ -6727,8 +6727,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "src_utils_exportparticleassets_packparticletexturesforexport",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 9,
+      "community_name": "External Asset Export / Project Package Expor",
       "norm_label": "packparticletexturesforexport()"
     },
     {
@@ -6738,8 +6738,8 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "src_utils_exportparticleassets_countparticleemitters",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 9,
+      "community_name": "External Asset Export / Project Package Expor",
       "norm_label": "countparticleemitters()"
     },
     {
@@ -6793,8 +6793,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "src_utils_exportscenerestore_buildobjectidrestorescript",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "buildobjectidrestorescript()"
     },
     {
@@ -6892,8 +6892,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_exportedprojecttemplates",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "exportedprojecttemplates.ts"
     },
     {
@@ -6903,8 +6903,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_utils_exportedprojecttemplates_indexhtmloptions",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "indexhtmloptions"
     },
     {
@@ -6936,8 +6936,8 @@
       "source_location": "L230",
       "_origin": "ast",
       "id": "src_utils_exportedprojecttemplates_buildmainjs",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "buildmainjs()"
     },
     {
@@ -6958,8 +6958,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_exportedsceneapitemplate",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "exportedsceneapitemplate.ts"
     },
     {
@@ -6969,8 +6969,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_utils_exportedsceneapitemplate_buildexportedsceneapiscript",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "buildexportedsceneapiscript()"
     },
     {
@@ -7277,8 +7277,8 @@
       "source_location": "L245",
       "_origin": "ast",
       "id": "src_utils_particlescene_tickparticlesystems",
-      "community": 46,
-      "community_name": "Editor / Use Model",
+      "community": 24,
+      "community_name": "Quarks Particle Adapter / Particle Scene Runt",
       "norm_label": "tickparticlesystems()"
     },
     {
@@ -7299,8 +7299,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_polyhaven",
-      "community": 88,
-      "community_name": "Polyhaven / Environment Hdri",
+      "community": 78,
+      "community_name": "Polyhaven / Model",
       "norm_label": "polyhaven.ts"
     },
     {
@@ -7354,8 +7354,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_utils_polyhaven_hdri_category_labels",
-      "community": 88,
-      "community_name": "Polyhaven / Environment Hdri",
+      "community": 78,
+      "community_name": "Polyhaven / Model",
       "norm_label": "hdri_category_labels"
     },
     {
@@ -7519,8 +7519,8 @@
       "source_location": "L198",
       "_origin": "ast",
       "id": "src_utils_polyhaven_texture_category_labels",
-      "community": 88,
-      "community_name": "Polyhaven / Environment Hdri",
+      "community": 78,
+      "community_name": "Polyhaven / Model",
       "norm_label": "texture_category_labels"
     },
     {
@@ -7530,8 +7530,8 @@
       "source_location": "L250",
       "_origin": "ast",
       "id": "src_utils_polyhaven_texture_collection_labels",
-      "community": 88,
-      "community_name": "Polyhaven / Environment Hdri",
+      "community": 78,
+      "community_name": "Polyhaven / Model",
       "norm_label": "texture_collection_labels"
     },
     {
@@ -7585,8 +7585,8 @@
       "source_location": "L301",
       "_origin": "ast",
       "id": "src_utils_polyhaven_texturefileentry",
-      "community": 88,
-      "community_name": "Polyhaven / Environment Hdri",
+      "community": 78,
+      "community_name": "Polyhaven / Model",
       "norm_label": "texturefileentry"
     },
     {
@@ -7651,8 +7651,8 @@
       "source_location": "L372",
       "_origin": "ast",
       "id": "src_utils_polyhaven_modelcategory",
-      "community": 88,
-      "community_name": "Polyhaven / Environment Hdri",
+      "community": 78,
+      "community_name": "Polyhaven / Model",
       "norm_label": "modelcategory"
     },
     {
@@ -7662,8 +7662,8 @@
       "source_location": "L378",
       "_origin": "ast",
       "id": "src_utils_polyhaven_model_category_labels",
-      "community": 88,
-      "community_name": "Polyhaven / Environment Hdri",
+      "community": 78,
+      "community_name": "Polyhaven / Model",
       "norm_label": "model_category_labels"
     },
     {
@@ -7673,8 +7673,8 @@
       "source_location": "L417",
       "_origin": "ast",
       "id": "src_utils_polyhaven_model_collection_labels",
-      "community": 88,
-      "community_name": "Polyhaven / Environment Hdri",
+      "community": 78,
+      "community_name": "Polyhaven / Model",
       "norm_label": "model_collection_labels"
     },
     {
@@ -7728,8 +7728,8 @@
       "source_location": "L470",
       "_origin": "ast",
       "id": "src_utils_polyhaven_modelgltfasset",
-      "community": 88,
-      "community_name": "Polyhaven / Environment Hdri",
+      "community": 78,
+      "community_name": "Polyhaven / Model",
       "norm_label": "modelgltfasset"
     },
     {
@@ -7739,8 +7739,8 @@
       "source_location": "L475",
       "_origin": "ast",
       "id": "src_utils_polyhaven_modelresolutionentry",
-      "community": 88,
-      "community_name": "Polyhaven / Environment Hdri",
+      "community": 78,
+      "community_name": "Polyhaven / Model",
       "norm_label": "modelresolutionentry"
     },
     {
@@ -7750,8 +7750,8 @@
       "source_location": "L480",
       "_origin": "ast",
       "id": "src_utils_polyhaven_polyhavenmodelloadinfo",
-      "community": 88,
-      "community_name": "Polyhaven / Environment Hdri",
+      "community": 78,
+      "community_name": "Polyhaven / Model",
       "norm_label": "polyhavenmodelloadinfo"
     },
     {
@@ -7761,8 +7761,8 @@
       "source_location": "L488",
       "_origin": "ast",
       "id": "src_utils_polyhaven_buildmodelresourcemap",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "buildmodelresourcemap()"
     },
     {
@@ -7772,8 +7772,8 @@
       "source_location": "L500",
       "_origin": "ast",
       "id": "src_utils_polyhaven_fetchmodelgltfurl",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "fetchmodelgltfurl()"
     },
     {
@@ -8454,8 +8454,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_utils_scenelabel_bindlabeluiinteractions",
-      "community": 22,
-      "community_name": "Scene API / UI Interaction Bindings",
+      "community": 32,
+      "community_name": "Scene Label",
       "norm_label": "bindlabeluiinteractions()"
     },
     {
@@ -8641,8 +8641,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_utils_sceneutils_findthreeobjectbyid",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 21,
+      "community_name": "History / Undo Redo / Scene Utils",
       "norm_label": "findthreeobjectbyid()"
     },
     {
@@ -8718,8 +8718,8 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "src_utils_sceneutils_createexportscene",
-      "community": 3,
-      "community_name": "Object3D Transforms",
+      "community": 72,
+      "community_name": "Export Panel",
       "norm_label": "createexportscene()"
     },
     {
@@ -8762,8 +8762,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_textureanimationruntime",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "textureanimationruntime.ts"
     },
     {
@@ -8773,8 +8773,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_utils_textureanimationruntime_texture_keys",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "texture_keys"
     },
     {
@@ -8784,8 +8784,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_utils_textureanimationruntime_gettexturekeys",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "gettexturekeys()"
     },
     {
@@ -8795,8 +8795,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_utils_textureanimationruntime_foreachanimatedtexture",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "foreachanimatedtexture()"
     },
     {
@@ -8806,8 +8806,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "src_utils_textureanimationruntime_ticktextureuvanimations",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "ticktextureuvanimations()"
     },
     {
@@ -8828,8 +8828,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_exportedtextureuvstate",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 10,
+      "community_name": "sceneConfigExporter.ts",
       "norm_label": "exportedtextureuvstate"
     },
     {
@@ -8916,8 +8916,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_applytextureuvstatetotexture",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "applytextureuvstatetotexture()"
     },
     {
@@ -8927,8 +8927,8 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_applytextureuvstates",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "applytextureuvstates()"
     },
     {
@@ -8938,8 +8938,8 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_buildtextureuvnormalizescript",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "buildtextureuvnormalizescript()"
     },
     {
@@ -9565,8 +9565,8 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "src_utils_uiexportcore_builduiexportbundle",
-      "community": 10,
-      "community_name": "sceneConfigExporter.ts",
+      "community": 83,
+      "community_name": "Uiexport Modal / Use Editor",
       "norm_label": "builduiexportbundle()"
     },
     {
@@ -9752,8 +9752,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_utils_uiinteractionexport_collectuibindings",
-      "community": 22,
-      "community_name": "Scene API / UI Interaction Bindings",
+      "community": 83,
+      "community_name": "Uiexport Modal / Use Editor",
       "norm_label": "collectuibindings()"
     },
     {
@@ -9774,8 +9774,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "src_utils_uiinteractionexport_builduibridgejs",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 22,
+      "community_name": "Scene API / UI Interaction Bindings",
       "norm_label": "builduibridgejs()"
     },
     {
@@ -9785,8 +9785,8 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "src_utils_uiinteractionexport_builddatabridgejs",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 22,
+      "community_name": "Scene API / UI Interaction Bindings",
       "norm_label": "builddatabridgejs()"
     },
     {
@@ -10934,76 +10934,98 @@
       "norm_label": "\u6570\u5b57\u5b6a\u751f\u5e73\u53f0 \u00b7 \u4f7f\u7528\u8bf4\u660e"
     },
     {
-      "label": "\u4e00\u3001\u5feb\u901f\u5f00\u59cb",
-      "file_type": "document",
-      "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L11",
-      "_origin": "ast",
-      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e00_\u5feb\u901f\u5f00\u59cb",
-      "community": 4,
-      "community_name": "Resource Lifecycle (2)",
-      "norm_label": "\u4e00\u3001\u5feb\u901f\u5f00\u59cb"
-    },
-    {
-      "label": "1.1 \u542f\u52a8\u7f16\u8f91\u5668",
+      "label": "\u4e00\u3001\u5e73\u53f0\u5b9a\u4f4d\u4e0e\u80fd\u529b",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
       "source_location": "L13",
       "_origin": "ast",
-      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_1_1_\u542f\u52a8\u7f16\u8f91\u5668",
+      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e00_\u5e73\u53f0\u5b9a\u4f4d\u4e0e\u80fd\u529b",
       "community": 4,
       "community_name": "Resource Lifecycle (2)",
-      "norm_label": "1.1 \u542f\u52a8\u7f16\u8f91\u5668"
+      "norm_label": "\u4e00\u3001\u5e73\u53f0\u5b9a\u4f4d\u4e0e\u80fd\u529b"
     },
     {
-      "label": "1.2 \u63a8\u8350\u5de5\u4f5c\u6d41",
+      "label": "1.1 \u89e3\u51b3\u4ec0\u4e48\u95ee\u9898",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L24",
+      "source_location": "L15",
       "_origin": "ast",
-      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_1_2_\u63a8\u8350\u5de5\u4f5c\u6d41",
+      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_1_1_\u89e3\u51b3\u4ec0\u4e48\u95ee\u9898",
       "community": 4,
       "community_name": "Resource Lifecycle (2)",
-      "norm_label": "1.2 \u63a8\u8350\u5de5\u4f5c\u6d41"
+      "norm_label": "1.1 \u89e3\u51b3\u4ec0\u4e48\u95ee\u9898"
     },
     {
-      "label": "\u4e8c\u3001\u754c\u9762\u603b\u89c8",
+      "label": "1.2 \u6ee1\u8db3\u4ec0\u4e48\u9700\u6c42",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L34",
+      "source_location": "L25",
       "_origin": "ast",
-      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e8c_\u754c\u9762\u603b\u89c8",
+      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_1_2_\u6ee1\u8db3\u4ec0\u4e48\u9700\u6c42",
       "community": 4,
       "community_name": "Resource Lifecycle (2)",
-      "norm_label": "\u4e8c\u3001\u754c\u9762\u603b\u89c8"
+      "norm_label": "1.2 \u6ee1\u8db3\u4ec0\u4e48\u9700\u6c42"
     },
     {
-      "label": "2.1 \u5e03\u5c40",
+      "label": "1.3 \u6838\u5fc3\u80fd\u529b\u6982\u89c8",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L36",
+      "source_location": "L35",
       "_origin": "ast",
-      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_2_1_\u5e03\u5c40",
+      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_1_3_\u6838\u5fc3\u80fd\u529b\u6982\u89c8",
       "community": 4,
       "community_name": "Resource Lifecycle (2)",
-      "norm_label": "2.1 \u5e03\u5c40"
+      "norm_label": "1.3 \u6838\u5fc3\u80fd\u529b\u6982\u89c8"
     },
     {
-      "label": "2.2 \u4e09\u79cd\u7f16\u8f91\u6a21\u5f0f",
+      "label": "1.4 \u63a8\u8350\u5de5\u4f5c\u6d41",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L49",
+      "source_location": "L44",
       "_origin": "ast",
-      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_2_2_\u4e09\u79cd\u7f16\u8f91\u6a21\u5f0f",
+      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_1_4_\u63a8\u8350\u5de5\u4f5c\u6d41",
       "community": 4,
       "community_name": "Resource Lifecycle (2)",
-      "norm_label": "2.2 \u4e09\u79cd\u7f16\u8f91\u6a21\u5f0f"
+      "norm_label": "1.4 \u63a8\u8350\u5de5\u4f5c\u6d41"
+    },
+    {
+      "label": "\u4e8c\u3001\u754c\u9762\u603b\u89c8\uff08\u5148\u8ba4\u6309\u94ae\uff09",
+      "file_type": "document",
+      "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e8c_\u754c\u9762\u603b\u89c8_\u5148\u8ba4\u6309\u94ae",
+      "community": 4,
+      "community_name": "Resource Lifecycle (2)",
+      "norm_label": "\u4e8c\u3001\u754c\u9762\u603b\u89c8(\u5148\u8ba4\u6309\u94ae)"
+    },
+    {
+      "label": "2.1 \u5e03\u5c40\u4e0e\u5bf9\u5e94\u64cd\u4f5c",
+      "file_type": "document",
+      "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_2_1_\u5e03\u5c40\u4e0e\u5bf9\u5e94\u64cd\u4f5c",
+      "community": 4,
+      "community_name": "Resource Lifecycle (2)",
+      "norm_label": "2.1 \u5e03\u5c40\u4e0e\u5bf9\u5e94\u64cd\u4f5c"
+    },
+    {
+      "label": "2.2 \u4e09\u79cd\u7f16\u8f91\u6a21\u5f0f\uff08\u70b9\u51fb\u54ea\u91cc\uff09",
+      "file_type": "document",
+      "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
+      "source_location": "L75",
+      "_origin": "ast",
+      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_2_2_\u4e09\u79cd\u7f16\u8f91\u6a21\u5f0f_\u70b9\u51fb\u54ea\u91cc",
+      "community": 4,
+      "community_name": "Resource Lifecycle (2)",
+      "norm_label": "2.2 \u4e09\u79cd\u7f16\u8f91\u6a21\u5f0f(\u70b9\u51fb\u54ea\u91cc)"
     },
     {
       "label": "\u4e09\u3001\u573a\u666f\u7f16\u8f91",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L63",
+      "source_location": "L84",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e09_\u573a\u666f\u7f16\u8f91",
       "community": 4,
@@ -11014,7 +11036,7 @@
       "label": "3.1 \u5bfc\u5165\u6a21\u578b",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L65",
+      "source_location": "L86",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_3_1_\u5bfc\u5165\u6a21\u578b",
       "community": 4,
@@ -11025,7 +11047,7 @@
       "label": "3.2 \u7ec4\u4ef6\u5e93",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L79",
+      "source_location": "L100",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_3_2_\u7ec4\u4ef6\u5e93",
       "community": 4,
@@ -11036,7 +11058,7 @@
       "label": "3.3 \u9009\u62e9\u4e0e\u53d8\u6362",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L92",
+      "source_location": "L113",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_3_3_\u9009\u62e9\u4e0e\u53d8\u6362",
       "community": 4,
@@ -11047,7 +11069,7 @@
       "label": "3.4 \u573a\u666f\u6811",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L106",
+      "source_location": "L127",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_3_4_\u573a\u666f\u6811",
       "community": 4,
@@ -11058,7 +11080,7 @@
       "label": "3.5 \u64a4\u9500 / \u91cd\u505a",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L112",
+      "source_location": "L133",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_3_5_\u64a4\u9500_\u91cd\u505a",
       "community": 4,
@@ -11069,7 +11091,7 @@
       "label": "3.6 \u89c6\u53e3\u8f85\u52a9",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L121",
+      "source_location": "L142",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_3_6_\u89c6\u53e3\u8f85\u52a9",
       "community": 4,
@@ -11080,7 +11102,7 @@
       "label": "\u56db\u3001\u6750\u8d28\u4e0e\u8d34\u56fe",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L132",
+      "source_location": "L153",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u56db_\u6750\u8d28\u4e0e\u8d34\u56fe",
       "community": 4,
@@ -11091,7 +11113,7 @@
       "label": "\u4e94\u3001\u706f\u5149",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L145",
+      "source_location": "L166",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e94_\u706f\u5149",
       "community": 4,
@@ -11102,7 +11124,7 @@
       "label": "\u516d\u3001\u5168\u5c40\u8bbe\u7f6e\uff08\u672a\u9009\u4e2d\u5bf9\u8c61\u65f6\uff09",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L156",
+      "source_location": "L177",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u516d_\u5168\u5c40\u8bbe\u7f6e_\u672a\u9009\u4e2d\u5bf9\u8c61\u65f6",
       "community": 4,
@@ -11113,7 +11135,7 @@
       "label": "6.1 \u573a\u666f",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L160",
+      "source_location": "L181",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_6_1_\u573a\u666f",
       "community": 4,
@@ -11124,7 +11146,7 @@
       "label": "6.2 \u73af\u5883",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L165",
+      "source_location": "L186",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_6_2_\u73af\u5883",
       "community": 4,
@@ -11135,7 +11157,7 @@
       "label": "6.3 \u6e32\u67d3",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L172",
+      "source_location": "L193",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_6_3_\u6e32\u67d3",
       "community": 4,
@@ -11146,7 +11168,7 @@
       "label": "6.4 \u6f2b\u6e38",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L176",
+      "source_location": "L197",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_6_4_\u6f2b\u6e38",
       "community": 4,
@@ -11157,7 +11179,7 @@
       "label": "6.5 \u540e\u671f",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L180",
+      "source_location": "L201",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_6_5_\u540e\u671f",
       "community": 4,
@@ -11168,7 +11190,7 @@
       "label": "\u4e03\u3001\u76f8\u673a\u6f2b\u6e38",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L186",
+      "source_location": "L207",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e03_\u76f8\u673a\u6f2b\u6e38",
       "community": 4,
@@ -11179,7 +11201,7 @@
       "label": "7.1 \u6f2b\u6e38\u65b9\u5f0f",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L190",
+      "source_location": "L211",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_7_1_\u6f2b\u6e38\u65b9\u5f0f",
       "community": 4,
@@ -11190,7 +11212,7 @@
       "label": "7.2 \u5e38\u7528\u64cd\u4f5c",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L197",
+      "source_location": "L218",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_7_2_\u5e38\u7528\u64cd\u4f5c",
       "community": 4,
@@ -11201,7 +11223,7 @@
       "label": "\u516b\u3001\u573a\u666f\u6807\u7b7e\u4e0e\u7c92\u5b50",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L210",
+      "source_location": "L231",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u516b_\u573a\u666f\u6807\u7b7e\u4e0e\u7c92\u5b50",
       "community": 4,
@@ -11212,7 +11234,7 @@
       "label": "8.1 \u6807\u7b7e",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L212",
+      "source_location": "L233",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_8_1_\u6807\u7b7e",
       "community": 4,
@@ -11223,7 +11245,7 @@
       "label": "8.2 \u7c92\u5b50",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L222",
+      "source_location": "L243",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_8_2_\u7c92\u5b50",
       "community": 4,
@@ -11234,7 +11256,7 @@
       "label": "\u4e5d\u3001UI \u7f16\u6392",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L228",
+      "source_location": "L249",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e5d_ui_\u7f16\u6392",
       "community": 4,
@@ -11245,7 +11267,7 @@
       "label": "9.1 \u5e03\u5c40\u8bf4\u660e",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L232",
+      "source_location": "L253",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_9_1_\u5e03\u5c40\u8bf4\u660e",
       "community": 4,
@@ -11256,7 +11278,7 @@
       "label": "9.2 \u573a\u666f\u4ea4\u4e92",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L246",
+      "source_location": "L267",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_9_2_\u573a\u666f\u4ea4\u4e92",
       "community": 4,
@@ -11267,7 +11289,7 @@
       "label": "9.3 \u5bfc\u51fa\u754c\u9762",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L257",
+      "source_location": "L278",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_9_3_\u5bfc\u51fa\u754c\u9762",
       "community": 4,
@@ -11278,7 +11300,7 @@
       "label": "\u5341\u3001\u8054\u52a8\u9884\u89c8",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L263",
+      "source_location": "L284",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341_\u8054\u52a8\u9884\u89c8",
       "community": 4,
@@ -11289,7 +11311,7 @@
       "label": "\u5341\u4e00\u3001\u9879\u76ee\u4fdd\u5b58\u4e0e\u6253\u5f00",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L278",
+      "source_location": "L299",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u4e00_\u9879\u76ee\u4fdd\u5b58\u4e0e\u6253\u5f00",
       "community": 4,
@@ -11300,7 +11322,7 @@
       "label": "\u5341\u4e8c\u3001\u5bfc\u51fa\u573a\u666f\uff08\u573a\u666f\u7f16\u8f91\u6a21\u5f0f\uff09",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L298",
+      "source_location": "L319",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u4e8c_\u5bfc\u51fa\u573a\u666f_\u573a\u666f\u7f16\u8f91\u6a21\u5f0f",
       "community": 4,
@@ -11311,7 +11333,7 @@
       "label": "\u5341\u4e09\u3001\u5feb\u6377\u952e\u4e00\u89c8",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L327",
+      "source_location": "L348",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u4e09_\u5feb\u6377\u952e\u4e00\u89c8",
       "community": 4,
@@ -11322,7 +11344,7 @@
       "label": "\u573a\u666f\u7f16\u8f91",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L329",
+      "source_location": "L350",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u573a\u666f\u7f16\u8f91",
       "community": 4,
@@ -11333,7 +11355,7 @@
       "label": "UI \u7f16\u6392\u753b\u5e03",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L346",
+      "source_location": "L367",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_ui_\u7f16\u6392\u753b\u5e03",
       "community": 4,
@@ -11344,7 +11366,7 @@
       "label": "\u5341\u56db\u3001\u5e38\u89c1\u95ee\u9898",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L355",
+      "source_location": "L376",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u56db_\u5e38\u89c1\u95ee\u9898",
       "community": 4,
@@ -11355,7 +11377,7 @@
       "label": "\u5341\u4e94\u3001\u76f8\u5173\u6587\u6863",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L378",
+      "source_location": "L399",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u4e94_\u76f8\u5173\u6587\u6863",
       "community": 4,
@@ -11366,7 +11388,7 @@
       "label": "\u5341\u516d\u3001\u8bb8\u53ef\u8bc1",
       "file_type": "document",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L388",
+      "source_location": "L411",
       "_origin": "ast",
       "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u516d_\u8bb8\u53ef\u8bc1",
       "community": 4,
@@ -42806,18 +42828,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L11",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
-      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e00_\u5feb\u901f\u5f00\u59cb",
+      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e00_\u5e73\u53f0\u5b9a\u4f4d\u4e0e\u80fd\u529b",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L186",
+      "source_location": "L207",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42828,7 +42850,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L63",
+      "source_location": "L84",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42839,7 +42861,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L228",
+      "source_location": "L249",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42850,18 +42872,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L34",
+      "source_location": "L56",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
-      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e8c_\u754c\u9762\u603b\u89c8",
+      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e8c_\u754c\u9762\u603b\u89c8_\u5148\u8ba4\u6309\u94ae",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L145",
+      "source_location": "L166",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42872,7 +42894,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L210",
+      "source_location": "L231",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42883,7 +42905,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L156",
+      "source_location": "L177",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42894,7 +42916,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L263",
+      "source_location": "L284",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42905,7 +42927,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L278",
+      "source_location": "L299",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42916,7 +42938,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L327",
+      "source_location": "L348",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42927,7 +42949,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L298",
+      "source_location": "L319",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42938,7 +42960,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L378",
+      "source_location": "L399",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42949,7 +42971,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L388",
+      "source_location": "L411",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42960,7 +42982,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L355",
+      "source_location": "L376",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42971,7 +42993,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L132",
+      "source_location": "L153",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
@@ -42982,51 +43004,73 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L13",
+      "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e00_\u5feb\u901f\u5f00\u59cb",
-      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_1_1_\u542f\u52a8\u7f16\u8f91\u5668",
+      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e00_\u5e73\u53f0\u5b9a\u4f4d\u4e0e\u80fd\u529b",
+      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_1_1_\u89e3\u51b3\u4ec0\u4e48\u95ee\u9898",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L24",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e00_\u5feb\u901f\u5f00\u59cb",
-      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_1_2_\u63a8\u8350\u5de5\u4f5c\u6d41",
+      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e00_\u5e73\u53f0\u5b9a\u4f4d\u4e0e\u80fd\u529b",
+      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_1_2_\u6ee1\u8db3\u4ec0\u4e48\u9700\u6c42",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L36",
+      "source_location": "L35",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e8c_\u754c\u9762\u603b\u89c8",
-      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_2_1_\u5e03\u5c40",
+      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e00_\u5e73\u53f0\u5b9a\u4f4d\u4e0e\u80fd\u529b",
+      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_1_3_\u6838\u5fc3\u80fd\u529b\u6982\u89c8",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L49",
+      "source_location": "L44",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e8c_\u754c\u9762\u603b\u89c8",
-      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_2_2_\u4e09\u79cd\u7f16\u8f91\u6a21\u5f0f",
+      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e00_\u5e73\u53f0\u5b9a\u4f4d\u4e0e\u80fd\u529b",
+      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_1_4_\u63a8\u8350\u5de5\u4f5c\u6d41",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L65",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e8c_\u754c\u9762\u603b\u89c8_\u5148\u8ba4\u6309\u94ae",
+      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_2_1_\u5e03\u5c40\u4e0e\u5bf9\u5e94\u64cd\u4f5c",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e8c_\u754c\u9762\u603b\u89c8_\u5148\u8ba4\u6309\u94ae",
+      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_2_2_\u4e09\u79cd\u7f16\u8f91\u6a21\u5f0f_\u70b9\u51fb\u54ea\u91cc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
+      "source_location": "L86",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e09_\u573a\u666f\u7f16\u8f91",
@@ -43037,7 +43081,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L79",
+      "source_location": "L100",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e09_\u573a\u666f\u7f16\u8f91",
@@ -43048,7 +43092,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L92",
+      "source_location": "L113",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e09_\u573a\u666f\u7f16\u8f91",
@@ -43059,7 +43103,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L106",
+      "source_location": "L127",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e09_\u573a\u666f\u7f16\u8f91",
@@ -43070,7 +43114,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L112",
+      "source_location": "L133",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e09_\u573a\u666f\u7f16\u8f91",
@@ -43081,7 +43125,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L121",
+      "source_location": "L142",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e09_\u573a\u666f\u7f16\u8f91",
@@ -43092,7 +43136,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L160",
+      "source_location": "L181",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u516d_\u5168\u5c40\u8bbe\u7f6e_\u672a\u9009\u4e2d\u5bf9\u8c61\u65f6",
@@ -43103,7 +43147,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L165",
+      "source_location": "L186",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u516d_\u5168\u5c40\u8bbe\u7f6e_\u672a\u9009\u4e2d\u5bf9\u8c61\u65f6",
@@ -43114,7 +43158,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L172",
+      "source_location": "L193",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u516d_\u5168\u5c40\u8bbe\u7f6e_\u672a\u9009\u4e2d\u5bf9\u8c61\u65f6",
@@ -43125,7 +43169,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L176",
+      "source_location": "L197",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u516d_\u5168\u5c40\u8bbe\u7f6e_\u672a\u9009\u4e2d\u5bf9\u8c61\u65f6",
@@ -43136,7 +43180,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L180",
+      "source_location": "L201",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u516d_\u5168\u5c40\u8bbe\u7f6e_\u672a\u9009\u4e2d\u5bf9\u8c61\u65f6",
@@ -43147,7 +43191,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L190",
+      "source_location": "L211",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e03_\u76f8\u673a\u6f2b\u6e38",
@@ -43158,7 +43202,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L197",
+      "source_location": "L218",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e03_\u76f8\u673a\u6f2b\u6e38",
@@ -43169,7 +43213,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L212",
+      "source_location": "L233",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u516b_\u573a\u666f\u6807\u7b7e\u4e0e\u7c92\u5b50",
@@ -43180,7 +43224,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L222",
+      "source_location": "L243",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u516b_\u573a\u666f\u6807\u7b7e\u4e0e\u7c92\u5b50",
@@ -43191,7 +43235,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L232",
+      "source_location": "L253",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e5d_ui_\u7f16\u6392",
@@ -43202,7 +43246,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L246",
+      "source_location": "L267",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e5d_ui_\u7f16\u6392",
@@ -43213,7 +43257,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L257",
+      "source_location": "L278",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u4e5d_ui_\u7f16\u6392",
@@ -43224,7 +43268,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L346",
+      "source_location": "L367",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u4e09_\u5feb\u6377\u952e\u4e00\u89c8",
@@ -43235,7 +43279,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L329",
+      "source_location": "L350",
       "weight": 1.0,
       "_origin": "ast",
       "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u4e09_\u5feb\u6377\u952e\u4e00\u89c8",

@@ -666,8 +666,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_panels_cameratourpanel",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "cameratourpanel.tsx"
     },
     {
@@ -677,8 +677,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "src_components_panels_cameratourpanel_formatvec3",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "formatvec3()"
     },
     {
@@ -688,8 +688,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "src_components_panels_cameratourpanel_stopcardprops",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "stopcardprops"
     },
     {
@@ -699,8 +699,8 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "src_components_panels_cameratourpanel_stopcard",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "stopcard()"
     },
     {
@@ -710,8 +710,8 @@
       "source_location": "L285",
       "_origin": "ast",
       "id": "src_components_panels_cameratourpanel_cameratourpanel",
-      "community": 62,
-      "community_name": "Camera Tour / Camera Tour Panel",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "cameratourpanel()"
     },
     {
@@ -1018,8 +1018,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_panels_importpanel",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "importpanel.tsx"
     },
     {
@@ -1029,8 +1029,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_components_panels_importpanel_importpanelprops",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "importpanelprops"
     },
     {
@@ -1040,8 +1040,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_components_panels_importpanel_importpanel",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "importpanel()"
     },
     {
@@ -1326,8 +1326,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_panels_propertypanel",
-      "community": 32,
-      "community_name": "Scene Label",
+      "community": 21,
+      "community_name": "History / Undo Redo / Scene Utils",
       "norm_label": "propertypanel.tsx"
     },
     {
@@ -1337,8 +1337,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_components_panels_propertypanel_propertypanel",
-      "community": 32,
-      "community_name": "Scene Label",
+      "community": 21,
+      "community_name": "History / Undo Redo / Scene Utils",
       "norm_label": "propertypanel()"
     },
     {
@@ -1403,8 +1403,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_panels_textureanimationsection",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "textureanimationsection.tsx"
     },
     {
@@ -1414,8 +1414,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_panels_textureanimationsection_textureanimationsectionprops",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "textureanimationsectionprops"
     },
     {
@@ -1425,8 +1425,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_components_panels_textureanimationsection_textureanimationsection",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "textureanimationsection()"
     },
     {
@@ -1502,8 +1502,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_toolbar_gizmotoolbar",
-      "community": 21,
-      "community_name": "History / Undo Redo / Scene Utils",
+      "community": 2,
+      "community_name": "Resource Lifecycle",
       "norm_label": "gizmotoolbar.tsx"
     },
     {
@@ -1513,8 +1513,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_components_toolbar_gizmotoolbar_tools",
-      "community": 21,
-      "community_name": "History / Undo Redo / Scene Utils",
+      "community": 2,
+      "community_name": "Resource Lifecycle",
       "norm_label": "tools"
     },
     {
@@ -1535,8 +1535,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_toolbar_maintoolbar",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 78,
+      "community_name": "Polyhaven / Model",
       "norm_label": "maintoolbar.tsx"
     },
     {
@@ -1546,8 +1546,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_components_toolbar_maintoolbar_toolbar",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 21,
+      "community_name": "History / Undo Redo / Scene Utils",
       "norm_label": "toolbar()"
     },
     {
@@ -1744,8 +1744,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_components_uieditor_layertree_layernodeprops",
-      "community": 1,
-      "community_name": "Three.js Vector Math (2)",
+      "community": 14,
+      "community_name": "UI Editor Store / UI Editor Core",
       "norm_label": "layernodeprops"
     },
     {
@@ -1854,8 +1854,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_components_uieditor_uielementview_resizehandle",
-      "community": 1,
-      "community_name": "Three.js Vector Math (2)",
+      "community": 37,
+      "community_name": "Ui Element Dom / Uielement View",
       "norm_label": "resizehandle"
     },
     {
@@ -2074,8 +2074,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_uieditor_index_uieditor",
-      "community": 1,
-      "community_name": "Three.js Vector Math (2)",
+      "community": 21,
+      "community_name": "History / Undo Redo / Scene Utils",
       "norm_label": "uieditor()"
     },
     {
@@ -2580,8 +2580,8 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "src_config_defaultlighting_enablemeshshadows",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "enablemeshshadows()"
     },
     {
@@ -2943,8 +2943,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_hooks_useeditornotify",
-      "community": 7,
-      "community_name": "Three.js Vector Math (3)",
+      "community": 83,
+      "community_name": "Uiexport Modal / Use Editor",
       "norm_label": "useeditornotify.ts"
     },
     {
@@ -2954,8 +2954,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_hooks_useeditornotify_notify_defaults",
-      "community": 7,
-      "community_name": "Three.js Vector Math (3)",
+      "community": 83,
+      "community_name": "Uiexport Modal / Use Editor",
       "norm_label": "notify_defaults"
     },
     {
@@ -2965,8 +2965,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_hooks_useeditornotify_editornotifyapi",
-      "community": 7,
-      "community_name": "Three.js Vector Math (3)",
+      "community": 83,
+      "community_name": "Uiexport Modal / Use Editor",
       "norm_label": "editornotifyapi"
     },
     {
@@ -2976,8 +2976,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_hooks_useeditornotify_useeditornotify",
-      "community": 7,
-      "community_name": "Three.js Vector Math (3)",
+      "community": 83,
+      "community_name": "Uiexport Modal / Use Editor",
       "norm_label": "useeditornotify()"
     },
     {
@@ -3020,8 +3020,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_hooks_usemodelloader",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "usemodelloader.ts"
     },
     {
@@ -3031,8 +3031,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_hooks_usemodelloader_resolvepolyhavenresourceurl",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "resolvepolyhavenresourceurl()"
     },
     {
@@ -3042,8 +3042,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "src_hooks_usemodelloader_creategltfloader",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "creategltfloader()"
     },
     {
@@ -3053,8 +3053,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "src_hooks_usemodelloader_usemodelloader",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "usemodelloader()"
     },
     {
@@ -3064,8 +3064,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_hooks_usesceneexporter",
-      "community": 72,
-      "community_name": "Export Panel",
+      "community": 3,
+      "community_name": "Object3D Transforms",
       "norm_label": "usesceneexporter.ts"
     },
     {
@@ -3075,8 +3075,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_hooks_usesceneexporter_usesceneexporter",
-      "community": 72,
-      "community_name": "Export Panel",
+      "community": 3,
+      "community_name": "Object3D Transforms",
       "norm_label": "usesceneexporter()"
     },
     {
@@ -3845,8 +3845,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_store_animationstore",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "animationstore.ts"
     },
     {
@@ -3856,8 +3856,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_store_animationstore_animationstore",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "animationstore"
     },
     {
@@ -3867,8 +3867,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "src_store_animationstore_useanimationstore",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "useanimationstore"
     },
     {
@@ -4043,8 +4043,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_store_lightstore_uselightstore",
-      "community": 85,
-      "community_name": "Light / Light Store",
+      "community": 21,
+      "community_name": "History / Undo Redo / Scene Utils",
       "norm_label": "uselightstore"
     },
     {
@@ -4131,8 +4131,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "src_store_scenestore_usescenestore",
-      "community": 32,
-      "community_name": "Scene Label",
+      "community": 21,
+      "community_name": "History / Undo Redo / Scene Utils",
       "norm_label": "usescenestore"
     },
     {
@@ -4142,8 +4142,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_store_tourstore",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "tourstore.ts"
     },
     {
@@ -4153,8 +4153,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_store_tourstore_tourstore",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "tourstore"
     },
     {
@@ -4164,8 +4164,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "src_store_tourstore_usetourstore",
-      "community": 22,
-      "community_name": "Scene API / UI Interaction Bindings",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "usetourstore"
     },
     {
@@ -4175,8 +4175,8 @@
       "source_location": "L242",
       "_origin": "ast",
       "id": "src_store_tourstore_createdefaultstopfields",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "createdefaultstopfields()"
     },
     {
@@ -4395,8 +4395,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_types_cameratour",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "cameratour.ts"
     },
     {
@@ -4406,8 +4406,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "src_types_cameratour_cameratourstoptype",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "cameratourstoptype"
     },
     {
@@ -4417,8 +4417,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_types_cameratour_cameratourmode",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "cameratourmode"
     },
     {
@@ -4439,8 +4439,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_types_cameratour_cameratourstop",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "cameratourstop"
     },
     {
@@ -4472,8 +4472,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "src_types_cameratour_createstopid",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "createstopid()"
     },
     {
@@ -4483,8 +4483,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "src_types_cameratour_createtourid",
-      "community": 12,
-      "community_name": "exportParticleAssets.ts",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "createtourid()"
     },
     {
@@ -4780,8 +4780,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_types_scenelabel",
-      "community": 2,
-      "community_name": "Resource Lifecycle",
+      "community": 32,
+      "community_name": "Scene Label",
       "norm_label": "types/scenelabel.ts"
     },
     {
@@ -4791,8 +4791,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "src_types_scenelabel_scenelabelmode",
-      "community": 2,
-      "community_name": "Resource Lifecycle",
+      "community": 55,
+      "community_name": "Default / Particle",
       "norm_label": "scenelabelmode"
     },
     {
@@ -4802,8 +4802,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_types_scenelabel_scenelabelcontentmode",
-      "community": 2,
-      "community_name": "Resource Lifecycle",
+      "community": 32,
+      "community_name": "Scene Label",
       "norm_label": "scenelabelcontentmode"
     },
     {
@@ -4813,8 +4813,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_types_scenelabel_scenelabelconfig",
-      "community": 2,
-      "community_name": "Resource Lifecycle",
+      "community": 32,
+      "community_name": "Scene Label",
       "norm_label": "scenelabelconfig"
     },
     {
@@ -4824,8 +4824,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "src_types_scenelabel_scene_label_mode_options",
-      "community": 55,
-      "community_name": "Default / Particle",
+      "community": 32,
+      "community_name": "Scene Label",
       "norm_label": "scene_label_mode_options"
     },
     {
@@ -4857,8 +4857,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_types_textureanimation",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "textureanimation.ts"
     },
     {
@@ -4868,8 +4868,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "src_types_textureanimation_textureanimationtarget",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "textureanimationtarget"
     },
     {
@@ -4879,8 +4879,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_types_textureanimation_textureuvanimationconfig",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "textureuvanimationconfig"
     },
     {
@@ -4890,8 +4890,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_types_textureanimation_default_texture_uv_animation",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "default_texture_uv_animation"
     },
     {
@@ -5055,8 +5055,8 @@
       "source_location": "L220",
       "_origin": "ast",
       "id": "src_types_uieditor_ui_component_defaults",
-      "community": 1,
-      "community_name": "Three.js Vector Math (2)",
+      "community": 0,
+      "community_name": "Three.js Vector Math",
       "norm_label": "ui_component_defaults"
     },
     {
@@ -5220,8 +5220,8 @@
       "source_location": "L155",
       "_origin": "ast",
       "id": "src_types_uiinteraction_uibindingexportentry",
-      "community": 22,
-      "community_name": "Scene API / UI Interaction Bindings",
+      "community": 10,
+      "community_name": "sceneConfigExporter.ts",
       "norm_label": "uibindingexportentry"
     },
     {
@@ -5440,8 +5440,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_utils_cameratourplayer_easeinoutcubic",
-      "community": 65,
-      "community_name": "Camera Tour",
+      "community": 97,
+      "community_name": "Camera Tour (2)",
       "norm_label": "easeinoutcubic()"
     },
     {
@@ -5451,8 +5451,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_utils_cameratourplayer_lerpvec3",
-      "community": 65,
-      "community_name": "Camera Tour",
+      "community": 97,
+      "community_name": "Camera Tour (2)",
       "norm_label": "lerpvec3()"
     },
     {
@@ -5704,8 +5704,8 @@
       "source_location": "L322",
       "_origin": "ast",
       "id": "src_utils_cameratourplayer_capturecurrentcamerastate",
-      "community": 97,
-      "community_name": "Camera Tour (2)",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "capturecurrentcamerastate()"
     },
     {
@@ -5770,8 +5770,8 @@
       "source_location": "L385",
       "_origin": "ast",
       "id": "src_utils_cameratourplayer_starteditorcamerafly",
-      "community": 97,
-      "community_name": "Camera Tour (2)",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "starteditorcamerafly()"
     },
     {
@@ -5781,8 +5781,8 @@
       "source_location": "L408",
       "_origin": "ast",
       "id": "src_utils_cameratourplayer_canceleditorcamerafly",
-      "community": 97,
-      "community_name": "Camera Tour (2)",
+      "community": 77,
+      "community_name": "Camera Tour / Tour Store",
       "norm_label": "canceleditorcamerafly()"
     },
     {
@@ -5803,8 +5803,8 @@
       "source_location": "L419",
       "_origin": "ast",
       "id": "src_utils_cameratourplayer_tickeditorcamerafly",
-      "community": 65,
-      "community_name": "Camera Tour",
+      "community": 97,
+      "community_name": "Camera Tour (2)",
       "norm_label": "tickeditorcamerafly()"
     },
     {
@@ -6353,8 +6353,8 @@
       "source_location": "L501",
       "_origin": "ast",
       "id": "src_utils_editorprojectimporter_hasprojectcontent",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 21,
+      "community_name": "History / Undo Redo / Scene Utils",
       "norm_label": "hasprojectcontent()"
     },
     {
@@ -6364,8 +6364,8 @@
       "source_location": "L507",
       "_origin": "ast",
       "id": "src_utils_editorprojectimporter_haseditorscenecontent",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 21,
+      "community_name": "History / Undo Redo / Scene Utils",
       "norm_label": "haseditorscenecontent()"
     },
     {
@@ -6639,8 +6639,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_exportlabelassets",
-      "community": 83,
-      "community_name": "Uiexport Modal / Use Editor",
+      "community": 10,
+      "community_name": "sceneConfigExporter.ts",
       "norm_label": "exportlabelassets.ts"
     },
     {
@@ -6650,8 +6650,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_utils_exportlabelassets_exportedlabelpagepack",
-      "community": 22,
-      "community_name": "Scene API / UI Interaction Bindings",
+      "community": 10,
+      "community_name": "sceneConfigExporter.ts",
       "norm_label": "exportedlabelpagepack"
     },
     {
@@ -6661,8 +6661,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "src_utils_exportlabelassets_collectreferencedlabelpageids",
-      "community": 83,
-      "community_name": "Uiexport Modal / Use Editor",
+      "community": 10,
+      "community_name": "sceneConfigExporter.ts",
       "norm_label": "collectreferencedlabelpageids()"
     },
     {
@@ -6672,8 +6672,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "src_utils_exportlabelassets_countscenelabels",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 10,
+      "community_name": "sceneConfigExporter.ts",
       "norm_label": "countscenelabels()"
     },
     {
@@ -6683,8 +6683,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "src_utils_exportlabelassets_buildlabelpagepacks",
-      "community": 83,
-      "community_name": "Uiexport Modal / Use Editor",
+      "community": 10,
+      "community_name": "sceneConfigExporter.ts",
       "norm_label": "buildlabelpagepacks()"
     },
     {
@@ -6749,8 +6749,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_exportscenerestore",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "exportscenerestore.ts"
     },
     {
@@ -6771,8 +6771,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_utils_exportscenerestore_collecttextureuvstates",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "collecttextureuvstates()"
     },
     {
@@ -6914,8 +6914,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_utils_exportedprojecttemplates_buildindexhtml",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "buildindexhtml()"
     },
     {
@@ -6925,8 +6925,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "src_utils_exportedprojecttemplates_buildstylecss",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "buildstylecss()"
     },
     {
@@ -6947,8 +6947,8 @@
       "source_location": "L597",
       "_origin": "ast",
       "id": "src_utils_exportedprojecttemplates_buildreadme",
-      "community": 9,
-      "community_name": "External Asset Export / Project Package Expor",
+      "community": 11,
+      "community_name": "textureUvUtils.ts",
       "norm_label": "buildreadme()"
     },
     {
@@ -7277,8 +7277,8 @@
       "source_location": "L245",
       "_origin": "ast",
       "id": "src_utils_particlescene_tickparticlesystems",
-      "community": 24,
-      "community_name": "Quarks Particle Adapter / Particle Scene Runt",
+      "community": 46,
+      "community_name": "Editor / Use Model",
       "norm_label": "tickparticlesystems()"
     },
     {
@@ -7299,8 +7299,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_polyhaven",
-      "community": 78,
-      "community_name": "Polyhaven / Model",
+      "community": 61,
+      "community_name": "Polyhaven",
       "norm_label": "polyhaven.ts"
     },
     {
@@ -7354,8 +7354,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_utils_polyhaven_hdri_category_labels",
-      "community": 78,
-      "community_name": "Polyhaven / Model",
+      "community": 61,
+      "community_name": "Polyhaven",
       "norm_label": "hdri_category_labels"
     },
     {
@@ -7519,8 +7519,8 @@
       "source_location": "L198",
       "_origin": "ast",
       "id": "src_utils_polyhaven_texture_category_labels",
-      "community": 78,
-      "community_name": "Polyhaven / Model",
+      "community": 61,
+      "community_name": "Polyhaven",
       "norm_label": "texture_category_labels"
     },
     {
@@ -7530,8 +7530,8 @@
       "source_location": "L250",
       "_origin": "ast",
       "id": "src_utils_polyhaven_texture_collection_labels",
-      "community": 78,
-      "community_name": "Polyhaven / Model",
+      "community": 61,
+      "community_name": "Polyhaven",
       "norm_label": "texture_collection_labels"
     },
     {
@@ -7585,8 +7585,8 @@
       "source_location": "L301",
       "_origin": "ast",
       "id": "src_utils_polyhaven_texturefileentry",
-      "community": 78,
-      "community_name": "Polyhaven / Model",
+      "community": 61,
+      "community_name": "Polyhaven",
       "norm_label": "texturefileentry"
     },
     {
@@ -7618,8 +7618,8 @@
       "source_location": "L359",
       "_origin": "ast",
       "id": "src_utils_polyhaven_model_resolutions",
-      "community": 78,
-      "community_name": "Polyhaven / Model",
+      "community": 61,
+      "community_name": "Polyhaven",
       "norm_label": "model_resolutions"
     },
     {
@@ -7662,8 +7662,8 @@
       "source_location": "L378",
       "_origin": "ast",
       "id": "src_utils_polyhaven_model_category_labels",
-      "community": 78,
-      "community_name": "Polyhaven / Model",
+      "community": 61,
+      "community_name": "Polyhaven",
       "norm_label": "model_category_labels"
     },
     {
@@ -7673,8 +7673,8 @@
       "source_location": "L417",
       "_origin": "ast",
       "id": "src_utils_polyhaven_model_collection_labels",
-      "community": 78,
-      "community_name": "Polyhaven / Model",
+      "community": 61,
+      "community_name": "Polyhaven",
       "norm_label": "model_collection_labels"
     },
     {
@@ -7728,8 +7728,8 @@
       "source_location": "L470",
       "_origin": "ast",
       "id": "src_utils_polyhaven_modelgltfasset",
-      "community": 78,
-      "community_name": "Polyhaven / Model",
+      "community": 61,
+      "community_name": "Polyhaven",
       "norm_label": "modelgltfasset"
     },
     {
@@ -7739,8 +7739,8 @@
       "source_location": "L475",
       "_origin": "ast",
       "id": "src_utils_polyhaven_modelresolutionentry",
-      "community": 78,
-      "community_name": "Polyhaven / Model",
+      "community": 61,
+      "community_name": "Polyhaven",
       "norm_label": "modelresolutionentry"
     },
     {
@@ -7750,8 +7750,8 @@
       "source_location": "L480",
       "_origin": "ast",
       "id": "src_utils_polyhaven_polyhavenmodelloadinfo",
-      "community": 78,
-      "community_name": "Polyhaven / Model",
+      "community": 61,
+      "community_name": "Polyhaven",
       "norm_label": "polyhavenmodelloadinfo"
     },
     {
@@ -7761,8 +7761,8 @@
       "source_location": "L488",
       "_origin": "ast",
       "id": "src_utils_polyhaven_buildmodelresourcemap",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "buildmodelresourcemap()"
     },
     {
@@ -7772,8 +7772,8 @@
       "source_location": "L500",
       "_origin": "ast",
       "id": "src_utils_polyhaven_fetchmodelgltfurl",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 12,
+      "community_name": "exportParticleAssets.ts",
       "norm_label": "fetchmodelgltfurl()"
     },
     {
@@ -8454,8 +8454,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_utils_scenelabel_bindlabeluiinteractions",
-      "community": 32,
-      "community_name": "Scene Label",
+      "community": 22,
+      "community_name": "Scene API / UI Interaction Bindings",
       "norm_label": "bindlabeluiinteractions()"
     },
     {
@@ -8641,8 +8641,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_utils_sceneutils_findthreeobjectbyid",
-      "community": 21,
-      "community_name": "History / Undo Redo / Scene Utils",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "findthreeobjectbyid()"
     },
     {
@@ -8718,8 +8718,8 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "src_utils_sceneutils_createexportscene",
-      "community": 72,
-      "community_name": "Export Panel",
+      "community": 3,
+      "community_name": "Object3D Transforms",
       "norm_label": "createexportscene()"
     },
     {
@@ -8762,8 +8762,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_textureanimationruntime",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "textureanimationruntime.ts"
     },
     {
@@ -8773,8 +8773,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_utils_textureanimationruntime_texture_keys",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "texture_keys"
     },
     {
@@ -8784,8 +8784,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_utils_textureanimationruntime_gettexturekeys",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "gettexturekeys()"
     },
     {
@@ -8795,8 +8795,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_utils_textureanimationruntime_foreachanimatedtexture",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "foreachanimatedtexture()"
     },
     {
@@ -8806,8 +8806,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "src_utils_textureanimationruntime_ticktextureuvanimations",
-      "community": 5,
-      "community_name": "Resource Lifecycle (3)",
+      "community": 47,
+      "community_name": "Editor Project",
       "norm_label": "ticktextureuvanimations()"
     },
     {
@@ -8817,8 +8817,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_textureuvutils",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "textureuvutils.ts"
     },
     {
@@ -8828,8 +8828,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_exportedtextureuvstate",
-      "community": 10,
-      "community_name": "sceneConfigExporter.ts",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "exportedtextureuvstate"
     },
     {
@@ -8839,8 +8839,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_default_editor_uv",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "default_editor_uv"
     },
     {
@@ -8850,8 +8850,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_isfactorydefaulttextureuv",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "isfactorydefaulttextureuv()"
     },
     {
@@ -8861,8 +8861,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_normalizetextureuviffactorydefault",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "normalizetextureuviffactorydefault()"
     },
     {
@@ -8872,8 +8872,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_texture_map_keys",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "texture_map_keys"
     },
     {
@@ -8883,8 +8883,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_normalizematerialtextureuvs",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "normalizematerialtextureuvs()"
     },
     {
@@ -8905,8 +8905,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_readtextureuvstate",
-      "community": 11,
-      "community_name": "textureUvUtils.ts",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "readtextureuvstate()"
     },
     {
@@ -8916,8 +8916,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_applytextureuvstatetotexture",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "applytextureuvstatetotexture()"
     },
     {
@@ -8927,8 +8927,8 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "src_utils_textureuvutils_applytextureuvstates",
-      "community": 47,
-      "community_name": "Editor Project",
+      "community": 5,
+      "community_name": "Resource Lifecycle (3)",
       "norm_label": "applytextureuvstates()"
     },
     {
@@ -9565,8 +9565,8 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "src_utils_uiexportcore_builduiexportbundle",
-      "community": 83,
-      "community_name": "Uiexport Modal / Use Editor",
+      "community": 10,
+      "community_name": "sceneConfigExporter.ts",
       "norm_label": "builduiexportbundle()"
     },
     {
@@ -9752,8 +9752,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_utils_uiinteractionexport_collectuibindings",
-      "community": 83,
-      "community_name": "Uiexport Modal / Use Editor",
+      "community": 22,
+      "community_name": "Scene API / UI Interaction Bindings",
       "norm_label": "collectuibindings()"
     },
     {
@@ -9774,8 +9774,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "src_utils_uiinteractionexport_builduibridgejs",
-      "community": 22,
-      "community_name": "Scene API / UI Interaction Bindings",
+      "community": 9,
+      "community_name": "External Asset Export / Project Package Expor",
       "norm_label": "builduibridgejs()"
     },
     {
@@ -9785,8 +9785,8 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "src_utils_uiinteractionexport_builddatabridgejs",
-      "community": 22,
-      "community_name": "Scene API / UI Interaction Bindings",
+      "community": 9,
+      "community_name": "External Asset Export / Project Package Expor",
       "norm_label": "builddatabridgejs()"
     },
     {
@@ -11361,39 +11361,6 @@
       "community": 4,
       "community_name": "Resource Lifecycle (2)",
       "norm_label": "ui \u7f16\u6392\u753b\u5e03"
-    },
-    {
-      "label": "\u5341\u56db\u3001\u5e38\u89c1\u95ee\u9898",
-      "file_type": "document",
-      "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L376",
-      "_origin": "ast",
-      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u56db_\u5e38\u89c1\u95ee\u9898",
-      "community": 4,
-      "community_name": "Resource Lifecycle (2)",
-      "norm_label": "\u5341\u56db\u3001\u5e38\u89c1\u95ee\u9898"
-    },
-    {
-      "label": "\u5341\u4e94\u3001\u76f8\u5173\u6587\u6863",
-      "file_type": "document",
-      "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L399",
-      "_origin": "ast",
-      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u4e94_\u76f8\u5173\u6587\u6863",
-      "community": 4,
-      "community_name": "Resource Lifecycle (2)",
-      "norm_label": "\u5341\u4e94\u3001\u76f8\u5173\u6587\u6863"
-    },
-    {
-      "label": "\u5341\u516d\u3001\u8bb8\u53ef\u8bc1",
-      "file_type": "document",
-      "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L411",
-      "_origin": "ast",
-      "id": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u516d_\u8bb8\u53ef\u8bc1",
-      "community": 4,
-      "community_name": "Resource Lifecycle (2)",
-      "norm_label": "\u5341\u516d\u3001\u8bb8\u53ef\u8bc1"
     },
     {
       "label": "README.en.md",
@@ -42960,39 +42927,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L399",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
-      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u4e94_\u76f8\u5173\u6587\u6863",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L411",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
-      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u516d_\u8bb8\u53ef\u8bc1",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
-      "source_location": "L376",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u6570\u5b57\u5b6a\u751f\u5e73\u53f0_\u4f7f\u7528\u8bf4\u660e",
-      "target": "\u6587\u6863_\u4f7f\u7528\u8bf4\u660e_\u5341\u56db_\u5e38\u89c1\u95ee\u9898",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md",
       "source_location": "L153",
       "weight": 1.0,
       "_origin": "ast",
@@ -44294,5 +44228,5 @@
       "source_file": "docs/icons.svg"
     }
   ],
-  "built_at_commit": "7d9d9779adca805a3831ccf3c26c5063b5ca2847"
+  "built_at_commit": "12efc4677a6c977f710640866bfc2f45211ea45f"
 }

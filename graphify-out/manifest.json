@@ -610,9 +610,9 @@
     "semantic_hash": "c9e8d08c017c3c792c122f6ae1819a43"
   },
   "\u6587\u6863/Agent\u573a\u666f\u63a7\u5236\u534f\u8bae.md": {
-    "mtime": 1783063773.6514661,
-    "ast_hash": "d99ea5c4153762dff302edd5a1e03fe1",
-    "semantic_hash": "d99ea5c4153762dff302edd5a1e03fe1"
+    "mtime": 1785489256.6617749,
+    "ast_hash": "5a0505845713bd793d9a5a47394be389",
+    "semantic_hash": ""
   },
   "\u6587\u6863/\u672a\u5b9e\u73b0\u529f\u80fd\u89c4\u5212.md": {
     "mtime": 1782958899.6829326,
@@ -625,13 +625,13 @@
     "semantic_hash": "aead493361b27e7510691c5d7072dfc1"
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md": {
-    "mtime": 1785486705.6072206,
-    "ast_hash": "d6be4232337910b6ef50306b27cdf4df",
+    "mtime": 1785487955.9933336,
+    "ast_hash": "008124dd551f1701b9dd543faf08eac3",
     "semantic_hash": ""
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.html": {
-    "mtime": 1785486677.8346748,
-    "ast_hash": "b4e207d6a07cc04c9396bb1787664ae7",
+    "mtime": 1785489116.6962454,
+    "ast_hash": "cfcdd2a64b854095b6fed388ca7c100a",
     "semantic_hash": ""
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/01-overview-annotated.png": {
@@ -700,33 +700,33 @@
     "semantic_hash": ""
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-component-lib.png": {
-    "mtime": 1785486492.391623,
-    "ast_hash": "1c824915597ba8413d3db7ae513c0e5e",
+    "mtime": 1785487830.117106,
+    "ast_hash": "c4f0ac42ca4fc17f7f7c9c08c79b37b9",
     "semantic_hash": ""
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-gizmo.png": {
-    "mtime": 1785486492.4102669,
-    "ast_hash": "cb8d074d11a99ff920b254403981f24c",
+    "mtime": 1785487727.913813,
+    "ast_hash": "4f4f59cb71fcbfe8f76c5048b72cfbde",
     "semantic_hash": ""
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-modes.png": {
-    "mtime": 1785486492.3720858,
-    "ast_hash": "bae93e2012bb95095aeb1ffb790acda3",
+    "mtime": 1785487761.954282,
+    "ast_hash": "ee6e53d5980e850d9445cd5d033956f3",
     "semantic_hash": ""
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-project-btns.png": {
-    "mtime": 1785486492.3763025,
-    "ast_hash": "f3a604775294d10f4202afd6ac585347",
+    "mtime": 1785487793.6171732,
+    "ast_hash": "a0f4b11c03a9dd0d90770b23cba69872",
     "semantic_hash": ""
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-right-scene.png": {
-    "mtime": 1785486492.4071026,
-    "ast_hash": "9f28ea9ee349589bf1324975ea41c3ff",
+    "mtime": 1785487867.843537,
+    "ast_hash": "f7062f62c86c5a7654c2d5f9aac13cc9",
     "semantic_hash": ""
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-scene-tree.png": {
-    "mtime": 1785486492.3834531,
-    "ast_hash": "b0c2464a43a1c43f46720b44eeb48f05",
+    "mtime": 1785487713.3361037,
+    "ast_hash": "570b2eda639e5a863976197d3893ae97",
     "semantic_hash": ""
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-statusbar.png": {
@@ -735,8 +735,8 @@
     "semantic_hash": ""
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-toolbar.png": {
-    "mtime": 1785486492.3679051,
-    "ast_hash": "2ce00041f679b46a72364851ea5db3c1",
+    "mtime": 1785487686.332104,
+    "ast_hash": "414b4b7ed1cf76da829599e896a5b256",
     "semantic_hash": ""
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-ui-canvas.png": {
@@ -767,6 +767,16 @@
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-viewport.png": {
     "mtime": 1785486492.45728,
     "ast_hash": "db7f6a8730285577880599af4b88054e",
+    "semantic_hash": ""
+  },
+  "\u6587\u6863/Agent\u573a\u666f\u63a7\u5236\u534f\u8bae-API.html": {
+    "mtime": 1785489255.345503,
+    "ast_hash": "8795f0f22de9f8fdee1c2dc3017002c1",
+    "semantic_hash": ""
+  },
+  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-gizmo-lg.png": {
+    "mtime": 1785488223.0773115,
+    "ast_hash": "26839533c2f80cdf5b450b8fd9bb3c2b",
     "semantic_hash": ""
   }
 }

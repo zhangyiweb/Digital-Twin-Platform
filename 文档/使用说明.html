@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>数字孪生平台 · 图文使用说明</title>
+  <style>
+    :root {
+      --bg: #0f1218;
+      --panel: #171b24;
+      --panel2: #1e2430;
+      --border: #2c3344;
+      --text: #e8eaef;
+      --muted: #9aa3b5;
+      --accent: #3b82f6;
+      --accent2: #22c55e;
+      --warn: #f59e0b;
+      --pink: #ec4899;
+      --radius: 12px;
+      --shadow: 0 8px 28px rgba(0,0,0,.35);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(59,130,246,.18), transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, rgba(34,197,94,.10), transparent 50%),
+        var(--bg);
+      line-height: 1.65;
+    }
+    a { color: #93c5fd; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .layout {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 0;
+      min-height: 100vh;
+    }
+    nav.toc {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100vh;
+      overflow: auto;
+      padding: 24px 16px;
+      border-right: 1px solid var(--border);
+      background: rgba(15,18,24,.92);
+      backdrop-filter: blur(8px);
+    }
+    nav.toc h1 {
+      font-size: 15px;
+      margin: 0 0 4px;
+      letter-spacing: .02em;
+    }
+    nav.toc .meta {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 18px;
+    }
+    nav.toc ol {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    nav.toc li { margin: 0 0 2px; }
+    nav.toc a {
+      display: block;
+      padding: 7px 10px;
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    nav.toc a:hover,
+    nav.toc a.active {
+      background: rgba(59,130,246,.15);
+      color: var(--text);
+      text-decoration: none;
+    }
+    main {
+      padding: 32px 40px 80px;
+      max-width: 980px;
+    }
+    .hero {
+      padding: 28px 28px 24px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(160deg, rgba(59,130,246,.12), transparent 50%), var(--panel);
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+      letter-spacing: .01em;
+    }
+    .hero p { margin: 0; color: var(--muted); }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .badge {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--panel2);
+      color: var(--muted);
+    }
+    section {
+      margin: 42px 0;
+      scroll-margin-top: 20px;
+    }
+    section > h2 {
+      font-size: 22px;
+      margin: 0 0 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    section > h3 {
+      font-size: 17px;
+      margin: 22px 0 10px;
+      color: #dbe4ff;
+    }
+    p, li { color: #c9d0dd; }
+    .lead { color: var(--muted); margin-top: 0; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      margin: 14px 0;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .figure {
+      margin: 16px 0 20px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    /* 图片区：横竖图都能完整显示，避免被拉满宽度后过高过大 */
+    .figure .frame {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 14px;
+      background: #0a0c10;
+      min-height: 0;
+    }
+    .figure img {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: min(52vh, 440px);
+      object-fit: contain;
+      object-position: center;
+      background: transparent;
+      cursor: zoom-in;
+    }
+    /* 全宽横图（总览 / UI / 导出） */
+    .figure-wide .frame { padding: 12px; }
+    .figure-wide img {
+      max-width: 100%;
+      max-height: min(48vh, 400px);
+    }
+    /* 竖向侧栏面板截图：限宽居中，完整展示 */
+    .figure-panel .frame {
+      padding: 16px 20px;
+    }
+    .figure-panel img {
+      max-width: min(100%, 380px);
+      max-height: min(68vh, 560px);
+    }
+    /* 细长条切图（工具栏 / 模式切换等） */
+    .figure-strip .frame {
+      padding: 16px 18px;
+      background: #12161f;
+    }
+    .figure-strip img {
+      width: auto;
+      max-width: 100%;
+      max-height: 96px;
+    }
+    .figure figcaption {
+      padding: 10px 14px 12px;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      background: var(--panel2);
+      text-align: left;
+    }
+    .callouts {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 16px;
+    }
+    .callout {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 13px;
+      color: #fff;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .num.pink { background: var(--pink); }
+    .num.green { background: var(--accent2); }
+    .steps {
+      counter-reset: step;
+      list-style: none;
+      padding: 0;
+      margin: 12px 0;
+    }
+    .steps > li {
+      position: relative;
+      padding: 12px 14px 12px 52px;
+      margin: 0 0 10px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .steps > li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      display: grid;
+      place-items: center;
+    }
+    .btn {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(59,130,246,.18);
+      border: 1px solid rgba(59,130,246,.35);
+      color: #bfdbfe;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .btn.green {
+      background: rgba(34,197,94,.15);
+      border-color: rgba(34,197,94,.35);
+      color: #bbf7d0;
+    }
+    .btn.warn {
+      background: rgba(245,158,11,.15);
+      border-color: rgba(245,158,11,.35);
+      color: #fde68a;
+    }
+    kbd {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid #445;
+      background: #12161f;
+      color: #e5e7eb;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 12px 0 18px;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--panel2); color: #dbe4ff; font-weight: 600; }
+    tr:last-child td { border-bottom: none; }
+    td { background: var(--panel); }
+    .tip, .warnbox, .note {
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    .tip {
+      background: rgba(59,130,246,.12);
+      border: 1px solid rgba(59,130,246,.3);
+    }
+    .warnbox {
+      background: rgba(245,158,11,.12);
+      border: 1px solid rgba(245,158,11,.3);
+    }
+    .note {
+      background: rgba(148,163,184,.1);
+      border: 1px solid rgba(148,163,184,.25);
+      color: var(--muted);
+    }
+    .thumb-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 14px 0;
+    }
+    .thumb {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .thumb .frame {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      background: #0a0c10;
+      min-height: 100px;
+      max-height: 180px;
+    }
+    .thumb img {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 160px;
+      object-fit: contain;
+      cursor: zoom-in;
+    }
+    /* 灯箱：点击图片放大 */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(4, 6, 12, 0.88);
+      backdrop-filter: blur(6px);
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex !important; }
+    .lightbox img {
+      max-width: min(96vw, 1400px);
+      max-height: 92vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 16px 48px rgba(0,0,0,.55);
+      cursor: default;
+      background: #0a0c10;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      width: 40px;
+      height: 40px;
+      border: 1px solid #445;
+      border-radius: 50%;
+      background: rgba(30,36,48,.9);
+      color: #fff;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .lightbox-close:hover { background: #3b82f6; border-color: #3b82f6; }
+    .lightbox-cap {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      max-width: 90vw;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(20,24,32,.85);
+      border: 1px solid #334;
+      color: #cbd5e1;
+      font-size: 13px;
+      pointer-events: none;
+    }
+    .lightbox-hint {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: #94a3b8;
+      pointer-events: none;
+    }
+    .thumb p {
+      margin: 0;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    footer.doc-foot {
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      nav.toc {
+        position: relative;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      main { padding: 20px 16px 60px; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    @media print {
+      nav.toc { display: none; }
+      .layout { grid-template-columns: 1fr; }
+      body { background: #fff; color: #111; }
+      .figure, .card, .steps > li { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav class="toc" aria-label="目录">
+      <h1>图文使用说明</h1>
+      <div class="meta">Digital Twin Platform<br />2026-07-31</div>
+      <ol>
+        <li><a href="#s1">1. 平台能做什么</a></li>
+        <li><a href="#s2">2. 主界面认路</a></li>
+        <li><a href="#s3">3. 三种工作模式</a></li>
+        <li><a href="#s4">4. 打开 / 保存项目</a></li>
+        <li><a href="#s5">5. 导入模型</a></li>
+        <li><a href="#s6">6. 组件库操作</a></li>
+        <li><a href="#s7">7. 视口与变换</a></li>
+        <li><a href="#s8">8. 场景属性</a></li>
+        <li><a href="#s9">9. 环境与 HDR</a></li>
+        <li><a href="#s10">10. 渲染设置</a></li>
+        <li><a href="#s11">11. 相机漫游</a></li>
+        <li><a href="#s12">12. 后期处理</a></li>
+        <li><a href="#s13">13. UI 编排</a></li>
+        <li><a href="#s14">14. 联动预览</a></li>
+        <li><a href="#s15">15. 导出场景</a></li>
+        <li><a href="#s16">16. 快捷键</a></li>
+      </ol>
+    </nav>
+
+    <main>
+      <header class="hero">
+        <h1>数字孪生平台 · 图文操作手册</h1>
+        <p>按真实界面截图说明「点哪个按钮、按什么顺序做」。适合第一次上手搭建场景、编排 UI、导出演示包。</p>
+        <div class="badge-row">
+          <span class="badge">场景编辑</span>
+          <span class="badge">UI 编排</span>
+          <span class="badge">联动预览</span>
+          <span class="badge">导出部署</span>
+        </div>
+      </header>
+
+      <section id="s1">
+        <h2>1. 平台能做什么</h2>
+        <p class="lead">把三维场景搭建、材质灯光、相机漫游、2D 大屏 UI、UI↔3D 交互、导出可托管网页包，收拢到同一编辑器。</p>
+        <div class="grid-2">
+          <div class="card">
+            <strong>解决什么问题</strong>
+            <ul>
+              <li>模型有了，但缺少可点击业务界面</li>
+              <li>大屏 UI 做了，却驱动不了相机 / 设备</li>
+              <li>成果只在编辑器里好看，不便交付演示</li>
+            </ul>
+          </div>
+          <div class="card">
+            <strong>典型交付物</strong>
+            <ul>
+              <li>可回编的完整项目 ZIP</li>
+              <li>纯 3D 场景运行包</li>
+              <li>含 UI + 交互的部署包</li>
+              <li>截图 / GLB / 漫游视频 / 配置 JSON</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tip">推荐顺序：搭场景 →（可选）漫游 / 标签 →（可选）UI 编排与交互 → 联动预览验证 → 保存 / 导出。</div>
+      </section>
+
+      <section id="s2">
+        <h2>2. 主界面认路（场景编辑）</h2>
+        <p>进入平台后默认在 <span class="btn">场景编辑</span>。先认清七个区域：</p>
+
+        <figure class="figure figure-wide">
+          <div class="frame"><img src="使用说明-assets/01-overview-annotated.png" alt="场景编辑主界面标注图" /></div>
+          <figcaption>图 2-1 场景编辑主界面（蓝色数字为区域编号）</figcaption>
+        </figure>
+
+        <div class="callouts">
+          <div class="callout"><span class="num">1</span><div><strong>模式切换</strong>：在「场景编辑 / UI 编排 / 联动预览」之间切换整套工作台。</div></div>
+          <div class="callout"><span class="num">2</span><div><strong>项目操作</strong>：打开项目、保存项目、导入模型、模型库、导出场景。</div></div>
+          <div class="callout"><span class="num">3</span><div><strong>场景树</strong>：搜索并选中场景对象（灯光、模型、几何体、标签等）。</div></div>
+          <div class="callout"><span class="num">4</span><div><strong>组件库</strong>：点击条目即可往场景里添加灯光 / 几何体 / 粒子 / 标签。</div></div>
+          <div class="callout"><span class="num">5</span><div><strong>3D 视口</strong>：观察与点选对象；鼠标拖拽旋转视角，滚轮缩放。</div></div>
+          <div class="callout"><span class="num">6</span><div><strong>变换工具条</strong>：选择 / 移动 / 旋转 / 缩放（对应快捷键 Q W E R）。</div></div>
+          <div class="callout"><span class="num">7</span><div><strong>右侧属性</strong>：未选中对象时为全局设置（场景 / 环境 / 渲染 / 漫游 / 后期）；选中后显示该对象详情与材质。</div></div>
+        </div>
+
+        <div class="thumb-row">
+          <div class="thumb">
+            <div class="frame"><img src="使用说明-assets/crop-toolbar.png" alt="顶部工具栏" /></div>
+            <p>顶部工具栏全貌</p>
+          </div>
+          <div class="thumb">
+            <div class="frame"><img src="使用说明-assets/crop-scene-tree.png" alt="场景树" /></div>
+            <p>左侧场景树</p>
+          </div>
+          <div class="thumb">
+            <div class="frame"><img src="使用说明-assets/crop-gizmo.png" alt="变换工具" /></div>
+            <p>视口底部变换工具</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="s3">
+        <h2>3. 三种工作模式怎么切</h2>
+        <figure class="figure figure-strip">
+          <div class="frame"><img src="使用说明-assets/crop-modes.png" alt="模式切换按钮" /></div>
+          <figcaption>图 3-1 顶部正中的模式切换</figcaption>
+        </figure>
+        <ol class="steps">
+          <li>点击 <span class="btn">场景编辑</span>：搭建 3D、调灯光材质环境、做漫游。</li>
+          <li>点击 <span class="btn">UI 编排</span>：设计 2D 页面（按钮、图表等），并配置「点 UI → 驱动 3D」的交互。</li>
+          <li>点击 <span class="btn">联动预览</span>：在真实叠层下验证交互；确认后可点右上角 <span class="btn green">导出部署包</span>。</li>
+          <li>预览中按 <kbd>Esc</kbd> 可快速退回场景编辑。</li>
+        </ol>
+      </section>
+
+      <section id="s4">
+        <h2>4. 打开 / 保存项目（怎么点）</h2>
+        <figure class="figure figure-strip">
+          <div class="frame"><img src="使用说明-assets/crop-project-btns.png" alt="项目相关按钮" /></div>
+          <figcaption>图 4-1 右上角项目与资源按钮</figcaption>
+        </figure>
+        <h3>保存</h3>
+        <ol class="steps">
+          <li>确保当前在 <span class="btn">场景编辑</span> 或 <span class="btn">UI 编排</span>。</li>
+          <li>点击 <span class="btn">保存项目</span>。</li>
+          <li>浏览器会下载一份完整项目包（场景 + UI 画布等），妥善保存该 ZIP。</li>
+        </ol>
+        <h3>打开</h3>
+        <ol class="steps">
+          <li>点击 <span class="btn">打开项目</span>。</li>
+          <li>在文件对话框选择此前保存的 <code>.zip</code>（或可识别的 <code>.json</code>）。</li>
+          <li>若当前场景已有内容，弹出确认框：点 <span class="btn">继续打开</span> 会<strong>覆盖</strong>当前场景与全部 UI 画布；点「取消」则放弃。</li>
+        </ol>
+        <div class="warnbox">刷新或关闭浏览器标签页前请先保存。目前没有自动草稿强提示。</div>
+      </section>
+
+      <section id="s5">
+        <h2>5. 导入模型（本地 / 模型库）</h2>
+        <ol class="steps">
+          <li>切到 <span class="btn">场景编辑</span>。</li>
+          <li><strong>本地模型</strong>：点 <span class="btn">导入模型</span> → 选择一个或多个 <code>.glb</code> / <code>.gltf</code> → 等待加载完成。</li>
+          <li><strong>在线模型库</strong>：点 <span class="btn">模型库</span> → 在弹窗中浏览 / 搜索 Poly Haven 模型 → 选择分辨率 → 点选模型导入。</li>
+          <li>导入后在<strong>场景树</strong>中会出现新对象；点击名称即可选中，再到视口用 <kbd>W</kbd> 移动摆放。</li>
+        </ol>
+        <div class="tip">模型库需要联网。体积大的资源首次加载可能较慢，请留意右下角通知提示。</div>
+      </section>
+
+      <section id="s6">
+        <h2>6. 组件库：灯光 / 几何体 / 粒子 / 标签</h2>
+        <p>位置：左侧下半区。先点页签，再点具体按钮，对象会立刻加入场景并通常自动选中。</p>
+
+        <h3>6.1 添加几何体</h3>
+        <figure class="figure figure-panel">
+          <div class="frame"><img src="使用说明-assets/crop-component-lib.png" alt="几何体组件库" /></div>
+          <figcaption>图 6-1 组件库 · 几何体页签</figcaption>
+        </figure>
+        <ol class="steps">
+          <li>在组件库点 <span class="btn">几何体</span> 页签。</li>
+          <li>点击例如 <span class="btn">立方体</span> / <span class="btn">球体</span> / <span class="btn">圆柱体</span> 等任意按钮。</li>
+          <li>视口中出现物体后，用下方变换工具或 <kbd>W</kbd><kbd>E</kbd><kbd>R</kbd> 调整。</li>
+        </ol>
+
+        <h3>6.2 添加灯光</h3>
+        <figure class="figure figure-panel">
+          <div class="frame"><img src="使用说明-assets/06-lights.png" alt="灯光组件" /></div>
+          <figcaption>图 6-2 组件库 · 灯光</figcaption>
+        </figure>
+        <ol class="steps">
+          <li>点 <span class="btn">灯光</span> 页签。</li>
+          <li>按需点击：
+            <span class="btn">环境光</span>
+            <span class="btn">平行光</span>
+            <span class="btn">点光源</span>
+            <span class="btn">聚光灯</span>
+            <span class="btn">半球光</span>
+          </li>
+          <li>在场景树选中该灯光，右侧面板调节颜色、强度、位置、阴影等。</li>
+        </ol>
+
+        <h3>6.3 添加粒子</h3>
+        <figure class="figure figure-panel">
+          <div class="frame"><img src="使用说明-assets/07-particles.png" alt="粒子预设" /></div>
+          <figcaption>图 6-3 组件库 · 粒子预设（three.quarks）</figcaption>
+        </figure>
+        <ol class="steps">
+          <li>点 <span class="btn">粒子</span> 页签。</li>
+          <li>点击预设，如 <span class="btn">浓烟</span>、<span class="btn">火焰</span>、<span class="btn">火花</span>、<span class="btn">爆炸</span> 等。</li>
+          <li>选中粒子后，在<strong>右侧属性面板</strong>继续调参数，或按面板提示导入 JSON。</li>
+        </ol>
+
+        <h3>6.4 添加场景标签</h3>
+        <figure class="figure figure-panel">
+          <div class="frame"><img src="使用说明-assets/08-labels.png" alt="标签类型" /></div>
+          <figcaption>图 6-4 组件库 · 标签三种渲染模式</figcaption>
+        </figure>
+        <ol class="steps">
+          <li>点 <span class="btn">标签</span> 页签。</li>
+          <li>按用途选择一种：
+            <ul>
+              <li><span class="btn">CSS2D</span>：始终正对屏幕，适合设备名 / 测点</li>
+              <li><span class="btn">CSS3D</span>：可随物体旋转，适合面板 / 铭牌</li>
+              <li><span class="btn">CSS3DSprite</span>：三维空间中始终朝向相机</li>
+            </ul>
+          </li>
+          <li>在右侧标签属性里改文字、颜色；也可绑定「UI 编排」某一页，把界面嵌进标签。</li>
+        </ol>
+      </section>
+
+      <section id="s7">
+        <h2>7. 视口与变换怎么操作</h2>
+        <figure class="figure figure-strip">
+          <div class="frame"><img src="使用说明-assets/crop-gizmo.png" alt="变换工具条" /></div>
+          <figcaption>图 7-1 视口左下 / 底部变换工具</figcaption>
+        </figure>
+        <ol class="steps">
+          <li>在场景树或视口中<strong>点击</strong>要操作的对象。</li>
+          <li>点变换工具条图标，或按键盘：
+            <table>
+              <tr><th>工具</th><th>按钮 / 键</th><th>操作方式</th></tr>
+              <tr><td>选择</td><td><kbd>Q</kbd></td><td>只选中，不显示变换手柄</td></tr>
+              <tr><td>移动</td><td><kbd>W</kbd></td><td>拖拽彩色轴向箭头平移</td></tr>
+              <tr><td>旋转</td><td><kbd>E</kbd></td><td>拖拽旋转环</td></tr>
+              <tr><td>缩放</td><td><kbd>R</kbd></td><td>拖拽缩放手柄</td></tr>
+            </table>
+          </li>
+          <li>需要精确数值时：选中对象 → 右侧「详情」里直接改 Position / Rotation / Scale。</li>
+          <li>删除：选中后按 <kbd>Delete</kbd> 或 <kbd>Backspace</kbd>（焦点不在输入框时）。</li>
+          <li>撤销 / 重做变换：<kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd>。</li>
+        </ol>
+        <div class="note">视角导航：左键拖拽旋转观察、滚轮缩放（以常见轨道控件为准）。网格 <kbd>G</kbd>、坐标轴 <kbd>H</kbd> 可显隐。</div>
+      </section>
+
+      <section id="s8">
+        <h2>8. 右侧「场景」属性（未选中对象时）</h2>
+        <p>先在视口空白处点击取消选中（或确保未选中物体），右侧会出现全局页签。</p>
+        <figure class="figure figure-panel">
+          <div class="frame"><img src="使用说明-assets/crop-right-scene.png" alt="场景设置面板" /></div>
+          <figcaption>图 8-1 场景页签：背景色、相机、网格</figcaption>
+        </figure>
+        <ol class="steps">
+          <li>点右侧顶部 <span class="btn">场景</span>。</li>
+          <li><strong>背景颜色</strong>：点色块或改十六进制值（如 <code>#1a1a1a</code>）。</li>
+          <li><strong>相机位置 / 控制点位置</strong>：改 X/Y/Z 数值，立刻影响观察视角与看向点。</li>
+          <li><strong>相机参数</strong>：调 FOV、Near、Far。</li>
+          <li>打开或关闭 <span class="btn green">显示网格</span>、<span class="btn green">显示坐标轴</span> 开关。</li>
+        </ol>
+      </section>
+
+      <section id="s9">
+        <h2>9. 环境与 HDR 怎么配</h2>
+        <figure class="figure figure-panel">
+          <div class="frame"><img src="使用说明-assets/02-environment.png" alt="环境面板" /></div>
+          <figcaption>图 9-1 环境页签完整面板</figcaption>
+        </figure>
+        <ol class="steps">
+          <li>右侧点 <span class="btn">环境</span>。</li>
+          <li>（可选）打开 <span class="btn green">大气雾效</span>，再调雾颜色与范围。</li>
+          <li>选择 HDR 来源：点 <span class="btn">Poly Haven</span> 或 <span class="btn">本地文件</span>。</li>
+          <li>若用 Poly Haven：设分辨率（如 2K）→ 选分类 → 搜索框输入关键词 → 点列表中的 HDRI 加载。</li>
+          <li>加载成功后，打开：
+            <span class="btn green">HDR 环境反射</span>（让 PBR 材质反射环境）和 / 或
+            <span class="btn green">天空背景</span>（把 HDR 当天空）。
+          </li>
+          <li>拖动 <strong>环境反射强度</strong>、<strong>HDR 水平旋转</strong>，对齐太阳方向与明暗。</li>
+        </ol>
+        <div class="tip">未加载 HDRI 或未开启「HDR 环境反射」时，反射强度滑条可能是灰色不可用，属正常状态。</div>
+      </section>
+
+      <section id="s10">
+        <h2>10. 渲染设置怎么调</h2>
+        <figure class="figure figure-panel">
+          <div class="frame"><img src="使用说明-assets/03-render.png" alt="渲染面板" /></div>
+          <figcaption>图 10-1 渲染页签</figcaption>
+        </figure>
+        <ol class="steps">
+          <li>右侧点 <span class="btn">渲染</span>。</li>
+          <li>基础开关按需开启：<span class="btn green">抗锯齿</span>、<span class="btn green">透明背景 (Alpha)</span>、<span class="btn green">对数深度缓冲区</span>（大场景防闪烁）。</li>
+          <li><strong>色调映射</strong>：类型建议保持 <code>ACES Filmic</code>；拖动「曝光」控制整体明暗。</li>
+          <li><strong>阴影</strong>：打开「启用阴影」，阴影类型可选 PCF 等。</li>
+          <li><strong>输出颜色空间</strong>一般用 sRGB；<strong>像素比</strong>在「性能 / 画质」之间权衡（如 2x 更清晰更耗性能）。</li>
+        </ol>
+      </section>
+
+      <section id="s11">
+        <h2>11. 相机漫游：逐步点哪里</h2>
+        <figure class="figure figure-panel">
+          <div class="frame"><img src="使用说明-assets/04-tour.png" alt="漫游面板" /></div>
+          <figcaption>图 11-1 漫游页签</figcaption>
+        </figure>
+        <ol class="steps">
+          <li>右侧点 <span class="btn">漫游</span>。</li>
+          <li>在「漫游路线」下拉里选路线；需要新路线时点右侧 <strong>+</strong>，改名点铅笔，删除点红色垃圾桶。</li>
+          <li>「漫游方式」选择：
+            <ul>
+              <li><strong>站点漫游（逐站看设备）</strong>：飞入并停留，适合盯设备</li>
+              <li><strong>一镜到底（曲线参观）</strong>：沿曲线连续走，至少 2 个点</li>
+            </ul>
+          </li>
+          <li>在视口调整好当前观察角度。</li>
+          <li>（站点模式可选）先在场景树<strong>选中设备</strong>，再点蓝色按钮 <span class="btn">+ 添加漫游点（当前视角）</span>，会绑定设备名；未选中则只记录视角。</li>
+          <li>在「漫游点列表」中拖动排序；可对某点执行跳转 / 更新视角（以面板按钮为准）。</li>
+          <li>需要循环时打开 <span class="btn">循环播放</span>。</li>
+          <li>点 <span class="btn">预览</span> 播放；点 <span class="btn">停止</span> 结束；点 <span class="btn">查看 JSON</span> 可检查或导出数据。</li>
+        </ol>
+        <div class="note">录制漫游视频请到「导出场景」面板的「漫游录制」卡片（见第 15 节）。</div>
+      </section>
+
+      <section id="s12">
+        <h2>12. 后期处理</h2>
+        <figure class="figure figure-panel">
+          <div class="frame"><img src="使用说明-assets/05-postprocess.png" alt="后期处理开关" /></div>
+          <figcaption>图 12-1 后期页签 · 总开关</figcaption>
+        </figure>
+        <ol class="steps">
+          <li>右侧点 <span class="btn">后期</span>。</li>
+          <li>打开 <span class="btn green">启用后期处理</span>。</li>
+          <li>开启后会出现 Bloom、抗锯齿类、描边等子项（以当前版本面板为准），逐项打开并拖动强度滑条，边看视口边调。</li>
+        </ol>
+      </section>
+
+      <section id="s13">
+        <h2>13. UI 编排：从空白到可点击界面</h2>
+        <figure class="figure figure-wide">
+          <div class="frame"><img src="使用说明-assets/09-ui-annotated.png" alt="UI 编排界面标注" /></div>
+          <figcaption>图 13-1 UI 编排工作台</figcaption>
+        </figure>
+        <div class="callouts">
+          <div class="callout"><span class="num">1</span><div>确认顶部已选中 <span class="btn">UI 编排</span>。</div></div>
+          <div class="callout"><span class="num">2</span><div>右上角可 <span class="btn">打开 / 保存项目</span>，或 <span class="btn green">导出界面</span>（仅 UI 产物）。</div></div>
+          <div class="callout"><span class="num">3</span><div><strong>组件库</strong>：基础组件（容器、文本、图片、按钮、输入框）与 ECharts 图表。</div></div>
+          <div class="callout"><span class="num">4</span><div><strong>图层</strong>：管理当前页元素层级。</div></div>
+          <div class="callout"><span class="num">5</span><div><strong>画布</strong>：拖入排版；可「+ 新建画布」做多页。</div></div>
+          <div class="callout"><span class="num">6</span><div><strong>右侧属性</strong>：画布 / 组件 / 交互 三个页签。</div></div>
+        </div>
+
+        <h3>操作步骤</h3>
+        <ol class="steps">
+          <li>顶部点 <span class="btn">UI 编排</span>。</li>
+          <li>右侧先点 <span class="btn">画布</span>：改页面名称、分辨率预设（如 1920×1080）、背景色；不需要网格可勾选「隐藏网格」。</li>
+          <li>从左侧组件库<strong>拖拽</strong>或点击添加：例如先放 <span class="btn">按钮</span>、<span class="btn">文本</span>，需要数据展示再拖 <span class="btn">折线图</span> / <span class="btn">仪表盘</span> 等。</li>
+          <li>在画布上拖动改位置，拖边缘改大小；选中后到右侧 <span class="btn">组件</span> 页签改文案、颜色、字号等。</li>
+          <li>配置与三维的联动：选中按钮 → 右侧点 <span class="btn">交互</span>（或「场景交互」区域）→ 添加动作（如点击后相机飞向目标、切换物体显隐、变换位置等）→ 选好场景中的目标对象。</li>
+          <li>多页：点画布上方 <span class="btn">+ 新建画布</span>；场景标签也可绑定某一 UI 页。</li>
+          <li>画布快捷键：<kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>V</kbd> 复制粘贴，<kbd>Delete</kbd> 删除选中组件。</li>
+        </ol>
+        <div class="warnbox">右下「清空当前画布」会清空本页全部元素，点击前请确认。</div>
+      </section>
+
+      <section id="s14">
+        <h2>14. 联动预览与导出部署包</h2>
+        <ol class="steps">
+          <li>完成场景与 UI 交互配置后，顶部点 <span class="btn">联动预览</span>。</li>
+          <li>视口中会看到 3D + UI 叠层；直接用鼠标点击你配置过交互的按钮，观察相机 / 物体是否按预期变化。</li>
+          <li>若无反应：回到 UI 编排检查该组件是否已添加场景交互、目标对象是否仍存在。</li>
+          <li>验证通过后，在预览模式右上角点 <span class="btn green">导出部署包</span>，得到可静态托管的完整 ZIP（含 3D、UI、交互等）。</li>
+          <li>解压后本地预览示例：在目录内执行 <code>npx serve .</code>，用浏览器打开提示的地址。</li>
+        </ol>
+        <div class="tip">「导出部署包」≠ 场景编辑里的「场景运行包」。前者含 UI；后者只含 3D。</div>
+      </section>
+
+      <section id="s15">
+        <h2>15. 导出场景面板（逐卡片说明）</h2>
+        <p>在 <span class="btn">场景编辑</span> 下点击右上角 <span class="btn green">导出场景</span>，打开如下面板：</p>
+        <figure class="figure figure-wide">
+          <div class="frame"><img src="使用说明-assets/10-export-annotated.png" alt="导出场景面板标注" /></div>
+          <figcaption>图 15-1 导出场景对话框</figcaption>
+        </figure>
+        <div class="callouts">
+          <div class="callout"><span class="num pink">1</span><div><strong>场景运行包</strong> → 点 <span class="btn">导出 ZIP</span>：得到可运行的纯 3D HTML/JS 包（不含 UI）。</div></div>
+          <div class="callout"><span class="num pink">2</span><div><strong>截图</strong>：勾选是否「使用视口尺寸」「透明背景」→ 点 <span class="btn warn">导出 PNG</span>。</div></div>
+          <div class="callout"><span class="num pink">3</span><div><strong>GLB 模型</strong> → 点 <span class="btn">导出 GLB</span>：单文件带走模型与材质。</div></div>
+          <div class="callout"><span class="num pink">4</span><div><strong>漫游录制</strong>：先选「漫游路线」、分辨率 / 帧率 / 格式 → 点 <span class="btn">开始录制</span>（需已配置漫游点）。</div></div>
+          <div class="callout"><span class="num pink">5</span><div><strong>场景配置</strong> → 点 <span class="btn">导出 JSON</span>：导出相机、灯光、雾效等参数。</div></div>
+          <div class="callout"><span class="num pink">6</span><div><strong>更多导出功能</strong>：预留扩展位。</div></div>
+        </div>
+        <p>关闭面板：点右上角 <strong>×</strong>。</p>
+      </section>
+
+      <section id="s16">
+        <h2>16. 快捷键速查</h2>
+        <table>
+          <tr><th>按键</th><th>功能</th><th>适用</th></tr>
+          <tr><td><kbd>Q</kbd> / <kbd>W</kbd> / <kbd>E</kbd> / <kbd>R</kbd></td><td>选择 / 移动 / 旋转 / 缩放</td><td>场景</td></tr>
+          <tr><td><kbd>G</kbd> / <kbd>H</kbd></td><td>网格 / 坐标轴显隐</td><td>场景</td></tr>
+          <tr><td><kbd>Delete</kbd> / <kbd>Backspace</kbd></td><td>删除选中</td><td>场景对象；UI 组件</td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Y</kbd></td><td>撤销 / 重做（主要为变换）</td><td>场景</td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>V</kbd></td><td>复制 / 粘贴</td><td>UI 画布</td></tr>
+          <tr><td><kbd>Esc</kbd></td><td>退出联动预览 → 场景编辑</td><td>预览</td></tr>
+        </table>
+        <div class="note">焦点在输入框或文本域时，快捷键不会触发，避免误删文字。</div>
+      </section>
+    </main>
+  </div>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="图片预览" hidden>
+    <span class="lightbox-hint">点击空白处或按 Esc 关闭</span>
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="关闭">×</button>
+    <img id="lightboxImg" alt="" />
+    <div class="lightbox-cap" id="lightboxCap" hidden></div>
+  </div>
+
+  <script>
+    const links = [...document.querySelectorAll('nav.toc a')];
+    const sections = links.map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const id = '#' + e.target.id;
+        links.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === id));
+      });
+    }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+    sections.forEach((s) => io.observe(s));
+
+    // 点击图片放大
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const lbCap = document.getElementById('lightboxCap');
+    const lbClose = document.getElementById('lightboxClose');
+
+    function openLightbox(img) {
+      lbImg.src = img.currentSrc || img.src;
+      lbImg.alt = img.alt || '';
+      const cap =
+        img.closest('figure')?.querySelector('figcaption')?.textContent?.trim() ||
+        img.closest('.thumb')?.querySelector('p')?.textContent?.trim() ||
+        img.alt ||
+        '';
+      if (cap) {
+        lbCap.textContent = cap;
+        lbCap.hidden = false;
+      } else {
+        lbCap.hidden = true;
+      }
+      lb.hidden = false;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lb.classList.remove('open');
+      lb.hidden = true;
+      lbImg.removeAttribute('src');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.figure img, .thumb img').forEach((img) => {
+      img.setAttribute('tabindex', '0');
+      img.setAttribute('role', 'button');
+      img.setAttribute('aria-label', (img.alt || '截图') + '（点击放大）');
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openLightbox(img);
+      });
+      img.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox(img);
+        }
+      });
+    });
+
+    lbClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeLightbox();
+    });
+    lb.addEventListener('click', (e) => {
+      if (e.target === lb) closeLightbox();
+    });
+    lbImg.addEventListener('click', (e) => e.stopPropagation());
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lb.classList.contains('open')) closeLightbox();
+    });
+  </script>
+</body>
+</html>

@@ -139,23 +139,15 @@
     }
     .figure {
       margin: 16px 0 20px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-    /* 图片区：横竖图都能完整显示，避免被拉满宽度后过高过大 */
-    .figure .frame {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 14px;
-      background: #0a0c10;
-      min-height: 0;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      overflow: visible;
+      box-shadow: none;
+      text-align: center;
     }
     .figure img {
-      display: block;
+      display: inline-block;
       width: auto;
       height: auto;
       max-width: 100%;
@@ -163,39 +155,38 @@
       object-fit: contain;
       object-position: center;
       background: transparent;
+      border-radius: 8px;
+      border: 1px solid var(--border);
       cursor: zoom-in;
+      vertical-align: middle;
     }
     /* 全宽横图（总览 / UI / 导出） */
-    .figure-wide .frame { padding: 12px; }
     .figure-wide img {
       max-width: 100%;
       max-height: min(48vh, 400px);
     }
     /* 竖向侧栏面板截图：限宽居中，完整展示 */
-    .figure-panel .frame {
-      padding: 16px 20px;
-    }
     .figure-panel img {
       max-width: min(100%, 380px);
       max-height: min(68vh, 560px);
     }
-    /* 细长条切图（工具栏 / 模式切换等） */
-    .figure-strip .frame {
-      padding: 16px 18px;
-      background: #12161f;
-    }
+    /* 细长条切图：横向铺满，按比例显示完整高度 */
     .figure-strip img {
-      width: auto;
+      width: 100%;
       max-width: 100%;
-      max-height: 96px;
+      height: auto;
+      max-height: none;
     }
     .figure figcaption {
+      display: block;
+      margin-top: 8px;
       padding: 10px 14px 12px;
       font-size: 13px;
       color: var(--muted);
-      border-top: 1px solid var(--border);
-      background: var(--panel2);
       text-align: left;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--panel2);
     }
     .callouts {
       display: grid;
@@ -324,35 +315,30 @@
       border: 1px solid rgba(148,163,184,.25);
       color: var(--muted);
     }
-    .thumb-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-      margin: 14px 0;
-    }
-    .thumb {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .thumb .frame {
+    .shot-stack {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px;
-      background: #0a0c10;
-      min-height: 100px;
-      max-height: 180px;
+      flex-direction: column;
+      gap: 18px;
+      margin: 16px 0 8px;
     }
-    .thumb img {
-      display: block;
-      width: auto;
+    .shot-pair {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 720px) {
+      .shot-pair { grid-template-columns: 1fr; }
+    }
+    /* 小图标条：放大显示，避免看不清 */
+    .figure-zoom img {
+      width: min(100%, 480px);
+      max-height: none;
       height: auto;
+    }
+    .shot-pair .figure-panel img {
       max-width: 100%;
-      max-height: 160px;
-      object-fit: contain;
-      cursor: zoom-in;
+      max-height: min(55vh, 420px);
     }
     /* 灯箱：点击图片放大 */
     .lightbox {
@@ -418,11 +404,7 @@
       pointer-events: none;
     }
     .thumb p {
-      margin: 0;
-      padding: 8px 10px;
-      font-size: 12px;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
+      display: none;
     }
     footer.doc-foot {
       margin-top: 48px;
@@ -517,7 +499,7 @@
         <p>进入平台后默认在 <span class="btn">场景编辑</span>。先认清七个区域：</p>
 
         <figure class="figure figure-wide">
-          <div class="frame"><img src="使用说明-assets/01-overview-annotated.png" alt="场景编辑主界面标注图" /></div>
+          <img src="使用说明-assets/01-overview-annotated.png" alt="场景编辑主界面标注图" />
           <figcaption>图 2-1 场景编辑主界面（蓝色数字为区域编号）</figcaption>
         </figure>
 
@@ -531,18 +513,20 @@
           <div class="callout"><span class="num">7</span><div><strong>右侧属性</strong>：未选中对象时为全局设置（场景 / 环境 / 渲染 / 漫游 / 后期）；选中后显示该对象详情与材质。</div></div>
         </div>
 
-        <div class="thumb-row">
-          <div class="thumb">
-            <div class="frame"><img src="使用说明-assets/crop-toolbar.png" alt="顶部工具栏" /></div>
-            <p>顶部工具栏全貌</p>
-          </div>
-          <div class="thumb">
-            <div class="frame"><img src="使用说明-assets/crop-scene-tree.png" alt="场景树" /></div>
-            <p>左侧场景树</p>
-          </div>
-          <div class="thumb">
-            <div class="frame"><img src="使用说明-assets/crop-gizmo.png" alt="变换工具" /></div>
-            <p>视口底部变换工具</p>
+        <div class="shot-stack">
+          <figure class="figure figure-strip">
+            <img src="使用说明-assets/crop-toolbar.png" alt="顶部工具栏" />
+            <figcaption>顶部工具栏全貌（点击可放大）</figcaption>
+          </figure>
+          <div class="shot-pair">
+            <figure class="figure figure-panel">
+              <img src="使用说明-assets/crop-scene-tree.png" alt="场景树" />
+              <figcaption>左侧场景树</figcaption>
+            </figure>
+            <figure class="figure figure-zoom">
+              <img src="使用说明-assets/crop-gizmo-lg.png" alt="变换工具" />
+              <figcaption>视口底部变换工具（选择 / 移动 / 旋转 / 缩放）</figcaption>
+            </figure>
           </div>
         </div>
       </section>
@@ -550,7 +534,7 @@
       <section id="s3">
         <h2>3. 三种工作模式怎么切</h2>
         <figure class="figure figure-strip">
-          <div class="frame"><img src="使用说明-assets/crop-modes.png" alt="模式切换按钮" /></div>
+          <img src="使用说明-assets/crop-modes.png" alt="模式切换按钮" />
           <figcaption>图 3-1 顶部正中的模式切换</figcaption>
         </figure>
         <ol class="steps">
@@ -564,7 +548,7 @@
       <section id="s4">
         <h2>4. 打开 / 保存项目（怎么点）</h2>
         <figure class="figure figure-strip">
-          <div class="frame"><img src="使用说明-assets/crop-project-btns.png" alt="项目相关按钮" /></div>
+          <img src="使用说明-assets/crop-project-btns.png" alt="项目相关按钮" />
           <figcaption>图 4-1 右上角项目与资源按钮</figcaption>
         </figure>
         <h3>保存</h3>
@@ -599,7 +583,7 @@
 
         <h3>6.1 添加几何体</h3>
         <figure class="figure figure-panel">
-          <div class="frame"><img src="使用说明-assets/crop-component-lib.png" alt="几何体组件库" /></div>
+          <img src="使用说明-assets/crop-component-lib.png" alt="几何体组件库" />
           <figcaption>图 6-1 组件库 · 几何体页签</figcaption>
         </figure>
         <ol class="steps">
@@ -610,7 +594,7 @@
 
         <h3>6.2 添加灯光</h3>
         <figure class="figure figure-panel">
-          <div class="frame"><img src="使用说明-assets/06-lights.png" alt="灯光组件" /></div>
+          <img src="使用说明-assets/06-lights.png" alt="灯光组件" />
           <figcaption>图 6-2 组件库 · 灯光</figcaption>
         </figure>
         <ol class="steps">
@@ -627,7 +611,7 @@
 
         <h3>6.3 添加粒子</h3>
         <figure class="figure figure-panel">
-          <div class="frame"><img src="使用说明-assets/07-particles.png" alt="粒子预设" /></div>
+          <img src="使用说明-assets/07-particles.png" alt="粒子预设" />
           <figcaption>图 6-3 组件库 · 粒子预设（three.quarks）</figcaption>
         </figure>
         <ol class="steps">
@@ -638,7 +622,7 @@
 
         <h3>6.4 添加场景标签</h3>
         <figure class="figure figure-panel">
-          <div class="frame"><img src="使用说明-assets/08-labels.png" alt="标签类型" /></div>
+          <img src="使用说明-assets/08-labels.png" alt="标签类型" />
           <figcaption>图 6-4 组件库 · 标签三种渲染模式</figcaption>
         </figure>
         <ol class="steps">
@@ -657,7 +641,7 @@
       <section id="s7">
         <h2>7. 视口与变换怎么操作</h2>
         <figure class="figure figure-strip">
-          <div class="frame"><img src="使用说明-assets/crop-gizmo.png" alt="变换工具条" /></div>
+          <img src="使用说明-assets/crop-gizmo-lg.png" alt="变换工具条" />
           <figcaption>图 7-1 视口左下 / 底部变换工具</figcaption>
         </figure>
         <ol class="steps">
@@ -682,7 +666,7 @@
         <h2>8. 右侧「场景」属性（未选中对象时）</h2>
         <p>先在视口空白处点击取消选中（或确保未选中物体），右侧会出现全局页签。</p>
         <figure class="figure figure-panel">
-          <div class="frame"><img src="使用说明-assets/crop-right-scene.png" alt="场景设置面板" /></div>
+          <img src="使用说明-assets/crop-right-scene.png" alt="场景设置面板" />
           <figcaption>图 8-1 场景页签：背景色、相机、网格</figcaption>
         </figure>
         <ol class="steps">
@@ -697,7 +681,7 @@
       <section id="s9">
         <h2>9. 环境与 HDR 怎么配</h2>
         <figure class="figure figure-panel">
-          <div class="frame"><img src="使用说明-assets/02-environment.png" alt="环境面板" /></div>
+          <img src="使用说明-assets/02-environment.png" alt="环境面板" />
           <figcaption>图 9-1 环境页签完整面板</figcaption>
         </figure>
         <ol class="steps">
@@ -717,7 +701,7 @@
       <section id="s10">
         <h2>10. 渲染设置怎么调</h2>
         <figure class="figure figure-panel">
-          <div class="frame"><img src="使用说明-assets/03-render.png" alt="渲染面板" /></div>
+          <img src="使用说明-assets/03-render.png" alt="渲染面板" />
           <figcaption>图 10-1 渲染页签</figcaption>
         </figure>
         <ol class="steps">
@@ -732,7 +716,7 @@
       <section id="s11">
         <h2>11. 相机漫游：逐步点哪里</h2>
         <figure class="figure figure-panel">
-          <div class="frame"><img src="使用说明-assets/04-tour.png" alt="漫游面板" /></div>
+          <img src="使用说明-assets/04-tour.png" alt="漫游面板" />
           <figcaption>图 11-1 漫游页签</figcaption>
         </figure>
         <ol class="steps">
@@ -756,7 +740,7 @@
       <section id="s12">
         <h2>12. 后期处理</h2>
         <figure class="figure figure-panel">
-          <div class="frame"><img src="使用说明-assets/05-postprocess.png" alt="后期处理开关" /></div>
+          <img src="使用说明-assets/05-postprocess.png" alt="后期处理开关" />
           <figcaption>图 12-1 后期页签 · 总开关</figcaption>
         </figure>
         <ol class="steps">
@@ -769,7 +753,7 @@
       <section id="s13">
         <h2>13. UI 编排：从空白到可点击界面</h2>
         <figure class="figure figure-wide">
-          <div class="frame"><img src="使用说明-assets/09-ui-annotated.png" alt="UI 编排界面标注" /></div>
+          <img src="使用说明-assets/09-ui-annotated.png" alt="UI 编排界面标注" />
           <figcaption>图 13-1 UI 编排工作台</figcaption>
         </figure>
         <div class="callouts">
@@ -810,7 +794,7 @@
         <h2>15. 导出场景面板（逐卡片说明）</h2>
         <p>在 <span class="btn">场景编辑</span> 下点击右上角 <span class="btn green">导出场景</span>，打开如下面板：</p>
         <figure class="figure figure-wide">
-          <div class="frame"><img src="使用说明-assets/10-export-annotated.png" alt="导出场景面板标注" /></div>
+          <img src="使用说明-assets/10-export-annotated.png" alt="导出场景面板标注" />
           <figcaption>图 15-1 导出场景对话框</figcaption>
         </figure>
         <div class="callouts">
@@ -891,7 +875,7 @@
       document.body.style.overflow = '';
     }
 
-    document.querySelectorAll('.figure img, .thumb img').forEach((img) => {
+    document.querySelectorAll('.figure img').forEach((img) => {
       img.setAttribute('tabindex', '0');
       img.setAttribute('role', 'button');
       img.setAttribute('aria-label', (img.alt || '截图') + '（点击放大）');

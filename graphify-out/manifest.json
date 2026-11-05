@@ -95,9 +95,9 @@
     "semantic_hash": "bf5648f2920112fd1dc0653899b819f7"
   },
   "src/components/Panels/SceneTree.tsx": {
-    "mtime": 1784705633.466838,
-    "ast_hash": "3981194a0bb70c6f2284920bb6b1c2ef",
-    "semantic_hash": "3981194a0bb70c6f2284920bb6b1c2ef"
+    "mtime": 1793860096.042163,
+    "ast_hash": "27962ea233dc8c59c7ec4b061100cac4",
+    "semantic_hash": ""
   },
   "src/components/Panels/TextureAnimationSection.tsx": {
     "mtime": 1783040796.0366025,
@@ -185,9 +185,9 @@
     "semantic_hash": "85fdab784c3e6430081b109066fe6705"
   },
   "src/components/Viewport/EditorViewport.tsx": {
-    "mtime": 1784705633.466838,
-    "ast_hash": "91054c4fac3cece27013ac199d780929",
-    "semantic_hash": "91054c4fac3cece27013ac199d780929"
+    "mtime": 1793860135.2277315,
+    "ast_hash": "278d28bf5fa54a2b88636841b52d9d90",
+    "semantic_hash": ""
   },
   "src/components/Viewport/SceneUIPreviewOverlay.tsx": {
     "mtime": 1784167026.052825,
@@ -205,9 +205,9 @@
     "semantic_hash": "dfc8f3174e9315c6eec40dad620fed23"
   },
   "src/config/defaultLighting.ts": {
-    "mtime": 1782803952.8478444,
-    "ast_hash": "0f44c57d605ab8a2970e91532ec27ca0",
-    "semantic_hash": "0f44c57d605ab8a2970e91532ec27ca0"
+    "mtime": 1793859988.7625866,
+    "ast_hash": "200880f1db019721eb3c5c9ddcee6341",
+    "semantic_hash": ""
   },
   "src/config/echartPresets.ts": {
     "mtime": 1783567786.444686,
@@ -230,14 +230,14 @@
     "semantic_hash": "a1b165cfdf0354aacfdf85a11e43c60f"
   },
   "src/hooks/useKeyboardShortcuts.ts": {
-    "mtime": 1784705633.4663105,
-    "ast_hash": "411887bec14cc583fb8654613f7e8567",
-    "semantic_hash": "411887bec14cc583fb8654613f7e8567"
+    "mtime": 1793860129.923589,
+    "ast_hash": "895f966e467a01293c7b557c557bef6d",
+    "semantic_hash": ""
   },
   "src/hooks/useModelLoader.ts": {
-    "mtime": 1783494605.7015865,
-    "ast_hash": "736219c489ac5121ff00f620c04b4f06",
-    "semantic_hash": "736219c489ac5121ff00f620c04b4f06"
+    "mtime": 1793859875.0284076,
+    "ast_hash": "936358be801bd2b2892733ae87384e17",
+    "semantic_hash": ""
   },
   "src/hooks/useSceneExporter.ts": {
     "mtime": 1784705633.4663105,
@@ -290,9 +290,9 @@
     "semantic_hash": "422010c0ede943ed3d4a6a3d957b2dea"
   },
   "src/store/lightStore.ts": {
-    "mtime": 1782956531.3959706,
-    "ast_hash": "9c1f4e6e9d1297f31235dd0e2f614369",
-    "semantic_hash": "9c1f4e6e9d1297f31235dd0e2f614369"
+    "mtime": 1793860111.239428,
+    "ast_hash": "00d63e15ce408d4a1945e6586d544d0e",
+    "semantic_hash": ""
   },
   "src/store/particleStore.ts": {
     "mtime": 1783389787.1376748,
@@ -300,9 +300,9 @@
     "semantic_hash": "0a0dae985f3e2b684d9e76fb2d7197a8"
   },
   "src/store/sceneStore.ts": {
-    "mtime": 1784705633.4700358,
-    "ast_hash": "21acc5b6ad130887e41935948683b8c3",
-    "semantic_hash": "21acc5b6ad130887e41935948683b8c3"
+    "mtime": 1793860010.93065,
+    "ast_hash": "04fe408da6fc48bad76266671bd6cdb6",
+    "semantic_hash": ""
   },
   "src/store/tourStore.ts": {
     "mtime": 1782956534.2970889,
@@ -460,9 +460,9 @@
     "semantic_hash": "e02af8a230b71800ac6aa1c6c7cbcc61"
   },
   "src/utils/particleScene.ts": {
-    "mtime": 1783404534.265904,
-    "ast_hash": "8a25b3c4659dd8ba022703abad58754f",
-    "semantic_hash": "8a25b3c4659dd8ba022703abad58754f"
+    "mtime": 1793860094.5983622,
+    "ast_hash": "583938450bb5f7ff64f9d76737eef787",
+    "semantic_hash": ""
   },
   "src/utils/polyhaven.ts": {
     "mtime": 1782869522.778862,
@@ -585,9 +585,9 @@
     "semantic_hash": "70bdd0a673bcfc0e828080b306e7c680"
   },
   "vite.config.ts": {
-    "mtime": 1783392263.421562,
-    "ast_hash": "ad46212b86ea775e03a4599a39b8e189",
-    "semantic_hash": "ad46212b86ea775e03a4599a39b8e189"
+    "mtime": 1793840992.847271,
+    "ast_hash": "8b0c6b175f8dd97a87ea33ef90a567b0",
+    "semantic_hash": ""
   },
   "README.en.md": {
     "mtime": 1782871089.0170944,
@@ -770,13 +770,18 @@
     "semantic_hash": ""
   },
   "\u6587\u6863/Agent\u573a\u666f\u63a7\u5236\u534f\u8bae-API.html": {
-    "mtime": 1785489255.345503,
-    "ast_hash": "8795f0f22de9f8fdee1c2dc3017002c1",
+    "mtime": 1785489471.2695227,
+    "ast_hash": "278c5bbb5f1a9d7fc615d349b7f9844a",
     "semantic_hash": ""
   },
   "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-gizmo-lg.png": {
     "mtime": 1785488223.0773115,
     "ast_hash": "26839533c2f80cdf5b450b8fd9bb3c2b",
+    "semantic_hash": ""
+  },
+  "scripts/gen_soft_copyright_docx.py": {
+    "mtime": 1793840992.847271,
+    "ast_hash": "7e471c7979c23091f55ae99bfc576591",
     "semantic_hash": ""
   }
 }

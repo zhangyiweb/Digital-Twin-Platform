@@ -1,46 +1,46 @@
-# Graph Report - 智能体平台  (2026-07-31)
+# Graph Report - 智能体平台  (2026-11-05)
 
 ## Corpus Check
-- 123 files · ~157,273 words
+- 124 files · ~157,983 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1116 nodes · 2727 edges · 63 communities (58 shown, 5 thin omitted)
+- 1126 nodes · 2762 edges · 58 communities (54 shown, 4 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 22 edges (avg confidence: 0.83)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `12efc467`
+- Built from commit: `960c464d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - Three.js Vector Math
-- Three.js Vector Math (2)
+- projectPackageExporter.ts
 - Resource Lifecycle
 - Object3D Transforms
 - Resource Lifecycle (2)
-- Resource Lifecycle (3)
+- cameraTourPlayer.ts
 - Object3D Transforms (2)
 - Three.js Vector Math (3)
 - Three.js Vector Math (4)
-- External Asset Export / Project Package Expor
-- sceneConfigExporter.ts
-- textureUvUtils.ts
+- uiEditor.ts
+- uiEditorProjectImporter.ts
+- uiCssParser.ts
 - exportParticleAssets.ts
 - UI Editor Store / UI Editor Core
+- cameraTourJson.ts
 - History / Undo Redo / Scene Utils
 - Scene API / UI Interaction Bindings
+- gen_soft_copyright_docx.py
 - Quarks Particle Adapter / Particle Scene Runt
 - ECharts Presets
 - Scene Label
 - Scene Capture
-- Ui Element Dom / Uielement View
 - Editor / Use Model
 - Editor Project
 - Tsconfig
 - Tsconfig.App
-- Default / Particle
 - Tsconfig.Node
 - Polyhaven
 - Camera Tour / Camera Tour Panel
@@ -50,15 +50,11 @@
 - Panel Form
 - Export Panel
 - Post Process
-- Camera Tour / Tour Store
 - Polyhaven / Model
 - Uiexport Modal / Use Editor
 - Social Icon Sprite
-- Light / Light Store
 - Polyhaven / Environment Hdri
-- Ui Css / Css Import Modal
 - Load Polyhaven / Polyhaven
-- Camera Tour (2)
 - Agent Scene Control Protocol
 - Post Process (2)
 - Index / Chinese README
@@ -71,21 +67,20 @@
 - Unimplemented Features Plan (2)
 - App Favicon / Vite Logo Asset
 - Package (4)
-- Package (5)
 - Package (7)
 - React Logo Asset
 
 ## God Nodes (most connected - your core abstractions)
 1. `exportProjectPackage()` - 38 edges
 2. `useSceneStore` - 33 edges
-3. `CameraTourPlayer` - 29 edges
-4. `EditorViewport()` - 28 edges
+3. `EditorViewport()` - 29 edges
+4. `CameraTourPlayer` - 29 edges
 5. `useUIEditorStore` - 26 edges
 6. `UIElement` - 24 edges
-7. `restoreProjectConfig()` - 20 edges
-8. `CameraTour` - 18 edges
-9. `recordCameraTour()` - 18 edges
-10. `exportUIProjectPackage()` - 18 edges
+7. `useLightStore` - 20 edges
+8. `restoreProjectConfig()` - 20 edges
+9. `CameraTour` - 18 edges
+10. `recordCameraTour()` - 18 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Digital Twin Platform` --semantically_similar_to--> `数字孪生平台`  [INFERRED] [semantically similar]
@@ -106,95 +101,95 @@
 ## Hyperedges (group relationships)
 - **Docs Site Social Link Icons** — docs_icons_bluesky_icon, docs_icons_discord_icon, docs_icons_github_icon, docs_icons_x_icon, docs_icons_social_icon [INFERRED 0.85]
 
-## Communities (63 total, 5 thin omitted)
+## Communities (58 total, 4 thin omitted)
 
 ### Community 0 - "Three.js Vector Math"
-Cohesion: 0.23
-Nodes (14): LayerNode(), SELECT_POPUP_CLASSNAMES, selectProps, UIPropertyPanel(), BOX_SHADOW_PRESETS, canHaveChildren(), CANVAS_PRESETS, CANVAS_SIZE_LIMITS (+6 more)
+Cohesion: 0.26
+Nodes (9): LightPanel(), DEFAULT_LIGHTS, initialState, LightStore, TODO: 集成到历史记录系统, LightAction, LightConfig, LightState (+1 more)
 
-### Community 1 - "Three.js Vector Math (2)"
-Cohesion: 0.19
-Nodes (18): BASIC_COMPONENTS, ComponentPalette(), LayerTree(), typeIcons, rectsIntersect(), UICanvas(), getAbsolutePosition(), getDeepestSelectedIds() (+10 more)
+### Community 1 - "projectPackageExporter.ts"
+Cohesion: 0.05
+Nodes (80): applyInlineAssets(), SceneUIPreviewOverlay(), stripDataUrlBackgrounds(), EXPORT_PACKAGE_DEFAULT_CAMERA_POSITION, EXPORT_PACKAGE_DEFAULT_CONTROLS_TARGET, clearPreviewUIVisibility(), dispatchUIActions(), createDefaultDataSourceConfig() (+72 more)
 
 ### Community 2 - "Resource Lifecycle"
-Cohesion: 0.24
-Nodes (12): tools, EditorStore, initialState, initialState, SceneStore, CameraConfig, EditorMode, EditorState (+4 more)
+Cohesion: 0.33
+Nodes (8): GizmoToolbar(), tools, EditorStore, initialState, useEditorStore, EditorMode, EditorState, EditorTool
 
 ### Community 3 - "Object3D Transforms"
-Cohesion: 0.22
-Nodes (13): isHelperObject(), SceneTree(), TreeNode, useSceneExporter(), clearEditorScene(), isProtectedSceneChild(), disposeLabelAnchor(), disposePickHelper() (+5 more)
+Cohesion: 0.23
+Nodes (13): initialState, SceneStore, CameraConfig, SceneObject, SceneState, clearEditorScene(), isProtectedSceneChild(), disposeLabelAnchor() (+5 more)
 
 ### Community 4 - "Resource Lifecycle (2)"
 Cohesion: 0.05
 Nodes (40): 1.1 解决什么问题, 1.2 满足什么需求, 1.3 核心能力概览, 1.4 推荐工作流, 2.1 布局与对应操作, 2.2 三种编辑模式（点击哪里）, 3.1 导入模型, 3.2 组件库 (+32 more)
 
-### Community 5 - "Resource Lifecycle (3)"
-Cohesion: 0.31
-Nodes (11): collectTextureUvStates(), findThreeObjectById(), applyTextureUvStates(), applyTextureUvStateToTexture(), DEFAULT_EDITOR_UV, ExportedTextureUvState, isFactoryDefaultTextureUv(), normalizeMaterialTextureUvs() (+3 more)
+### Community 5 - "cameraTourPlayer.ts"
+Cohesion: 0.26
+Nodes (11): TextureAnimationSection(), TextureAnimationSectionProps, AnimationStore, useAnimationStore, DEFAULT_TEXTURE_UV_ANIMATION, TextureAnimationTarget, TextureUvAnimationConfig, forEachAnimatedTexture() (+3 more)
 
 ### Community 6 - "Object3D Transforms (2)"
-Cohesion: 0.14
-Nodes (30): downloadBlob(), exportGlbBuffer(), resolveHdrAsset(), saveEditorProject(), writeCameraTourFiles(), buildTextureFilename(), cloneMaterialTextures(), CollectedTextureAsset (+22 more)
+Cohesion: 0.23
+Nodes (10): applyEditorCameraState(), CameraTourPlayerState, flyTempPosition, flyTempTarget, syncEditorCameraGlobals(), buildTourSplines(), exportSplineCurvePoints(), sampleTourSpline() (+2 more)
 
 ### Community 7 - "Three.js Vector Math (3)"
-Cohesion: 0.46
-Nodes (6): GlobalSettings(), applyHdrRotationY(), downloadFileFromUrl(), downloadHdrFromSource(), fetchHdriUrl(), triggerBlobDownload()
+Cohesion: 0.33
+Nodes (8): GlobalSettings(), applyHdrRotationY(), downloadFileFromUrl(), downloadHdrFromSource(), fetchHdriUrl(), HdrDownloadSource, triggerBlobDownload(), Window
 
-### Community 9 - "External Asset Export / Project Package Expor"
-Cohesion: 0.13
-Nodes (25): buildCameraTourGuideMarkdown(), buildCameraTourIndexJson(), getExportableTours(), buildCameraTourJs(), buildLabelRuntimeJs(), buildParticleRuntimeJs(), buildPostProcessJs(), countParticleEmitters() (+17 more)
+### Community 9 - "uiEditor.ts"
+Cohesion: 0.35
+Nodes (9): sampleSplinePath(), createLabelSprite(), disposeObject3D(), isSceneCaptureVisualsLocked(), markTourVisual(), removeTourPathVisual(), stripTourPathVisualForRender(), syncTourPathVisual() (+1 more)
 
-### Community 10 - "sceneConfigExporter.ts"
-Cohesion: 0.20
-Nodes (15): UIBindingExportEntry, buildLabelPagePacks(), collectReferencedLabelPageIds(), countSceneLabels(), ExportedLabelPagePack, downloadSceneConfig(), ExportedSceneConfig, generateSceneConfig() (+7 more)
-
-### Community 11 - "textureUvUtils.ts"
-Cohesion: 0.23
-Nodes (10): EXPORT_PACKAGE_DEFAULT_CAMERA_POSITION, EXPORT_PACKAGE_DEFAULT_CONTROLS_TARGET, buildIndexHtml(), buildMainJs(), buildReadme(), buildStyleCss(), IndexHtmlOptions, buildExportedSceneApiScript() (+2 more)
+### Community 10 - "uiEditorProjectImporter.ts"
+Cohesion: 0.29
+Nodes (6): ActionType, HistoryActions, HistoryEntry, HistoryState, initialState, TransformSnapshot
 
 ### Community 12 - "exportParticleAssets.ts"
-Cohesion: 0.33
-Nodes (8): ImportPanel(), ImportPanelProps, enableMeshShadows(), createGltfLoader(), resolvePolyhavenResourceUrl(), useModelLoader(), buildModelResourceMap(), fetchModelGltfUrl()
+Cohesion: 0.31
+Nodes (8): ImportPanel(), ImportPanelProps, Toolbar(), createGltfLoader(), resolvePolyhavenResourceUrl(), useModelLoader(), buildModelResourceMap(), fetchModelGltfUrl()
 
 ### Community 14 - "UI Editor Store / UI Editor Core"
-Cohesion: 0.16
-Nodes (18): LayerNodeProps, UIElementViewProps, cloneElements(), collectDescendantIds(), createEmptyPage(), flushAndOptionalSwitch(), generatePageId(), initialPage (+10 more)
+Cohesion: 0.05
+Nodes (79): BASIC_COMPONENTS, ComponentPalette(), CssImportModal(), CssImportModalProps, UIEditor(), LayerNode(), LayerNodeProps, LayerTree() (+71 more)
+
+### Community 19 - "cameraTourJson.ts"
+Cohesion: 0.22
+Nodes (12): normalizeCameraTour(), Vec3, buildCameraTourJson(), buildCameraTourJsonPreview(), CameraTourIndexEntry, CameraTourIndexJson, downloadCameraTourJson(), ExportedCameraTourJson (+4 more)
 
 ### Community 21 - "History / Undo Redo / Scene Utils"
-Cohesion: 0.14
-Nodes (20): App(), PropertyPanel(), GizmoToolbar(), Toolbar(), UIEditor(), applyTransformSnapshot(), useKeyboardShortcuts(), useEditorStore (+12 more)
+Cohesion: 0.26
+Nodes (12): App(), PropertyPanel(), isHelperObject(), SceneTree(), TreeNode, applyTransformSnapshot(), useKeyboardShortcuts(), useHistoryStore (+4 more)
 
 ### Community 22 - "Scene API / UI Interaction Bindings"
-Cohesion: 0.08
-Nodes (47): bindEditorTourPlayer(), ACTION_TONE, selectProps, UIInteractionPanel(), UIInteractionPanelProps, applyInlineAssets(), SceneUIPreviewOverlay(), stripDataUrlBackgrounds() (+39 more)
+Cohesion: 0.10
+Nodes (35): ACTION_TONE, selectProps, UIInteractionPanel(), UIInteractionPanelProps, animateCameraTo(), applySelectionHighlight(), clearSelectionHighlight(), createEditorSceneApi() (+27 more)
+
+### Community 23 - "gen_soft_copyright_docx.py"
+Cohesion: 0.42
+Nodes (9): Path, add_code_line(), add_page_number(), build_all_lines(), collect_files(), main(), read_lines(), set_header_footer() (+1 more)
 
 ### Community 24 - "Quarks Particle Adapter / Particle Scene Runt"
-Cohesion: 0.06
-Nodes (64): ParticleEditor(), ParticleEditorProps, FALLING_WEATHER, getParticleEmitSizeMeta(), isFallingWeatherPreset(), ParticleEmitSizeMeta, getPresetConfig(), ParticlePresetMeta (+56 more)
+Cohesion: 0.05
+Nodes (76): ComponentLibrary(), ParticleEditor(), ParticleEditorProps, createPrimitiveObject(), DEFAULT_PRIMITIVE_MATERIAL, FLAT_DEFAULTS, MESH_DEFAULTS, PRIMITIVE_PRESETS (+68 more)
 
 ### Community 27 - "ECharts Presets"
 Cohesion: 0.11
 Nodes (31): EchartPropertyPanels(), EchartPropertyPanelsProps, SELECT_POPUP_CLASSNAMES, selectProps, SYMBOL_OPTIONS, EchartRenderer(), EchartRendererProps, PropertyGroup() (+23 more)
 
 ### Community 32 - "Scene Label"
-Cohesion: 0.22
-Nodes (20): colorToCss(), LabelEditor(), LabelEditorProps, createDefaultLabelConfig(), resolveLabelScale(), SCENE_LABEL_MODE_OPTIONS, SceneLabelConfig, SceneLabelContentMode (+12 more)
+Cohesion: 0.19
+Nodes (23): colorToCss(), LabelEditor(), LabelEditorProps, LightConfig, createDefaultLabelConfig(), resolveLabelScale(), SCENE_LABEL_MODE_OPTIONS, SceneLabelConfig (+15 more)
 
 ### Community 34 - "Scene Capture"
 Cohesion: 0.14
-Nodes (28): getSplineDuration(), lockSceneCaptureVisuals(), resetSceneCaptureVisualsLock(), getEditorPostProcessConfig(), PostProcessPipeline, calcVideoBitrate(), canvasToBlob(), CaptureRenderContext (+20 more)
-
-### Community 37 - "Ui Element Dom / Uielement View"
-Cohesion: 0.31
-Nodes (11): buildElementStyle(), buildInputStyle(), HANDLES, ResizeHandle, UIElementView(), getElementDomId(), getElementEditorClass(), getElementHoverSelector() (+3 more)
+Nodes (29): getSplineDuration(), lockSceneCaptureVisuals(), resetSceneCaptureVisualsLock(), getEditorPostProcessConfig(), PostProcessPipeline, calcVideoBitrate(), canvasToBlob(), CaptureRenderContext (+21 more)
 
 ### Community 46 - "Editor / Use Model"
-Cohesion: 0.22
-Nodes (17): tickEditorCameraTour(), addLightTargetToScene(), applyLightTargetFromConfig(), createLightHelper(), disposeLightHelper(), EditorViewport(), ensureLightPickProxy(), getLightTransformAttachObject() (+9 more)
+Cohesion: 0.23
+Nodes (16): tickEditorCameraTour(), addLightTargetToScene(), applyLightTargetFromConfig(), createLightHelper(), disposeLightHelper(), EditorViewport(), ensureLightPickProxy(), getLightTransformAttachObject() (+8 more)
 
 ### Community 47 - "Editor Project"
 Cohesion: 0.07
-Nodes (53): jszip, jszip, TextureAnimationSection(), TextureAnimationSectionProps, AnimationStore, useAnimationStore, DEFAULT_TEXTURE_UV_ANIMATION, TextureAnimationTarget (+45 more)
+Nodes (56): jszip, jszip, enableMeshShadows(), applyHdrEnvironment(), applyRendererAndSceneSettings(), attachLoadedModelToScene(), createGltfLoader(), dispatchProjectRestoredEvent() (+48 more)
 
 ### Community 52 - "Tsconfig"
 Cohesion: 0.09
@@ -204,25 +199,25 @@ Nodes (22): DOM.Iterable, ES2020, compilerOptions, allowImportingTsExtensions, i
 Cohesion: 0.09
 Nodes (22): vite/client, compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, jsx, lib, module, moduleDetection (+14 more)
 
-### Community 55 - "Default / Particle"
-Cohesion: 0.17
-Nodes (12): ComponentLibrary(), createPrimitiveObject(), DEFAULT_PRIMITIVE_MATERIAL, FLAT_DEFAULTS, MESH_DEFAULTS, PRIMITIVE_PRESETS, PrimitiveGeometryType, PrimitivePreset (+4 more)
-
 ### Community 58 - "Tsconfig.Node"
 Cohesion: 0.10
 Nodes (20): node, vite.config.ts, compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, lib, module, moduleDetection (+12 more)
 
 ### Community 61 - "Polyhaven"
-Cohesion: 0.15
-Nodes (21): TexturePicker(), TexturePickerProps, TexturePickerModalProps, fetchAllTextures(), fetchTextureCategories(), getTextureCategoryLabel(), getTexturePreviewUrl(), HDRI_CATEGORY_LABELS (+13 more)
+Cohesion: 0.27
+Nodes (11): TexturePicker(), TexturePickerProps, TexturePickerModalProps, fetchAllTextures(), fetchTextureCategories(), getTextureCategoryLabel(), getTexturePreviewUrl(), TEXTURE_RESOLUTIONS (+3 more)
 
 ### Community 62 - "Camera Tour / Camera Tour Panel"
-Cohesion: 0.35
-Nodes (9): sampleSplinePath(), createLabelSprite(), disposeObject3D(), isSceneCaptureVisualsLocked(), markTourVisual(), removeTourPathVisual(), stripTourPathVisualForRender(), syncTourPathVisual() (+1 more)
+Cohesion: 0.19
+Nodes (19): bindEditorTourPlayer(), CameraTourPanel(), formatVec3(), StopCard(), StopCardProps, ensureTourPlayer(), createDefaultStopFields(), TourStore (+11 more)
+
+### Community 65 - "Camera Tour"
+Cohesion: 0.19
+Nodes (5): CameraTourPlayer, CameraTourPlayerOptions, easeInOutCubic(), lerpVec3(), tickEditorCameraFly()
 
 ### Community 67 - "Package"
 Cohesion: 0.12
-Nodes (17): antd, mp4-muxer, dependencies, antd, mp4-muxer, react, react-dom, three (+9 more)
+Nodes (17): antd, echarts, mp4-muxer, dependencies, antd, echarts, mp4-muxer, react (+9 more)
 
 ### Community 68 - "Package (2)"
 Cohesion: 0.12
@@ -233,48 +228,32 @@ Cohesion: 0.16
 Nodes (14): PanelButton(), PanelColorField(), PanelColorFieldProps, PanelFileButton(), PanelFileButtonProps, PanelInputNumber(), PanelSelect(), panelSelectClassNames (+6 more)
 
 ### Community 72 - "Export Panel"
-Cohesion: 0.19
-Nodes (11): clampRecordSize(), exportFormTheme, ExportPanel(), ExportPanelProps, exportSelectClassNames, matchRecordResolutionPreset(), RECORD_RESOLUTION_PRESETS, RecordFormat (+3 more)
+Cohesion: 0.12
+Nodes (21): clampRecordSize(), exportFormTheme, ExportPanel(), ExportPanelProps, exportSelectClassNames, matchRecordResolutionPreset(), RECORD_RESOLUTION_PRESETS, RecordFormat (+13 more)
 
 ### Community 75 - "Post Process"
 Cohesion: 0.27
 Nodes (12): EffectHint(), loadSavedPostProcess(), PostProcessSettings(), buildPostProcessConfig(), DEFAULT_POST_PROCESS_PARAMS, mergePostProcessParams(), POST_PROCESS_EFFECT_GROUPS, POST_PROCESS_PRESETS (+4 more)
 
-### Community 77 - "Camera Tour / Tour Store"
-Cohesion: 0.12
-Nodes (30): CameraTourPanel(), formatVec3(), StopCard(), StopCardProps, createDefaultStopFields(), TourStore, useTourStore, CameraTour (+22 more)
-
 ### Community 78 - "Polyhaven / Model"
-Cohesion: 0.27
-Nodes (11): ModelPicker(), ModelPickerProps, ModelPickerModal(), ModelPickerModalProps, fetchAllModels(), fetchModelCategories(), getModelCategoryLabel(), getModelPreviewUrl() (+3 more)
+Cohesion: 0.24
+Nodes (12): ModelPicker(), ModelPickerProps, ModelPickerModal(), ModelPickerModalProps, fetchAllModels(), fetchModelCategories(), getModelCategoryLabel(), getModelPreviewUrl() (+4 more)
 
 ### Community 83 - "Uiexport Modal / Use Editor"
-Cohesion: 0.07
-Nodes (54): FORMAT_OPTIONS, UIExportModal(), UIExportModalProps, EditorNotifyApi, NOTIFY_DEFAULTS, useEditorNotify(), buildSaveReadme(), cloneElementsForExport() (+46 more)
+Cohesion: 0.08
+Nodes (46): buildSaveReadme(), cloneElementsForExport(), downloadBlob(), saveUIEditorProject(), UIEditorSaveResult, getElementExportClasses(), buildElementStyle(), buildInputInnerStyle() (+38 more)
 
 ### Community 84 - "Social Icon Sprite"
 Cohesion: 0.14
 Nodes (14): Bluesky Icon, Discord Icon, Documentation Icon, GitHub Icon, Docs Icon Sprite Sheet, Social/Profile Icon, X/Twitter Icon, Bluesky Icon (+6 more)
 
-### Community 85 - "Light / Light Store"
-Cohesion: 0.26
-Nodes (9): LightPanel(), DEFAULT_LIGHTS, initialState, LightStore, TODO: 集成到历史记录系统, LightAction, LightConfig, LightState (+1 more)
-
 ### Community 88 - "Polyhaven / Environment Hdri"
-Cohesion: 0.22
-Nodes (12): EnvironmentHdriSection(), EnvironmentHdriSectionProps, HdriPicker(), HdriPickerProps, fetchAllHdris(), fetchHdriCategories(), getHdriCategoryLabel(), getHdriPreviewUrl() (+4 more)
-
-### Community 89 - "Ui Css / Css Import Modal"
-Cohesion: 0.35
-Nodes (11): CssImportModal(), CssImportModalProps, isColorValue(), mapBackgroundRepeat(), mapTextAlign(), normalizeColor(), parseBorder(), parseLanhuCss() (+3 more)
+Cohesion: 0.14
+Nodes (21): EnvironmentHdriSection(), EnvironmentHdriSectionProps, HdriPicker(), HdriPickerProps, fetchAllHdris(), fetchHdriCategories(), getHdriCategoryLabel(), getHdriPreviewUrl() (+13 more)
 
 ### Community 95 - "Load Polyhaven / Polyhaven"
 Cohesion: 0.26
 Nodes (11): MaterialEditor(), tagPolyhavenTexture(), applyUvParams(), LoadedPolyhavenTextures, loadPolyhavenTextureSet(), loadTexture(), textureLoader, TextureUvApplyParams (+3 more)
-
-### Community 97 - "Camera Tour (2)"
-Cohesion: 0.20
-Nodes (13): applyEditorCameraState(), CameraTourPlayerState, easeInOutCubic(), flyTempPosition, flyTempTarget, lerpVec3(), syncEditorCameraGlobals(), tickEditorCameraFly() (+5 more)
 
 ### Community 101 - "Agent Scene Control Protocol"
 Cohesion: 0.22
@@ -331,22 +310,22 @@ Nodes (4): name, private, type, version
 ## Knowledge Gaps
 - **259 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+254 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **What is the exact relationship between `协议接入层缺口` and `数据绑定引擎`?**
   _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
-- **Why does `jszip` connect `Editor Project` to `Scene Capture`, `Package`, `Object3D Transforms (2)`, `External Asset Export / Project Package Expor`, `Uiexport Modal / Use Editor`?**
-  _High betweenness centrality (0.069) - this node is a cross-community bridge._
-- **Why does `dependencies` connect `Package` to `Package (4)`, `Package (5)`, `Editor Project`?**
+- **Why does `jszip` connect `Editor Project` to `Uiexport Modal / Use Editor`, `projectPackageExporter.ts`, `Scene Capture`, `Package`?**
   _High betweenness centrality (0.062) - this node is a cross-community bridge._
-- **Why does `useSceneStore` connect `History / Undo Redo / Scene Utils` to `Scene Label`, `Resource Lifecycle`, `Object3D Transforms`, `Resource Lifecycle (3)`, `Three.js Vector Math (3)`, `sceneConfigExporter.ts`, `exportParticleAssets.ts`, `Camera Tour / Tour Store`, `Editor / Use Model`, `Editor Project`, `Scene API / UI Interaction Bindings`, `Default / Particle`, `Quarks Particle Adapter / Particle Scene Runt`?**
-  _High betweenness centrality (0.038) - this node is a cross-community bridge._
+- **Why does `dependencies` connect `Package` to `uiCssParser.ts`, `Package (4)`, `Editor Project`?**
+  _High betweenness centrality (0.052) - this node is a cross-community bridge._
+- **Why does `useSceneStore` connect `History / Undo Redo / Scene Utils` to `Scene Label`, `projectPackageExporter.ts`, `Object3D Transforms`, `Three.js Vector Math (3)`, `Export Panel`, `exportParticleAssets.ts`, `Editor / Use Model`, `Editor Project`, `Scene API / UI Interaction Bindings`, `Quarks Particle Adapter / Particle Scene Runt`, `Camera Tour / Camera Tour Panel`?**
+  _High betweenness centrality (0.035) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _259 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `projectPackageExporter.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.05352743561030235 - nodes in this community are weakly interconnected._
 - **Should `Resource Lifecycle (2)` be split into smaller, more focused modules?**
   _Cohesion score 0.04878048780487805 - nodes in this community are weakly interconnected._
-- **Should `Object3D Transforms (2)` be split into smaller, more focused modules?**
-  _Cohesion score 0.14393939393939395 - nodes in this community are weakly interconnected._

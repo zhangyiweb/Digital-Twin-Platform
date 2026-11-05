@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
       dedupe: ['three'],
     },
     server: {
+      host: true, // 0.0.0.0，可用局域网 IP 访问
       port: 5173,
       open: true,
     },

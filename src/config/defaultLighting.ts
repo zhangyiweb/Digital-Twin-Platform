@@ -39,6 +39,8 @@ export const DEFAULT_LIGHTS: LightConfig[] = [
     groundColor: '#5a4a36',
     intensity: 0.5,
     castShadow: false,
+    // 远离原点，避免与场景中心物体/Gizmo 抢拾取
+    position: [0, 120, 0],
   },
 ];
 

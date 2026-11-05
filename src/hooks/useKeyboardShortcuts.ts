@@ -2,8 +2,10 @@ import { useEffect } from 'react';
 import { useEditorStore } from '@/store/editorStore';
 import { useHistoryStore } from '@/store/historyStore';
 import { useSceneStore } from '@/store/sceneStore';
+import { useLightStore } from '@/store/lightStore';
 import type { TransformSnapshot } from '@/store/historyStore';
 import { findThreeObjectById } from '@/utils/sceneUtils';
+import { detachTransformControlsIfAttached } from '@/utils/particleScene';
 import * as THREE from 'three';
 
 function applyTransformSnapshot(snapshot: TransformSnapshot) {
@@ -29,6 +31,7 @@ export function useKeyboardShortcuts() {
   const { setTool, toggleGrid, toggleAxes, editorMode, setEditorMode } = useEditorStore();
   const { undo, redo, canUndo, canRedo } = useHistoryStore();
   const { selectedIds, removeObject, getThreeObject } = useSceneStore();
+  const { selectedLightId, removeLight, selectLight } = useLightStore();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -64,22 +67,26 @@ export function useKeyboardShortcuts() {
         case 'backspace':
           if (selectedIds.length > 0) {
             e.preventDefault();
-            const transformControls = (window as any).__editorTransformControls;
-            if (transformControls) {
-              transformControls.detach();
-            }
-
             const scene = (window as any).__editorScene as THREE.Scene | undefined;
 
             selectedIds.forEach((id) => {
               if (scene) {
                 const threeObj = findThreeObjectById(scene, id, getThreeObject);
+                // 先 detach 再移出场景，避免 TransformControls scene graph 报错
+                detachTransformControlsIfAttached(id, threeObj ?? undefined);
                 if (threeObj?.parent) {
                   threeObj.parent.remove(threeObj);
                 }
+              } else {
+                detachTransformControlsIfAttached(id);
               }
               removeObject(id);
             });
+          } else if (selectedLightId) {
+            e.preventDefault();
+            detachTransformControlsIfAttached(selectedLightId);
+            selectLight(null);
+            removeLight(selectedLightId);
           }
           break;
         case 'z':
@@ -118,7 +125,10 @@ export function useKeyboardShortcuts() {
     canUndo,
     canRedo,
     selectedIds,
+    selectedLightId,
     removeObject,
+    removeLight,
+    selectLight,
     getThreeObject,
     editorMode,
     setEditorMode,

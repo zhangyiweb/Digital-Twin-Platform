@@ -35,12 +35,31 @@ function isTransformControlsAttachedToObject(
 ) {
   const attached = tc.object;
   if (!attached) return false;
-  if (root && attached === root) return true;
   if (attached.userData?.id === objectId) return true;
-  return attached.parent?.userData?.id === objectId;
+
+  // Gizmo 可能挂在子 Mesh / 灯光拾取球 / 灯光 target 上：沿父链查找
+  let node: THREE.Object3D | null = attached;
+  while (node) {
+    if (root && node === root) return true;
+    if (node.userData?.id === objectId) return true;
+    if (node.userData?.lightId === objectId) return true;
+    node = node.parent;
+  }
+
+  // 删除的是挂载对象的子节点时也要卸下
+  if (root) {
+    let ancestor: THREE.Object3D | null = root;
+    while (ancestor) {
+      if (ancestor === attached) return true;
+      ancestor = ancestor.parent;
+    }
+  }
+
+  return false;
 }
 
-function detachTransformControlsIfAttached(objectId: string, root?: THREE.Object3D) {
+/** 删除场景对象前调用：若 TransformControls 挂在该对象或其子树上则 detach，避免 scene graph 报错 */
+export function detachTransformControlsIfAttached(objectId: string, root?: THREE.Object3D) {
   const tc = getEditorTransformControls();
   if (!tc) return false;
   if (!isTransformControlsAttachedToObject(tc, objectId, root)) return false;

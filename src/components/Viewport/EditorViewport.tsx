@@ -25,7 +25,11 @@ import { useModelLoader } from '@/hooks/useModelLoader';
 import { useLightStore } from '@/store/lightStore';
 import { useHistoryStore } from '@/store/historyStore';
 import { tickTextureUvAnimations } from '@/utils/textureAnimationRuntime';
-import { tickParticleSystems, disposeAllParticleSystems } from '@/utils/particleScene';
+import {
+  tickParticleSystems,
+  disposeAllParticleSystems,
+  detachTransformControlsIfAttached,
+} from '@/utils/particleScene';
 import { tickEditorCameraFly } from '@/utils/cameraTourPlayer';
 import { tickEditorCameraTour } from '@/components/Panels/CameraTourPanel';
 import { disposeObject3DResources } from '@/utils/sceneUtils';
@@ -716,6 +720,8 @@ export function EditorViewport() {
     // Three.js 0.185: 必须将 getHelper() 返回的 Object3D 添加到 scene 才能渲染 Gizmo
     const gizmoHelper = transformControls.getHelper();
     scene.add(gizmoHelper);
+    // 未 attach 对象时不显示 Gizmo（仅添加几何体/导入模型/点选后才出现）
+    transformControls.detach();
     
     transformControlsRef.current = transformControls;
     
@@ -876,9 +882,12 @@ export function EditorViewport() {
         }
         
         selectedObject.visible = true;
-        transformControls.attach(selectedObject);
 
         const businessId = resolveBusinessId(selectedObject);
+        // 挂到业务根对象，避免删根时 Gizmo 仍挂在子 Mesh 上
+        const attachTarget =
+          useSceneStore.getState().getThreeObject(businessId) ?? selectedObject;
+        transformControls.attach(attachTarget);
         useLightStore.getState().selectLight(null);
         useSceneStore.getState().selectObject(businessId);
       } else {
@@ -1382,12 +1391,15 @@ export function EditorViewport() {
 
     const tc = transformControlsRef.current;
     if (tc) {
-      tc.visible = !isPreview;
       tc.enabled = !isPreview;
       if (isPreview) {
+        // detach 会把 getHelper().visible 设为 false
         tc.detach();
         useSceneStore.getState().deselectAll();
         useLightStore.getState().selectLight(null);
+      } else {
+        // 仅在已挂到对象时显示；避免空场景强制显示原点 Gizmo
+        tc.getHelper().visible = tc.object != null;
       }
     }
 
@@ -1520,6 +1532,8 @@ export function EditorViewport() {
     // 移除不在lightStore中的灯光
     lightsRef.current.forEach((light, id) => {
       if (!lights.find(l => l.id === id)) {
+        // 防止仍挂着 TransformControls 时移出场景图
+        detachTransformControlsIfAttached(id, light);
         removeLightTargetFromScene(sceneRef.current!, light);
         sceneRef.current!.remove(light);
         lightsRef.current.delete(id);

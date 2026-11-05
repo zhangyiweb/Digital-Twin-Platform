@@ -3,7 +3,9 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import * as THREE from 'three';
 import { useSceneStore } from '@/store/sceneStore';
+import { useLightStore } from '@/store/lightStore';
 import { enableMeshShadows } from '@/config/defaultLighting';
+import type { TransformControls } from 'three/addons/controls/TransformControls.js';
 import {
   fetchModelGltfUrl,
   type ModelAsset,
@@ -49,7 +51,7 @@ function createGltfLoader(gltfUrl?: string, resources?: Record<string, string>) 
 }
 
 export function useModelLoader() {
-  const { addObject, registerThreeObject } = useSceneStore();
+  const { addObject, registerThreeObject, selectObject } = useSceneStore();
 
   const registerImportedModel = useCallback((
     model: THREE.Group,
@@ -74,8 +76,19 @@ export function useModelLoader() {
     });
 
     registerThreeObject(modelId, model);
+
+    // 导入后选中并挂上变换 Gizmo（与组件库添加几何体一致）
+    useLightStore.getState().selectLight(null);
+    selectObject(modelId);
+    const transformControls = (
+      window as unknown as { __editorTransformControls?: TransformControls }
+    ).__editorTransformControls;
+    if (transformControls) {
+      transformControls.attach(model);
+    }
+
     return model;
-  }, [addObject, registerThreeObject]);
+  }, [addObject, registerThreeObject, selectObject]);
 
   const loadModelFromUrl = useCallback(async (
     url: string,

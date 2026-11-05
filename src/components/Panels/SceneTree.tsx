@@ -16,6 +16,7 @@ import {
 } from '@ant-design/icons';
 import { disposeObject3DResources, findThreeObjectById } from '@/utils/sceneUtils';
 import { disposeLabelAnchor } from '@/utils/sceneLabel';
+import { detachTransformControlsIfAttached } from '@/utils/particleScene';
 import * as THREE from 'three';
 
 interface TreeNode {
@@ -345,6 +346,8 @@ export function SceneTree() {
   const handleDelete = useCallback(
     (node: TreeNode) => {
       if (node.type === 'light') {
+        // 灯光选中时 Gizmo 挂在 light / target 上，删除前必须先 detach
+        detachTransformControlsIfAttached(node.id);
         if (selectedLightId === node.id) selectLight(null);
         removeLight(node.id);
         return;
@@ -356,8 +359,12 @@ export function SceneTree() {
       const targetObj = findThreeObjectById(scene, node.id, getThreeObject);
       if (!targetObj) return;
 
-      const transformControls = (window as any).__editorTransformControls;
-      if (transformControls?.object === targetObj) transformControls.detach();
+      const storeId =
+        objects.find((o) => o.id === node.id || o.id === targetObj.uuid)?.id ||
+        (typeof targetObj.userData?.id === 'string' ? targetObj.userData.id : node.id);
+
+      // 必须先于移出场景图 detach（Gizmo 可能挂在子 Mesh 上）
+      detachTransformControlsIfAttached(storeId, targetObj);
 
       if (selectedIds.includes(node.id) || selectedIds.includes(node.uuid)) {
         deselectAll();
@@ -367,12 +374,7 @@ export function SceneTree() {
       disposeLabelAnchor(targetObj);
       disposeObject3DResources(targetObj);
 
-      const storeId = objects.find((o) => o.id === node.id || o.id === targetObj.uuid)?.id;
-      if (storeId) {
-        removeObject(storeId);
-      } else if (targetObj.userData?.id) {
-        removeObject(targetObj.userData.id);
-      }
+      removeObject(storeId);
     },
     [selectedLightId, selectedIds, selectLight, removeLight, getThreeObject, deselectAll, objects, removeObject]
   );

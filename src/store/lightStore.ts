@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { LightState, LightConfig, LightAction } from '@/types/light';
 import { DEFAULT_LIGHTS } from '@/config/defaultLighting';
+import { detachTransformControlsIfAttached } from '@/utils/particleScene';
 
 interface LightStore extends LightState {
   // 添加灯光，返回新灯光 ID
@@ -53,11 +54,14 @@ export const useLightStore = create<LightStore>((set) => ({
     return id;
   },
 
-  removeLight: (id) =>
+  removeLight: (id) => {
+    // 选中灯光时 Gizmo 可能挂在 light/target 上，移出场景前先卸下
+    detachTransformControlsIfAttached(id);
     set((state) => ({
       lights: state.lights.filter((light) => light.id !== id),
       selectedLightId: state.selectedLightId === id ? null : state.selectedLightId,
-    })),
+    }));
+  },
 
   updateLight: (id, updates) =>
     set((state) => ({

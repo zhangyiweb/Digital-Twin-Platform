@@ -2,7 +2,10 @@ import { create } from 'zustand';
 import type { SceneState, SceneObject, CameraConfig } from '@/types/scene';
 import * as THREE from 'three';
 import { useAnimationStore } from '@/store/animationStore';
-import { disposeParticleSystem } from '@/utils/particleScene';
+import {
+  detachTransformControlsIfAttached,
+  disposeParticleSystem,
+} from '@/utils/particleScene';
 import { disposeLabelAnchor } from '@/utils/sceneLabel';
 
 interface SceneStore extends SceneState {
@@ -90,6 +93,8 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
   removeObject: (id) =>
     set((state) => {
       const threeObj = state.threeObjects.get(id);
+      // 兜底：删除前卸下 Gizmo，防止已移出场景图仍被 TransformControls 引用
+      detachTransformControlsIfAttached(id, threeObj);
       if (threeObj) disposeLabelAnchor(threeObj);
       const newMap = new Map(state.threeObjects);
       newMap.delete(id);

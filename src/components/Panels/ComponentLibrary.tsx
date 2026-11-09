@@ -12,6 +12,7 @@ import type { ParticlePresetId } from '@/types/particle';
 import type { SceneLabelMode } from '@/types/sceneLabel';
 import { createDefaultLabelConfig, SCENE_LABEL_MODE_OPTIONS } from '@/types/sceneLabel';
 import { createLabelAnchor } from '@/utils/sceneLabel';
+import { pushAddObjectHistory } from '@/utils/applyHistoryTransform';
 
 export function ComponentLibrary() {
   const { addLight, selectLight } = useLightStore();
@@ -100,6 +101,16 @@ export function ComponentLibrary() {
     });
 
     useSceneStore.getState().registerThreeObject(id, object);
+
+    pushAddObjectHistory(
+      id,
+      {
+        position: [...preset.position],
+        rotation: [...preset.rotation],
+        scale: [...preset.scale],
+      },
+      `add ${preset.name}`
+    );
 
     selectLight(null);
     selectObject(id);

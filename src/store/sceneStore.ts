@@ -54,7 +54,7 @@ const initialState: SceneState = {
     target: [0, 0, 0],
     fov: 45, // 默认45度视野
     near: 0.1,
-    far: 5000,
+    far: 50000,
   },
   lights: [],
   backgroundColor: '#1a1a1a',

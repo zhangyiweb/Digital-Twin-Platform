@@ -13,6 +13,7 @@ import {
   DEFAULT_MODEL_RESOLUTION,
 } from '@/utils/polyhaven';
 import { tagMeshExternalTextures } from '@/utils/exportExternalAssets';
+import { pushAddObjectHistory } from '@/utils/applyHistoryTransform';
 
 function resolvePolyhavenResourceUrl(
   requestedUrl: string,
@@ -76,6 +77,16 @@ export function useModelLoader() {
     });
 
     registerThreeObject(modelId, model);
+
+    pushAddObjectHistory(
+      modelId,
+      {
+        position: [model.position.x, model.position.y, model.position.z],
+        rotation: [model.rotation.x, model.rotation.y, model.rotation.z],
+        scale: [model.scale.x, model.scale.y, model.scale.z],
+      },
+      `add model ${name}`
+    );
 
     // 导入后选中并挂上变换 Gizmo（与组件库添加几何体一致）
     useLightStore.getState().selectLight(null);

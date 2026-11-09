@@ -44,30 +44,6 @@ import { resolveLabelIdFromIntersect, hitTestLabelAtClientPoint, syncLabelObject
 
 const CLICK_DRAG_THRESHOLD_PX = 5;
 
-/** 从射线命中的 Object3D 向上查找业务 ID */
-function resolveBusinessId(selectedObject: THREE.Object3D): string {
-  let node: THREE.Object3D | null = selectedObject;
-  while (node) {
-    const id = node.userData?.id ?? node.userData?.businessId;
-    if (typeof id === 'string' && id) return id;
-    node = node.parent;
-  }
-
-  const { objects, threeObjects } = useSceneStore.getState();
-  for (const [id, threeObj] of threeObjects) {
-    let matched = false;
-    threeObj.traverse((child) => {
-      if (child === selectedObject) matched = true;
-    });
-    if (matched) return id;
-  }
-
-  const byName = objects.find((obj) => obj.name === selectedObject.name);
-  if (byName) return byName.id;
-
-  return selectedObject.uuid;
-}
-
 /** 是否可用变换控制器移动的灯光 */
 function isTransformableLight(light: THREE.Light): boolean {
   return !(light instanceof THREE.AmbientLight);
@@ -622,23 +598,21 @@ export function EditorViewport() {
           rotation: obj.rotation.clone(),
           scale: obj.scale.clone(),
         };
-        
-        // 查找对象ID
-        const scene = sceneRef.current;
-        if (scene) {
-          scene.traverse((child: THREE.Object3D) => {
-            if (child === obj) {
-              // 从store中查找ID
-              const store = useSceneStore.getState();
-              store.objects.forEach(o => {
-                const threeObj = store.getThreeObject(o.id);
-                if (threeObj === obj) {
-                  transformObjectId = o.id;
-                }
-              });
-            }
-          });
+
+        // 解析历史用 ID：业务根用 store id，子 Mesh 用 uuid（选中 Mesh 时也能记历史）
+        const store = useSceneStore.getState();
+        let resolvedId: string | null = null;
+        for (const o of store.objects) {
+          if (store.getThreeObject(o.id) === obj) {
+            resolvedId = o.id;
+            break;
+          }
         }
+        if (!resolvedId) {
+          resolvedId =
+            (typeof obj.userData?.id === 'string' && obj.userData.id) || obj.uuid;
+        }
+        transformObjectId = resolvedId;
       }
       
       // 如果从拖拽变为不拖拽,标记刚刚完成拖拽,并记录历史
@@ -686,11 +660,14 @@ export function EditorViewport() {
               scale: endState.scale as [number, number, number],
             };
 
-            useSceneStore.getState().updateObject(transformObjectId, {
-              position: after.position,
-              rotation: after.rotation,
-              scale: after.scale,
-            });
+            // 仅当是 store 注册的业务对象时回写；子 Mesh 只记历史
+            if (useSceneStore.getState().objects.some((o) => o.id === transformObjectId)) {
+              useSceneStore.getState().updateObject(transformObjectId, {
+                position: after.position,
+                rotation: after.rotation,
+                scale: after.scale,
+              });
+            }
 
             if (hasScaled) {
               syncLabelObjectScaleVisual(obj);
@@ -873,23 +850,22 @@ export function EditorViewport() {
           }
         }
 
-        let selectedObject = hitObject;
-        
-        while (selectedObject.parent && 
-               !(selectedObject instanceof THREE.Mesh) && 
-               !(selectedObject instanceof THREE.Group)) {
+        // 优先选中命中的 Mesh（不要升到模型 Group）
+        let selectedObject: THREE.Object3D = hitObject;
+        while (selectedObject.parent && !(selectedObject instanceof THREE.Mesh)) {
           selectedObject = selectedObject.parent;
         }
-        
-        selectedObject.visible = true;
 
-        const businessId = resolveBusinessId(selectedObject);
-        // 挂到业务根对象，避免删根时 Gizmo 仍挂在子 Mesh 上
-        const attachTarget =
-          useSceneStore.getState().getThreeObject(businessId) ?? selectedObject;
-        transformControls.attach(attachTarget);
+        selectedObject.visible = true;
+        transformControls.attach(selectedObject);
+
+        // 子 Mesh 通常没有业务 id，用 uuid 以便场景树/材质面板对准该 Mesh
+        const selectionId =
+          (typeof selectedObject.userData?.id === 'string' && selectedObject.userData.id) ||
+          selectedObject.uuid;
+
         useLightStore.getState().selectLight(null);
-        useSceneStore.getState().selectObject(businessId);
+        useSceneStore.getState().selectObject(selectionId);
       } else {
         const { selectedIds: currentSelectedIds, deselectAll: clearSelection } = useSceneStore.getState();
         const currentSelectedLightId = useLightStore.getState().selectedLightId;

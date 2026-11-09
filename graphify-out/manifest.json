@@ -25,9 +25,9 @@
     "semantic_hash": "a93235c6d03eb1bc2b12c809bfa91340"
   },
   "src/components/Panels/ComponentLibrary.tsx": {
-    "mtime": 1784168028.489685,
-    "ast_hash": "4cd29bb9f684e8c85aef6661ad165e86",
-    "semantic_hash": "4cd29bb9f684e8c85aef6661ad165e86"
+    "mtime": 1793945243.8084402,
+    "ast_hash": "653ad1f1b36d5ed97dc7536eca1405a6",
+    "semantic_hash": ""
   },
   "src/components/Panels/EnvironmentHdriSection.tsx": {
     "mtime": 1782801463.7491608,
@@ -90,9 +90,9 @@
     "semantic_hash": "4ac058cdbd9d4927bf5055a6827d3375"
   },
   "src/components/Panels/PropertyPanel.tsx": {
-    "mtime": 1784705633.4644158,
-    "ast_hash": "bf5648f2920112fd1dc0653899b819f7",
-    "semantic_hash": "bf5648f2920112fd1dc0653899b819f7"
+    "mtime": 1793943946.6242385,
+    "ast_hash": "a52d3dc7412c937fc95b23a189e4d411",
+    "semantic_hash": ""
   },
   "src/components/Panels/SceneTree.tsx": {
     "mtime": 1793860096.042163,
@@ -115,9 +115,9 @@
     "semantic_hash": "654ee12a067726b39456bd92f8cbdf6b"
   },
   "src/components/Toolbar/GizmoToolbar.tsx": {
-    "mtime": 1783494605.6996357,
-    "ast_hash": "4edac46041710c23ab6984e33049141c",
-    "semantic_hash": "4edac46041710c23ab6984e33049141c"
+    "mtime": 1793945237.314373,
+    "ast_hash": "5730bb24df243d571eb40575d88137fb",
+    "semantic_hash": ""
   },
   "src/components/Toolbar/MainToolbar.tsx": {
     "mtime": 1784169380.674451,
@@ -185,8 +185,8 @@
     "semantic_hash": "85fdab784c3e6430081b109066fe6705"
   },
   "src/components/Viewport/EditorViewport.tsx": {
-    "mtime": 1793860135.2277315,
-    "ast_hash": "278d28bf5fa54a2b88636841b52d9d90",
+    "mtime": 1793945195.0433984,
+    "ast_hash": "84f2b714b28af8d112525ce744ebfc44",
     "semantic_hash": ""
   },
   "src/components/Viewport/SceneUIPreviewOverlay.tsx": {
@@ -230,13 +230,13 @@
     "semantic_hash": "a1b165cfdf0354aacfdf85a11e43c60f"
   },
   "src/hooks/useKeyboardShortcuts.ts": {
-    "mtime": 1793860129.923589,
-    "ast_hash": "895f966e467a01293c7b557c557bef6d",
+    "mtime": 1793945235.0943289,
+    "ast_hash": "0013ce1ca65a7606d8f81b4535649daf",
     "semantic_hash": ""
   },
   "src/hooks/useModelLoader.ts": {
-    "mtime": 1793859875.0284076,
-    "ast_hash": "936358be801bd2b2892733ae87384e17",
+    "mtime": 1793945240.6936471,
+    "ast_hash": "c99c2fc6cd6ecd8cd94a106f55929312",
     "semantic_hash": ""
   },
   "src/hooks/useSceneExporter.ts": {
@@ -599,189 +599,24 @@
     "ast_hash": "fe5159c2c965adf8052489ed107db808",
     "semantic_hash": ""
   },
-  "docs/index.html": {
-    "mtime": 1783042231.0803218,
-    "ast_hash": "ade222933c09cab70e58a2bebc0a137e",
-    "semantic_hash": "ade222933c09cab70e58a2bebc0a137e"
-  },
   "index.html": {
     "mtime": 1783041767.9684918,
     "ast_hash": "c9e8d08c017c3c792c122f6ae1819a43",
     "semantic_hash": "c9e8d08c017c3c792c122f6ae1819a43"
-  },
-  "\u6587\u6863/Agent\u573a\u666f\u63a7\u5236\u534f\u8bae.md": {
-    "mtime": 1785489256.6617749,
-    "ast_hash": "5a0505845713bd793d9a5a47394be389",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u672a\u5b9e\u73b0\u529f\u80fd\u89c4\u5212.md": {
-    "mtime": 1782958899.6829326,
-    "ast_hash": "d3730d949a602e556308eb278d7a4d49",
-    "semantic_hash": "d3730d949a602e556308eb278d7a4d49"
   },
   "src/assets/hero.png": {
     "mtime": 1776996942.7839997,
     "ast_hash": "aead493361b27e7510691c5d7072dfc1",
     "semantic_hash": "aead493361b27e7510691c5d7072dfc1"
   },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.md": {
-    "mtime": 1785487955.9933336,
-    "ast_hash": "008124dd551f1701b9dd543faf08eac3",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e.html": {
-    "mtime": 1785489116.6962454,
-    "ast_hash": "cfcdd2a64b854095b6fed388ca7c100a",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/01-overview-annotated.png": {
-    "mtime": 1785486550.1799212,
-    "ast_hash": "485e877357a0c3400b4699755f2c420b",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/01-overview.png": {
-    "mtime": 1785486400.2021027,
-    "ast_hash": "cd187b7ad89854bd07def29bc4d32711",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/02-environment.png": {
-    "mtime": 1785486400.8041234,
-    "ast_hash": "3077488dbea784a9e6f30164abd06dc1",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/03-render.png": {
-    "mtime": 1785486401.2334473,
-    "ast_hash": "6e8125eb73cde69c3ce18f8661679541",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/04-tour.png": {
-    "mtime": 1785486401.6347115,
-    "ast_hash": "796dc1c36bfa3493b321aa224dc406e6",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/05-postprocess.png": {
-    "mtime": 1785486401.6347115,
-    "ast_hash": "7053cee1abe09af0d06d88a2f078205f",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/06-lights.png": {
-    "mtime": 1785486401.8149786,
-    "ast_hash": "2664ed36e7e656ff354ba3f08f00a6ea",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/07-particles.png": {
-    "mtime": 1785486402.0326998,
-    "ast_hash": "df08dd3600fe0a2374906539dfee09ec",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/08-labels.png": {
-    "mtime": 1785486402.6027234,
-    "ast_hash": "5189eb49dcbd36e452b805e05324ea98",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/09-ui-annotated.png": {
-    "mtime": 1785486550.3521826,
-    "ast_hash": "378c3274b19ebd422360eba7fc7d976f",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/09-ui-editor.png": {
-    "mtime": 1785486402.9904945,
-    "ast_hash": "e6c043966839f8bb3fc89e132ad2a452",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/10-export-annotated.png": {
-    "mtime": 1785486550.2286763,
-    "ast_hash": "86ddfb8ff35fe28c8f581e4908050e6d",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/10-export.png": {
-    "mtime": 1785486402.9904945,
-    "ast_hash": "862d898d4b6f3a713382a45a29e88747",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-component-lib.png": {
-    "mtime": 1785487830.117106,
-    "ast_hash": "c4f0ac42ca4fc17f7f7c9c08c79b37b9",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-gizmo.png": {
-    "mtime": 1785487727.913813,
-    "ast_hash": "4f4f59cb71fcbfe8f76c5048b72cfbde",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-modes.png": {
-    "mtime": 1785487761.954282,
-    "ast_hash": "ee6e53d5980e850d9445cd5d033956f3",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-project-btns.png": {
-    "mtime": 1785487793.6171732,
-    "ast_hash": "a0f4b11c03a9dd0d90770b23cba69872",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-right-scene.png": {
-    "mtime": 1785487867.843537,
-    "ast_hash": "f7062f62c86c5a7654c2d5f9aac13cc9",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-scene-tree.png": {
-    "mtime": 1785487713.3361037,
-    "ast_hash": "570b2eda639e5a863976197d3893ae97",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-statusbar.png": {
-    "mtime": 1785486492.4606898,
-    "ast_hash": "847f228ad2e19bc3e97309b488067b04",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-toolbar.png": {
-    "mtime": 1785487686.332104,
-    "ast_hash": "414b4b7ed1cf76da829599e896a5b256",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-ui-canvas.png": {
-    "mtime": 1785486492.5821404,
-    "ast_hash": "dfa99272c52186e3c82f94b20088ca20",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-ui-layers.png": {
-    "mtime": 1785486492.489548,
-    "ast_hash": "15d159899548463a06fe116f80e14f88",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-ui-palette.png": {
-    "mtime": 1785486492.482878,
-    "ast_hash": "7784e9f82b2475f26e23916b23176ba1",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-ui-props.png": {
-    "mtime": 1785486492.596986,
-    "ast_hash": "8846d15499ac2cd6965c3c5a745e292f",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-ui-toolbar.png": {
-    "mtime": 1785486492.4714928,
-    "ast_hash": "a12ad473b1d16ac7da478888d3985832",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-viewport.png": {
-    "mtime": 1785486492.45728,
-    "ast_hash": "db7f6a8730285577880599af4b88054e",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/Agent\u573a\u666f\u63a7\u5236\u534f\u8bae-API.html": {
-    "mtime": 1785489471.2695227,
-    "ast_hash": "278c5bbb5f1a9d7fc615d349b7f9844a",
-    "semantic_hash": ""
-  },
-  "\u6587\u6863/\u4f7f\u7528\u8bf4\u660e-assets/crop-gizmo-lg.png": {
-    "mtime": 1785488223.0773115,
-    "ast_hash": "26839533c2f80cdf5b450b8fd9bb3c2b",
-    "semantic_hash": ""
-  },
   "scripts/gen_soft_copyright_docx.py": {
     "mtime": 1793840992.847271,
     "ast_hash": "7e471c7979c23091f55ae99bfc576591",
+    "semantic_hash": ""
+  },
+  "src/utils/applyHistoryTransform.ts": {
+    "mtime": 1793945232.009368,
+    "ast_hash": "5e9dbbb3fa88c31036212a5961d4b11b",
     "semantic_hash": ""
   }
 }

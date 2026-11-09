@@ -43,7 +43,7 @@ export function GlobalSettings() {
   const [controlsTarget, setControlsTarget] = useState(savedConfig?.controlsTarget || { x: 0, y: 0, z: 0 });
   const [cameraFov, setCameraFov] = useState(savedConfig?.cameraFov ?? 45);
   const [cameraNear, setCameraNear] = useState(savedConfig?.cameraNear ?? 0.1);
-  const [cameraFar, setCameraFar] = useState(savedConfig?.cameraFar ?? 5000);
+  const [cameraFar, setCameraFar] = useState(savedConfig?.cameraFar ?? 50000);
   const [antialias, setAntialias] = useState(savedConfig?.antialias ?? true);
   const [alpha, setAlpha] = useState(savedConfig?.alpha ?? true);
   const [logarithmicDepthBuffer, setLogarithmicDepthBuffer] = useState(savedConfig?.logarithmicDepthBuffer ?? true);
@@ -873,10 +873,10 @@ export function GlobalSettings() {
                   <input
                     type="number"
                     min="10"
-                    max="10000"
+                    max="100000"
                     step="10"
                     value={cameraFar}
-                    onChange={(e) => setCameraFar(parseFloat(e.target.value) || 1000)}
+                    onChange={(e) => setCameraFar(parseFloat(e.target.value) || 50000)}
                     className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
                   />
                 </div>

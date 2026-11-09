@@ -3,29 +3,10 @@ import { useEditorStore } from '@/store/editorStore';
 import { useHistoryStore } from '@/store/historyStore';
 import { useSceneStore } from '@/store/sceneStore';
 import { useLightStore } from '@/store/lightStore';
-import type { TransformSnapshot } from '@/store/historyStore';
 import { findThreeObjectById } from '@/utils/sceneUtils';
 import { detachTransformControlsIfAttached } from '@/utils/particleScene';
+import { applyHistoryRedo, applyHistoryUndo } from '@/utils/applyHistoryTransform';
 import * as THREE from 'three';
-
-function applyTransformSnapshot(snapshot: TransformSnapshot) {
-  const scene = (window as any).__editorScene as THREE.Scene | undefined;
-  if (!scene) return;
-
-  const { getThreeObject, updateObject } = useSceneStore.getState();
-  const threeObj = findThreeObjectById(scene, snapshot.objectId, getThreeObject);
-
-  if (threeObj) {
-    threeObj.position.set(...snapshot.position);
-    threeObj.rotation.set(...snapshot.rotation);
-    threeObj.scale.set(...snapshot.scale);
-    updateObject(snapshot.objectId, {
-      position: snapshot.position,
-      rotation: snapshot.rotation,
-      scale: snapshot.scale,
-    });
-  }
-}
 
 export function useKeyboardShortcuts() {
   const { setTool, toggleGrid, toggleAxes, editorMode, setEditorMode } = useEditorStore();
@@ -94,9 +75,7 @@ export function useKeyboardShortcuts() {
             e.preventDefault();
             if (canUndo()) {
               const entry = undo();
-              if (entry) {
-                applyTransformSnapshot(entry.before);
-              }
+              if (entry) applyHistoryUndo(entry);
             }
           }
           break;
@@ -105,9 +84,7 @@ export function useKeyboardShortcuts() {
             e.preventDefault();
             if (canRedo()) {
               const entry = redo();
-              if (entry) {
-                applyTransformSnapshot(entry.after);
-              }
+              if (entry) applyHistoryRedo(entry);
             }
           }
           break;

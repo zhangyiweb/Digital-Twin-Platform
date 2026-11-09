@@ -354,6 +354,14 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
 }
 
+.gizmo-sep {
+  width: 1px;
+  height: 18px;
+  margin: 0 4px;
+  background: rgba(156, 163, 175, 0.35);
+  flex-shrink: 0;
+}
+
 .gizmo-btn {
   display: flex;
   align-items: center;
@@ -369,9 +377,15 @@
   transition: color 0.15s, background 0.15s, box-shadow 0.15s;
 }
 
-.gizmo-btn:hover {
+.gizmo-btn:hover:not(:disabled) {
   color: #e5e7eb;
   background: rgba(55, 65, 81, 0.55);
+}
+
+.gizmo-btn:disabled {
+  color: #4b5563;
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .gizmo-btn.active {

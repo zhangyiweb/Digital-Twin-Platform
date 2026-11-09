@@ -400,14 +400,20 @@ export function PropertyPanel() {
                     </label>
                     <input
                       type="number"
-                      step="0.1"
+                      step="1"
                       className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
                       value={displayPosition[idx]}
                       onFocus={() => { isLightInputEditingRef.current = true; }}
                       onBlur={() => { isLightInputEditingRef.current = false; }}
                       onChange={(e) => {
+                        const raw = parseFloat(e.target.value);
                         const newPos = [...displayPosition] as [number, number, number];
-                        newPos[idx] = parseFloat(e.target.value);
+                        newPos[idx] = Number.isFinite(raw) ? raw : 0;
+                        // 同步本地展示值，否则受控 input 会被旧的 lightLiveTransform 盖住
+                        setLightLiveTransform((prev) => ({
+                          position: newPos,
+                          target: prev?.target ?? displayTarget,
+                        }));
                         handleLightUpdate(selectedLight.id, { position: newPos });
                       }}
                     />
@@ -431,14 +437,19 @@ export function PropertyPanel() {
                     </label>
                     <input
                       type="number"
-                      step="0.1"
+                      step="1"
                       className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
                       value={displayTarget[idx]}
                       onFocus={() => { isLightInputEditingRef.current = true; }}
                       onBlur={() => { isLightInputEditingRef.current = false; }}
                       onChange={(e) => {
+                        const raw = parseFloat(e.target.value);
                         const newTarget = [...displayTarget] as [number, number, number];
-                        newTarget[idx] = parseFloat(e.target.value);
+                        newTarget[idx] = Number.isFinite(raw) ? raw : 0;
+                        setLightLiveTransform((prev) => ({
+                          position: prev?.position ?? displayPosition,
+                          target: newTarget,
+                        }));
                         handleLightUpdate(selectedLight.id, { target: newTarget });
                       }}
                     />
@@ -446,7 +457,7 @@ export function PropertyPanel() {
                 ))}
               </div>
               <p className="text-[10px] text-gray-500 mt-1">
-                视口 Gizmo 拖拽此项；光源位置请在上方调整太阳距离
+                可在上方直接改数值，或在视口用 Gizmo 拖拽照射目标
               </p>
             </div>
           )}

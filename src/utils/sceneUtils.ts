@@ -99,17 +99,38 @@ export function createModelsExportScene(source: THREE.Scene): THREE.Scene {
     if (child.userData?.isLightTarget) return;
     if (child.userData?.isParticleEmitter) return;
     if (child.userData?.type === 'label') return;
-    if (
-      child instanceof THREE.Mesh ||
-      child instanceof THREE.Group ||
-      child instanceof THREE.Line ||
-      child instanceof THREE.LineSegments
-    ) {
+    // GLTF 根节点不一定是 Group，也可能是普通 Object3D/Scene。
+    // 只要后代包含 Mesh，就保留整个根节点层级，避免模型被误过滤。
+    let hasMesh = false;
+    let containsEditorHelper = false;
+    child.traverse((node) => {
+      if (node instanceof THREE.Mesh) hasMesh = true;
+      // TransformControls 的根节点本身可能不是 Gizmo 类型，必须检查后代，
+      // 否则会把编辑器控制器的几何体一起写进 GLB。
+      if (isEditorHelperObject(node)) containsEditorHelper = true;
+    });
+    if (hasMesh && !containsEditorHelper) {
       exportScene.add(child.clone(true));
     }
   });
 
   return exportScene;
+}
+
+/** 移除误被导出进 GLB 的编辑器 TransformControls 节点。 */
+export function stripEditorTransformControls(root: THREE.Object3D) {
+  const removable: THREE.Object3D[] = [];
+  root.traverse((node) => {
+    if (
+      node.type === 'TransformControlsGizmo' ||
+      node.type === 'TransformControlsPlane' ||
+      node.name === 'TransformControlsGizmo' ||
+      node.name === 'TransformControlsPlane'
+    ) {
+      removable.push(node);
+    }
+  });
+  removable.forEach((node) => node.parent?.remove(node));
 }
 
 /** 创建用于导出的场景副本，排除网格、坐标轴、Gizmo 等辅助对象 */

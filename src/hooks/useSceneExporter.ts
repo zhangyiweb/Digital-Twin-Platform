@@ -1,11 +1,25 @@
 import { useCallback } from 'react';
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
-import { createExportScene } from '@/utils/sceneUtils';
+import { createExportScene, createModelsExportScene } from '@/utils/sceneUtils';
+import { deepCloneSceneMaterials, prepareTexturesForGlbExport } from '@/utils/exportExternalAssets';
+import { normalizeObjectTextureUvs } from '@/utils/textureUvUtils';
 
 export function useSceneExporter() {
   const exportGLB = useCallback(async (scene: THREE.Scene): Promise<void> => {
-    const exportScene = createExportScene(scene);
+    // GLB 只导出模型，使用与完整项目包相同的材质/贴图预处理，避免
+    // 直接克隆编辑器场景后得到只有少量节点的几百 KB 文件。
+    const exportScene = createModelsExportScene(scene);
+    let meshCount = 0;
+    exportScene.traverse((child) => {
+      if (child instanceof THREE.Mesh) meshCount += 1;
+    });
+    if (meshCount === 0) {
+      throw new Error('当前场景没有可导出的模型 Mesh');
+    }
+    deepCloneSceneMaterials(exportScene);
+    normalizeObjectTextureUvs(exportScene);
+    await prepareTexturesForGlbExport(exportScene);
 
     return new Promise((resolve, reject) => {
       const exporter = new GLTFExporter();
@@ -25,7 +39,7 @@ export function useSceneExporter() {
           resolve();
         },
         (error: ErrorEvent) => reject(error),
-        { binary: true, trs: true, onlyVisible: true }
+        { binary: true, trs: true, onlyVisible: false, embedImages: true }
       );
     });
   }, []);

@@ -17,7 +17,7 @@ import { clearEditorScene } from '@/utils/clearEditorScene';
 import { restoreEditorObjectIds } from '@/utils/exportSceneRestore';
 import { applyTextureUvStates, normalizeObjectTextureUvs } from '@/utils/textureUvUtils';
 import { enableMeshShadows } from '@/config/defaultLighting';
-import { findThreeObjectById, syncSceneObjectsToStore } from '@/utils/sceneUtils';
+import { findThreeObjectById, syncSceneObjectsToStore, stripEditorTransformControls } from '@/utils/sceneUtils';
 import { useSceneStore } from '@/store/sceneStore';
 import { useLightStore } from '@/store/lightStore';
 import { useAnimationStore } from '@/store/animationStore';
@@ -339,6 +339,7 @@ async function restoreProjectConfig(
   if (config.assets?.model && zip) {
     modelRoot = await loadGlbFromZip(zip, rootPrefix, config.assets.model);
     if (modelRoot) {
+      stripEditorTransformControls(modelRoot);
       normalizeObjectTextureUvs(modelRoot);
       restoreEditorObjectIds(modelRoot, editorObjects);
       enableMeshShadows(modelRoot);

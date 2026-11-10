@@ -14,6 +14,7 @@ import {
 } from '@/utils/polyhaven';
 import { tagMeshExternalTextures } from '@/utils/exportExternalAssets';
 import { pushAddObjectHistory } from '@/utils/applyHistoryTransform';
+import { stripEditorTransformControls } from '@/utils/sceneUtils';
 
 function resolvePolyhavenResourceUrl(
   requestedUrl: string,
@@ -63,6 +64,7 @@ export function useModelLoader() {
     model.name = name;
     model.userData.id = modelId;
 
+    stripEditorTransformControls(model);
     enableMeshShadows(model);
     scene.add(model);
 

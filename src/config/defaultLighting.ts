@@ -96,16 +96,24 @@ export function applyDirectionalShadowSettings(
 export function enableMeshShadows(root: THREE.Object3D) {
   root.traverse((child) => {
     if (child instanceof THREE.Mesh) {
-      // 道路、地形、底盘等大面积薄平面只接收阴影；让它们投射阴影会产生
-      // 与模型轮廓无关的大块阴影，尤其是在平行光下更明显。
-      const bounds = child.geometry.boundingBox || (child.geometry.computeBoundingBox(), child.geometry.boundingBox);
-      const size = bounds?.getSize(new THREE.Vector3());
-      const footprint = size ? Math.max(size.x, size.z) : 0;
-      const isLargeThinSurface = Boolean(
-        size && footprint > 50 && size.y <= Math.max(2, footprint * 0.01)
-      );
-      child.castShadow = !isLargeThinSurface;
-      child.receiveShadow = true;
+      const materials = Array.isArray(child.material) ? child.material : [child.material];
+      const materialVisible = materials.some((material) => {
+        if (!material || material.visible === false) return false;
+        const opacity = 'opacity' in material ? Number(material.opacity) : 1;
+        return !material.transparent || opacity > 0.001;
+      });
+      let parentVisible = true;
+      let parent = child.parent;
+      while (parent) {
+        if (!parent.visible) {
+          parentVisible = false;
+          break;
+        }
+        parent = parent.parent;
+      }
+      // 隐藏/全透明的辅助网格不能投射“看不见的”阴影。
+      child.castShadow = child.visible && parentVisible && materialVisible;
+      child.receiveShadow = child.visible && parentVisible;
     }
   });
 }

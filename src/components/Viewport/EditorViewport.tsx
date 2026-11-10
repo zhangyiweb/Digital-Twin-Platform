@@ -870,6 +870,9 @@ export function EditorViewport() {
         }
 
         selectedObject.visible = true;
+        // 先清除灯光选中状态，再 attach 新对象；attach 会触发 change，
+        // 否则旧的平行光会把新对象（常见为原点）的坐标误记为自身位置。
+        useLightStore.getState().selectLight(null);
         transformControls.attach(selectedObject);
 
         // 子 Mesh 通常没有业务 id，用 uuid 以便场景树/材质面板对准该 Mesh
@@ -877,7 +880,6 @@ export function EditorViewport() {
           (typeof selectedObject.userData?.id === 'string' && selectedObject.userData.id) ||
           selectedObject.uuid;
 
-        useLightStore.getState().selectLight(null);
         useSceneStore.getState().selectObject(selectionId);
       } else {
         const { selectedIds: currentSelectedIds, deselectAll: clearSelection } = useSceneStore.getState();

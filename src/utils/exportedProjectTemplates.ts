@@ -309,6 +309,9 @@ function createLight(data) {
         });
         light.shadow.camera.updateProjectionMatrix();
       }
+      light.shadow.bias = data.shadow?.bias ?? -0.0002;
+      light.shadow.normalBias = data.shadow?.normalBias ?? 0.02;
+      light.shadow.radius = data.shadow?.radius ?? 2;
       break;
     }
     case 'PointLight':
@@ -505,8 +508,23 @@ async function bootstrap() {
     prepareTextureAnimations(gltf.scene, config.editor?.textureUvAnimations || {});
     gltf.scene.traverse((child) => {
       if (child.isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
+        const materials = Array.isArray(child.material) ? child.material : [child.material];
+        const materialVisible = materials.some((material) => {
+          if (!material || material.visible === false) return false;
+          const opacity = 'opacity' in material ? Number(material.opacity) : 1;
+          return !material.transparent || opacity > 0.001;
+        });
+        let parentVisible = true;
+        let parent = child.parent;
+        while (parent) {
+          if (!parent.visible) {
+            parentVisible = false;
+            break;
+          }
+          parent = parent.parent;
+        }
+        child.castShadow = child.visible && parentVisible && materialVisible;
+        child.receiveShadow = child.visible && parentVisible;
       }
     });
   }

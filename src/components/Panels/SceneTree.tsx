@@ -328,8 +328,8 @@ export function SceneTree() {
         return;
       }
 
-      selectObject(node.id);
       selectLight(null);
+      selectObject(node.id);
 
       if (scene && transformControls) {
         const threeObj = findThreeObjectById(scene, node.id, getThreeObject);

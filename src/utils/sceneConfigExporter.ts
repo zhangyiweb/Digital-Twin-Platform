@@ -151,6 +151,9 @@ function serializeRuntimeLight(child: THREE.Light): Record<string, unknown> | nu
         near: child.shadow.camera.near,
         far: child.shadow.camera.far,
       },
+      bias: child.shadow.bias,
+      normalBias: child.shadow.normalBias,
+      radius: child.shadow.radius,
     };
   }
 

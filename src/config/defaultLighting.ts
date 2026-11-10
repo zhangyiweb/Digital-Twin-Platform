@@ -88,6 +88,7 @@ export function applyDirectionalShadowSettings(
   cam.top = config.shadowCameraTop ?? 160;
   cam.bottom = config.shadowCameraBottom ?? -160;
   light.shadow.bias = config.shadowBias ?? -0.0002;
+  light.shadow.normalBias = config.shadowNormalBias ?? 0.02;
   cam.updateProjectionMatrix();
 }
 
@@ -95,7 +96,15 @@ export function applyDirectionalShadowSettings(
 export function enableMeshShadows(root: THREE.Object3D) {
   root.traverse((child) => {
     if (child instanceof THREE.Mesh) {
-      child.castShadow = true;
+      // 道路、地形、底盘等大面积薄平面只接收阴影；让它们投射阴影会产生
+      // 与模型轮廓无关的大块阴影，尤其是在平行光下更明显。
+      const bounds = child.geometry.boundingBox || (child.geometry.computeBoundingBox(), child.geometry.boundingBox);
+      const size = bounds?.getSize(new THREE.Vector3());
+      const footprint = size ? Math.max(size.x, size.z) : 0;
+      const isLargeThinSurface = Boolean(
+        size && footprint > 50 && size.y <= Math.max(2, footprint * 0.01)
+      );
+      child.castShadow = !isLargeThinSurface;
       child.receiveShadow = true;
     }
   });

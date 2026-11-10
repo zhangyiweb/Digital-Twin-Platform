@@ -33,6 +33,7 @@ export interface LightConfig {
   shadowCameraTop?: number;        // 阴影相机上边界 (默认2000)
   shadowCameraBottom?: number;     // 阴影相机下边界 (默认-2000)
   shadowBias?: number;             // 阴影偏差 (默认-0.0003)
+  shadowNormalBias?: number;       // 法线偏差，减少阴影自相交
   shadowRadius?: number;           // 阴影柔和度 (默认2)
   
   // 环境光/半球光特有

@@ -276,6 +276,9 @@ export function PropertyPanel() {
         if (updates.shadowBias !== undefined) {
           threeLight.shadow.bias = updates.shadowBias;
         }
+          if (updates.shadowNormalBias !== undefined) {
+            threeLight.shadow.normalBias = updates.shadowNormalBias;
+          }
         if (updates.shadowRadius !== undefined) {
           threeLight.shadow.radius = updates.shadowRadius;
         }
@@ -423,7 +426,7 @@ export function PropertyPanel() {
             </div>
           )}
 
-          {/* 照射目标（平行光 / 聚光灯，Gizmo 拖拽此项） */}
+          {/* 照射目标（平行光 / 聚光灯） */}
           {(selectedLight.type === 'directional' || selectedLight.type === 'spot') && (
             <div>
               <label className="text-xs text-gray-400 block mb-1">照射目标 (Target)</label>
@@ -457,7 +460,7 @@ export function PropertyPanel() {
                 ))}
               </div>
               <p className="text-[10px] text-gray-500 mt-1">
-                可在上方直接改数值，或在视口用 Gizmo 拖拽照射目标
+                可在上方直接改数值；平行光在视口拖拽光源位置，聚光灯拖拽照射目标
               </p>
             </div>
           )}

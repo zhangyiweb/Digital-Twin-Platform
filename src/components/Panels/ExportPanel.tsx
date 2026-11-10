@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, type CSSProperties, type ReactNode } from 'react';
+import { useState, useEffect, useMemo, useRef, type CSSProperties, type ReactNode } from 'react';
 import { Button, Checkbox, ConfigProvider, InputNumber, Progress, Select } from 'antd';
 import { useEditorNotify } from '@/hooks/useEditorNotify';
 import * as THREE from 'three';
@@ -12,6 +12,7 @@ import {
 } from '@/utils/sceneCaptureExporter';
 import { useTourStore } from '@/store/tourStore';
 import { getExportableTours } from '@/utils/cameraTourJson';
+import { importEditorProjectJson } from '@/utils/editorProjectImporter';
 
 interface ExportPanelProps {
   onClose: () => void;
@@ -221,6 +222,7 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
   const { tours, activeTourId } = useTourStore();
   const [exporting, setExporting] = useState(false);
   const [configExporting, setConfigExporting] = useState(false);
+  const [configImporting, setConfigImporting] = useState(false);
   const [packageExporting, setPackageExporting] = useState(false);
   const [screenshotExporting, setScreenshotExporting] = useState(false);
   const [recording, setRecording] = useState(false);
@@ -241,6 +243,7 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
   const [recordFps, setRecordFps] = useState(60);
   const [recordFormat, setRecordFormat] = useState<RecordFormat>('webm');
   const [selectedTourId, setSelectedTourId] = useState<string>('');
+  const configInputRef = useRef<HTMLInputElement>(null);
 
   const exportableTours = useMemo(() => getExportableTours(tours), [tours]);
 
@@ -307,6 +310,31 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
       notify.error(error instanceof Error ? error.message : '配置导出失败');
     } finally {
       setConfigExporting(false);
+    }
+  };
+
+  const handleImportConfig = () => {
+    configInputRef.current?.click();
+  };
+
+  const handleConfigFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    event.target.value = '';
+    if (!window.confirm('导入配置会清空当前场景并覆盖灯光、相机、环境和雾效设置。配置 JSON 不包含模型文件，是否继续？')) {
+      return;
+    }
+
+    setConfigImporting(true);
+    try {
+      await importEditorProjectJson(file);
+      notify.success(`场景配置已导入：${file.name}`);
+    } catch (error) {
+      console.error('配置导入失败:', error);
+      notify.error(error instanceof Error ? error.message : '配置导入失败');
+    } finally {
+      setConfigImporting(false);
     }
   };
 
@@ -402,6 +430,13 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 backdrop-blur-[2px] p-5">
+      <input
+        ref={configInputRef}
+        type="file"
+        accept=".json,application/json"
+        onChange={handleConfigFileSelect}
+        className="hidden"
+      />
       <div className="w-full max-w-6xl rounded-2xl border border-[#3a3f4f]/70 bg-[#1c1f28] shadow-2xl overflow-hidden">
         <div className="flex items-center justify-between px-6 py-3.5 border-b border-[#3a3f4f]/50">
           <h2 className="text-sm font-semibold text-gray-100">导出场景</h2>
@@ -643,14 +678,24 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
               desc="导出 JSON，含相机、灯光、雾效等参数"
               theme={THEMES.teal}
               action={
-                <TileButton
-                  onClick={handleExportConfig}
-                  disabled={!scene}
-                  loading={configExporting}
-                  color="#0d9488"
-                >
-                  导出 JSON
-                </TileButton>
+                <div className="flex gap-2">
+                  <TileButton
+                    onClick={handleExportConfig}
+                    disabled={!scene || configImporting}
+                    loading={configExporting}
+                    color="#0d9488"
+                  >
+                    导出 JSON
+                  </TileButton>
+                  <TileButton
+                    onClick={handleImportConfig}
+                    disabled={configImporting}
+                    loading={configImporting}
+                    color="#0f766e"
+                  >
+                    导入 JSON
+                  </TileButton>
+                </div>
               }
             />
 

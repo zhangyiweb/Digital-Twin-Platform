@@ -104,9 +104,9 @@ function disposeLightHelper(helper: THREE.Object3D) {
   disposable.dispose?.();
 }
 
-/** 平行光/聚光灯：Gizmo 挂在 target（与 Helper 重合，可拖拽照射目标） */
+/** 聚光灯 Gizmo 挂在 target；平行光 Gizmo 挂在光源本体，便于调整太阳位置。 */
 function getLightTransformAttachObject(light: THREE.Light): THREE.Object3D {
-  if (light instanceof THREE.DirectionalLight || light instanceof THREE.SpotLight) {
+  if (light instanceof THREE.SpotLight) {
     return light.target;
   }
   return light;
@@ -680,6 +680,19 @@ export function EditorViewport() {
               after,
               objectId: transformObjectId,
             });
+          }
+
+          // 灯光拖拽结束时以 Three.js 实例的最终值为准，避免失焦后被旧 store 坐标覆盖。
+          const { selectedLightId: activeLightId } = useLightStore.getState();
+          const activeLight = activeLightId ? lightsRef.current.get(activeLightId) : null;
+          if (activeLightId && activeLight && (obj === activeLight || obj === getLightTransformAttachObject(activeLight))) {
+            const updates: Partial<import('@/types/light').LightConfig> = {
+              position: [activeLight.position.x, activeLight.position.y, activeLight.position.z],
+            };
+            if (activeLight instanceof THREE.DirectionalLight || activeLight instanceof THREE.SpotLight) {
+              updates.target = [activeLight.target.position.x, activeLight.target.position.y, activeLight.target.position.z];
+            }
+            useLightStore.getState().updateLight(activeLightId, updates);
           }
         }
         

@@ -55,9 +55,11 @@ export interface ExportedSceneConfig {
     };
     fog: {
       enabled: boolean;
+      type?: 'linear' | 'exp2';
       color: string;
       near: number;
       far: number;
+      density?: number;
     } | null;
     environment: {
       enabled: boolean;
@@ -294,13 +296,25 @@ export function generateSceneConfig(): ExportedSceneConfig {
   const fog = settingsForExport
     ? {
         enabled: Boolean(settingsForExport.fogEnabled),
+        type: (settingsForExport.fogType === 'exp2' ? 'exp2' : 'linear') as 'linear' | 'exp2',
         color: String(settingsForExport.fogColor ?? '#ffffff'),
         near: Number(settingsForExport.fogNear ?? 1),
-        far: Number(settingsForExport.fogFar ?? 100),
+        far: Number(settingsForExport.fogFar ?? 10000),
+        density: Number(settingsForExport.fogDensity ?? 0.00025),
       }
-    : fogFromScene instanceof THREE.Fog
+    : fogFromScene instanceof THREE.FogExp2
       ? {
           enabled: true,
+          type: 'exp2' as const,
+          color: `#${fogFromScene.color.getHexString()}`,
+          near: 1,
+          far: 10000,
+          density: fogFromScene.density,
+        }
+      : fogFromScene instanceof THREE.Fog
+      ? {
+          enabled: true,
+          type: 'linear' as const,
           color: `#${fogFromScene.color.getHexString()}`,
           near: fogFromScene.near,
           far: fogFromScene.far,

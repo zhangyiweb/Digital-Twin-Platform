@@ -30,9 +30,11 @@ export function GlobalSettings() {
   
   const [bgColor, setBgColor] = useState(savedConfig?.bgColor || backgroundColor); // 从store同步初始值
   const [fogEnabled, setFogEnabled] = useState(savedConfig?.fogEnabled ?? false);
+  const [fogType, setFogType] = useState<'linear' | 'exp2'>(savedConfig?.fogType === 'exp2' ? 'exp2' : 'linear');
   const [fogColor, setFogColor] = useState(savedConfig?.fogColor || '#ffffff');
   const [fogNear, setFogNear] = useState(savedConfig?.fogNear ?? 1);
-  const [fogFar, setFogFar] = useState(savedConfig?.fogFar ?? 100);
+  const [fogFar, setFogFar] = useState(savedConfig?.fogFar ?? 10000);
+  const [fogDensity, setFogDensity] = useState(savedConfig?.fogDensity ?? 0.00025);
   const [pixelRatio, setPixelRatio] = useState(savedConfig?.pixelRatio || '2');
   const [toneMapping, setToneMapping] = useState(savedConfig?.toneMapping || 'aces');
   const [exposure, setExposure] = useState(savedConfig?.exposure ?? 0.4);
@@ -186,12 +188,14 @@ export function GlobalSettings() {
     const scene = (window as any).__editorScene;
     if (scene) {
       if (fogEnabled) {
-        scene.fog = new THREE.Fog(fogColor, fogNear, fogFar);
+        scene.fog = fogType === 'exp2'
+          ? new THREE.FogExp2(fogColor, fogDensity)
+          : new THREE.Fog(fogColor, fogNear, fogFar);
       } else {
         scene.fog = null;
       }
     }
-  }, [fogEnabled, fogColor, fogNear, fogFar]);
+  }, [fogEnabled, fogType, fogColor, fogNear, fogFar, fogDensity]);
 
   // 同步相机位置到Three.js相机 - 只在用户手动输入时同步,避免监听器更新导致相机跳动
   useEffect(() => {
@@ -533,9 +537,11 @@ export function GlobalSettings() {
     (window as any).__globalSettingsState = {
       bgColor,
       fogEnabled,
+      fogType,
       fogColor,
       fogNear,
       fogFar,
+      fogDensity,
       pixelRatio,
       toneMapping,
       exposure,
@@ -560,7 +566,7 @@ export function GlobalSettings() {
       hdriResolution,
       hdriReady,
     };
-  }, [bgColor, fogEnabled, fogColor, fogNear, fogFar, pixelRatio, toneMapping, exposure, envMapIntensity, hdrRotationY, correctLights, cameraPosition, controlsTarget, cameraFov, cameraNear, cameraFar, antialias, alpha, logarithmicDepthBuffer, hasHDRBackground, hasHDREnvironment, hdrBgName, hdrEnvName, bgHdriEnabled, envHdriEnabled, selectedHdriId, hdriResolution, hdriReady]);
+  }, [bgColor, fogEnabled, fogType, fogColor, fogNear, fogFar, fogDensity, pixelRatio, toneMapping, exposure, envMapIntensity, hdrRotationY, correctLights, cameraPosition, controlsTarget, cameraFov, cameraNear, cameraFar, antialias, alpha, logarithmicDepthBuffer, hasHDRBackground, hasHDREnvironment, hdrBgName, hdrEnvName, bgHdriEnabled, envHdriEnabled, selectedHdriId, hdriResolution, hdriReady]);
 
   // 项目导入后从 window 全局状态同步 UI
   useEffect(() => {
@@ -603,9 +609,11 @@ export function GlobalSettings() {
         setBgColor(color);
       }
       if (saved.fogEnabled != null) setFogEnabled(Boolean(saved.fogEnabled));
+      if (saved.fogType === 'linear' || saved.fogType === 'exp2') setFogType(saved.fogType);
       if (saved.fogColor) setFogColor(String(saved.fogColor));
       if (saved.fogNear != null) setFogNear(Number(saved.fogNear));
       if (saved.fogFar != null) setFogFar(Number(saved.fogFar));
+      if (saved.fogDensity != null) setFogDensity(Number(saved.fogDensity));
       if (saved.pixelRatio) setPixelRatio(String(saved.pixelRatio));
       if (saved.toneMapping) setToneMapping(String(saved.toneMapping));
       if (saved.exposure != null) setExposure(Number(saved.exposure));
@@ -931,6 +939,17 @@ export function GlobalSettings() {
               {fogEnabled && (
                 <div className="space-y-2 pt-1 border-t border-gray-700/60">
                   <div>
+                    <Typography.Text className="text-[10px] text-gray-500 block mb-1">雾类型</Typography.Text>
+                    <select
+                      value={fogType}
+                      onChange={(e) => setFogType(e.target.value as 'linear' | 'exp2')}
+                      className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
+                    >
+                      <option value="linear">线性雾 (Fog)</option>
+                      <option value="exp2">指数雾 (FogExp2)</option>
+                    </select>
+                  </div>
+                  <div>
                     <Typography.Text className="text-[10px] text-gray-500 block mb-1">雾颜色</Typography.Text>
                     <div className="flex items-center gap-2">
                       <input
@@ -947,7 +966,7 @@ export function GlobalSettings() {
                       />
                     </div>
                   </div>
-                  <div>
+                  {fogType === 'linear' ? <div>
                     <Typography.Text className="text-[10px] text-gray-500 block mb-1">近处: {fogNear}</Typography.Text>
                     <input
                       type="range"
@@ -958,19 +977,30 @@ export function GlobalSettings() {
                       onChange={(e) => setFogNear(parseFloat(e.target.value))}
                       className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer"
                     />
-                  </div>
-                  <div>
+                  </div> : <div>
+                    <Typography.Text className="text-[10px] text-gray-500 block mb-1">密度: {fogDensity.toFixed(5)}</Typography.Text>
+                    <input
+                      type="range"
+                      min="0.00001"
+                      max="0.01"
+                      step="0.00001"
+                      value={fogDensity}
+                      onChange={(e) => setFogDensity(parseFloat(e.target.value))}
+                      className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                    />
+                  </div>}
+                  {fogType === 'linear' && <div>
                     <Typography.Text className="text-[10px] text-gray-500 block mb-1">远处: {fogFar}</Typography.Text>
                     <input
                       type="range"
                       min="10"
-                      max="200"
+                      max="50000"
                       step="1"
                       value={fogFar}
                       onChange={(e) => setFogFar(parseFloat(e.target.value))}
                       className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer"
                     />
-                  </div>
+                  </div>}
                 </div>
               )}
             </div>

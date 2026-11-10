@@ -431,11 +431,13 @@ async function bootstrap() {
   const scene = new THREE.Scene();
 
   if (sceneCfg.fog?.enabled) {
-    scene.fog = new THREE.Fog(
-      parseColor(sceneCfg.fog.color),
-      sceneCfg.fog.near ?? 1,
-      sceneCfg.fog.far ?? 100
-    );
+    scene.fog = sceneCfg.fog.type === 'exp2'
+      ? new THREE.FogExp2(parseColor(sceneCfg.fog.color), sceneCfg.fog.density ?? 0.00025)
+      : new THREE.Fog(
+          parseColor(sceneCfg.fog.color),
+          sceneCfg.fog.near ?? 1,
+          sceneCfg.fog.far ?? 10000
+        );
   }
 
   let hdrTexture = null;

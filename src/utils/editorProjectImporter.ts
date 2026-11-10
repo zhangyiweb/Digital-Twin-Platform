@@ -168,11 +168,9 @@ function applyRendererAndSceneSettings(config: ProjectConfig) {
 
   if (scene) {
     if (config.scene?.fog?.enabled) {
-      scene.fog = new THREE.Fog(
-        config.scene.fog.color,
-        config.scene.fog.near,
-        config.scene.fog.far
-      );
+      scene.fog = config.scene.fog.type === 'exp2'
+        ? new THREE.FogExp2(config.scene.fog.color, config.scene.fog.density ?? 0.00025)
+        : new THREE.Fog(config.scene.fog.color, config.scene.fog.near, config.scene.fog.far);
     } else {
       scene.fog = null;
     }

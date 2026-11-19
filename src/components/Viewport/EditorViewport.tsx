@@ -347,6 +347,8 @@ export function EditorViewport() {
     const savedPixelRatio = oldRenderer?.getPixelRatio() ?? Math.min(window.devicePixelRatio, 2);
     const savedToneMapping = oldRenderer?.toneMapping ?? THREE.ACESFilmicToneMapping;
     const savedToneMappingExposure = oldRenderer?.toneMappingExposure ?? DEFAULT_TONE_MAPPING_EXPOSURE;
+    const savedShadowMapEnabled = oldRenderer?.shadowMap.enabled ?? true;
+    const savedShadowMapType = oldRenderer?.shadowMap.type ?? THREE.PCFShadowMap;
     const savedUseLegacyLights = (oldRenderer as { useLegacyLights?: boolean } | null)?.useLegacyLights ?? false;
 
     // 移除旧 renderer 的 DOM
@@ -366,6 +368,8 @@ export function EditorViewport() {
     renderer.toneMappingExposure = savedToneMappingExposure;
     (renderer as { useLegacyLights?: boolean }).useLegacyLights = savedUseLegacyLights;
     applyRendererLightingDefaults(renderer, savedToneMappingExposure);
+    renderer.shadowMap.enabled = savedShadowMapEnabled;
+    renderer.shadowMap.type = savedShadowMapType;
     renderer.domElement.style.display = 'block';
     renderer.domElement.style.position = 'absolute';
     renderer.domElement.style.inset = '0';

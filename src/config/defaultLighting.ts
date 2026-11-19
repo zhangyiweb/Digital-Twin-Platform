@@ -88,7 +88,13 @@ export function applyDirectionalShadowSettings(
   cam.top = config.shadowCameraTop ?? 160;
   cam.bottom = config.shadowCameraBottom ?? -160;
   light.shadow.bias = config.shadowBias ?? -0.0002;
-  light.shadow.normalBias = config.shadowNormalBias ?? 0.02;
+  // 阴影相机的世界空间 texel 越大，深度量化误差越大。
+  // 按相机范围动态计算，适用于导入模型和任意 Mesh，而不是针对某种几何体打补丁。
+  const shadowWorldTexel = Math.max(
+    Math.abs(cam.right - cam.left),
+    Math.abs(cam.top - cam.bottom)
+  ) / mapSize;
+  light.shadow.normalBias = config.shadowNormalBias ?? shadowWorldTexel * 2;
   cam.updateProjectionMatrix();
 }
 

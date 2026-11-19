@@ -24,6 +24,16 @@ export function clearEditorScene() {
   transformControls?.detach?.();
 
   if (scene) {
+    // Invalidate cached shadow maps so removed objects cannot remain as ghost shadows.
+    scene.traverse((object) => {
+      if (!(object instanceof THREE.Light) || !('shadow' in object)) return;
+      const light = object as THREE.Light & { shadow: { map: THREE.WebGLRenderTarget | null } };
+      light.shadow.map?.dispose();
+      light.shadow.map = null;
+    });
+    const renderer = (window as any).__editorRenderer as THREE.WebGLRenderer | undefined;
+    if (renderer) renderer.shadowMap.needsUpdate = true;
+
     const toRemove: THREE.Object3D[] = [];
     scene.children.forEach((child) => {
       if (isProtectedSceneChild(child)) return;

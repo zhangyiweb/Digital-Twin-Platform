@@ -6,6 +6,7 @@ import { MaterialEditor } from './MaterialEditor';
 import { GlobalSettings } from './GlobalSettings';
 import { ParticleEditor } from './ParticleEditor';
 import { LabelEditor } from './LabelEditor';
+import { TransformNumberInput } from './TransformNumberInput';
 
 export function PropertyPanel() {
   const { selectedIds, objects, updateObject, getThreeObject } = useSceneStore();
@@ -287,7 +288,7 @@ export function PropertyPanel() {
   };
 
   const handlePositionChange = (axis: 'x' | 'y' | 'z', value: number) => {
-    if (!selectedIds[0] || !objectRef.current) return;
+    if (!selectedIds[0] || !objectRef.current || !Number.isFinite(value)) return;
     
     const newPos = [...objectRef.current.position.toArray()] as [number, number, number];
     const axisIndex = axis === 'x' ? 0 : axis === 'y' ? 1 : 2;
@@ -301,9 +302,10 @@ export function PropertyPanel() {
   };
 
   const handleRotationChange = (axis: 'x' | 'y' | 'z', value: number) => {
-    if (!selectedIds[0] || !objectRef.current) return;
+    if (!selectedIds[0] || !objectRef.current || !Number.isFinite(value)) return;
     
-    const newRot = [...objectRef.current.rotation.toArray()] as [number, number, number];
+    const rotation = objectRef.current.rotation;
+    const newRot: [number, number, number] = [rotation.x, rotation.y, rotation.z];
     const axisIndex = axis === 'x' ? 0 : axis === 'y' ? 1 : 2;
     newRot[axisIndex] = value;
     
@@ -315,7 +317,7 @@ export function PropertyPanel() {
   };
 
   const handleScaleChange = (axis: 'x' | 'y' | 'z', value: number) => {
-    if (!selectedIds[0] || !objectRef.current) return;
+    if (!selectedIds[0] || !objectRef.current || !Number.isFinite(value)) return;
     
     const newScale = [...objectRef.current.scale.toArray()] as [number, number, number];
     const axisIndex = axis === 'x' ? 0 : axis === 'y' ? 1 : 2;
@@ -586,14 +588,14 @@ export function PropertyPanel() {
               {/* 阴影偏差 */}
               <div>
                 <label className="text-xs text-gray-400 block mb-1">
-                  阴影偏差 (Bias): {(selectedLight.shadowBias || -0.0003).toFixed(4)}
+                  阴影偏差 (Bias): {(selectedLight.shadowBias ?? -0.0002).toFixed(4)}
                 </label>
                 <input
                   type="range"
                   min="-0.001"
                   max="0"
                   step="0.0001"
-                  value={selectedLight.shadowBias || -0.0003}
+                  value={selectedLight.shadowBias ?? -0.0002}
                   onChange={(e) => handleLightUpdate(selectedLight.id, { shadowBias: parseFloat(e.target.value) })}
                   className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
                 />
@@ -704,32 +706,26 @@ export function PropertyPanel() {
               <div className="grid grid-cols-3 gap-2">
                 <div>
                   <label className="text-xs text-red-400 block mb-1">X</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                    value={objectRef.current?.position.x.toFixed(2) || '0'}
-                    onChange={(e) => handlePositionChange('x', parseFloat(e.target.value))}
+                  <TransformNumberInput
+                    key={`${selectedIds[0]}-position-x`}
+                    value={objectRef.current?.position.x ?? 0}
+                    onChange={(value) => handlePositionChange('x', value)}
                   />
                 </div>
                 <div>
                   <label className="text-xs text-green-400 block mb-1">Y</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                    value={objectRef.current?.position.y.toFixed(2) || '0'}
-                    onChange={(e) => handlePositionChange('y', parseFloat(e.target.value))}
+                  <TransformNumberInput
+                    key={`${selectedIds[0]}-position-y`}
+                    value={objectRef.current?.position.y ?? 0}
+                    onChange={(value) => handlePositionChange('y', value)}
                   />
                 </div>
                 <div>
                   <label className="text-xs text-blue-400 block mb-1">Z</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                    value={objectRef.current?.position.z.toFixed(2) || '0'}
-                    onChange={(e) => handlePositionChange('z', parseFloat(e.target.value))}
+                  <TransformNumberInput
+                    key={`${selectedIds[0]}-position-z`}
+                    value={objectRef.current?.position.z ?? 0}
+                    onChange={(value) => handlePositionChange('z', value)}
                   />
                 </div>
               </div>
@@ -741,32 +737,26 @@ export function PropertyPanel() {
               <div className="grid grid-cols-3 gap-2">
                 <div>
                   <label className="text-xs text-red-400 block mb-1">X</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                    value={objectRef.current?.rotation.x.toFixed(2) || '0'}
-                    onChange={(e) => handleRotationChange('x', parseFloat(e.target.value))}
+                  <TransformNumberInput
+                    key={`${selectedIds[0]}-rotation-x`}
+                    value={objectRef.current?.rotation.x ?? 0}
+                    onChange={(value) => handleRotationChange('x', value)}
                   />
                 </div>
                 <div>
                   <label className="text-xs text-green-400 block mb-1">Y</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                    value={objectRef.current?.rotation.y.toFixed(2) || '0'}
-                    onChange={(e) => handleRotationChange('y', parseFloat(e.target.value))}
+                  <TransformNumberInput
+                    key={`${selectedIds[0]}-rotation-y`}
+                    value={objectRef.current?.rotation.y ?? 0}
+                    onChange={(value) => handleRotationChange('y', value)}
                   />
                 </div>
                 <div>
                   <label className="text-xs text-blue-400 block mb-1">Z</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                    value={objectRef.current?.rotation.z.toFixed(2) || '0'}
-                    onChange={(e) => handleRotationChange('z', parseFloat(e.target.value))}
+                  <TransformNumberInput
+                    key={`${selectedIds[0]}-rotation-z`}
+                    value={objectRef.current?.rotation.z ?? 0}
+                    onChange={(value) => handleRotationChange('z', value)}
                   />
                 </div>
               </div>
@@ -778,32 +768,26 @@ export function PropertyPanel() {
               <div className="grid grid-cols-3 gap-2">
                 <div>
                   <label className="text-xs text-red-400 block mb-1">X</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                    value={objectRef.current?.scale.x.toFixed(2) || '1'}
-                    onChange={(e) => handleScaleChange('x', parseFloat(e.target.value))}
+                  <TransformNumberInput
+                    key={`${selectedIds[0]}-scale-x`}
+                    value={objectRef.current?.scale.x ?? 1}
+                    onChange={(value) => handleScaleChange('x', value)}
                   />
                 </div>
                 <div>
                   <label className="text-xs text-green-400 block mb-1">Y</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                    value={objectRef.current?.scale.y.toFixed(2) || '1'}
-                    onChange={(e) => handleScaleChange('y', parseFloat(e.target.value))}
+                  <TransformNumberInput
+                    key={`${selectedIds[0]}-scale-y`}
+                    value={objectRef.current?.scale.y ?? 1}
+                    onChange={(value) => handleScaleChange('y', value)}
                   />
                 </div>
                 <div>
                   <label className="text-xs text-blue-400 block mb-1">Z</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                    value={objectRef.current?.scale.z.toFixed(2) || '1'}
-                    onChange={(e) => handleScaleChange('z', parseFloat(e.target.value))}
+                  <TransformNumberInput
+                    key={`${selectedIds[0]}-scale-z`}
+                    value={objectRef.current?.scale.z ?? 1}
+                    onChange={(value) => handleScaleChange('z', value)}
                   />
                 </div>
               </div>

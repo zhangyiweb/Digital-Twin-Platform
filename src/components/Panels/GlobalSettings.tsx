@@ -41,6 +41,10 @@ export function GlobalSettings() {
   const [envMapIntensity, setEnvMapIntensity] = useState(savedConfig?.envMapIntensity ?? 1.0);
   const [hdrRotationY, setHdrRotationY] = useState(savedConfig?.hdrRotationY ?? 0);
   const [correctLights, setCorrectLights] = useState(savedConfig?.correctLights ?? false);
+  const [shadowMapEnabled, setShadowMapEnabled] = useState(
+    savedConfig?.shadowMapEnabled ??
+      ((window as any).__editorRenderer?.shadowMap?.enabled ?? true)
+  );
   const [cameraPosition, setCameraPosition] = useState(savedConfig?.cameraPosition || { x: 10, y: 10, z: 10 });
   const [controlsTarget, setControlsTarget] = useState(savedConfig?.controlsTarget || { x: 0, y: 0, z: 0 });
   const [cameraFov, setCameraFov] = useState(savedConfig?.cameraFov ?? 45);
@@ -267,15 +271,26 @@ export function GlobalSettings() {
       renderer.toneMapping = (toneMappingMap[toneMapping] ?? THREE.ACESFilmicToneMapping) as THREE.ToneMapping;
       renderer.toneMappingExposure = exposure;
       renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.enabled = shadowMapEnabled;
       renderer.shadowMap.type = THREE.PCFShadowMap;
+      // USE_SHADOWMAP 是材质编译宏，切换 renderer 开关后需让现有材质重编译。
+      if (scene) {
+        scene.traverse((object: THREE.Object3D) => {
+          const material = (object as THREE.Mesh).material;
+          if (!material) return;
+          for (const item of Array.isArray(material) ? material : [material]) {
+            item.needsUpdate = true;
+          }
+        });
+      }
+      renderer.shadowMap.needsUpdate = true;
     }
 
     // Three.js r185: 环境反射强度在 Scene 上，不是 Renderer
     if (scene) {
       scene.environmentIntensity = envMapIntensity;
     }
-  }, [toneMapping, exposure, envMapIntensity]);
+  }, [toneMapping, exposure, envMapIntensity, shadowMapEnabled]);
 
   // HDR 水平旋转（背景 + 环境同步）
   useEffect(() => {
@@ -548,6 +563,7 @@ export function GlobalSettings() {
       envMapIntensity,
       hdrRotationY,
       correctLights,
+      shadowMapEnabled,
       cameraPosition,
       controlsTarget,
       cameraFov,
@@ -566,9 +582,14 @@ export function GlobalSettings() {
       hdriResolution,
       hdriReady,
     };
-  }, [bgColor, fogEnabled, fogType, fogColor, fogNear, fogFar, fogDensity, pixelRatio, toneMapping, exposure, envMapIntensity, hdrRotationY, correctLights, cameraPosition, controlsTarget, cameraFov, cameraNear, cameraFar, antialias, alpha, logarithmicDepthBuffer, hasHDRBackground, hasHDREnvironment, hdrBgName, hdrEnvName, bgHdriEnabled, envHdriEnabled, selectedHdriId, hdriResolution, hdriReady]);
+  }, [bgColor, fogEnabled, fogType, fogColor, fogNear, fogFar, fogDensity, pixelRatio, toneMapping, exposure, envMapIntensity, hdrRotationY, correctLights, shadowMapEnabled, cameraPosition, controlsTarget, cameraFov, cameraNear, cameraFar, antialias, alpha, logarithmicDepthBuffer, hasHDRBackground, hasHDREnvironment, hdrBgName, hdrEnvName, bgHdriEnabled, envHdriEnabled, selectedHdriId, hdriResolution, hdriReady]);
 
   // 项目导入后从 window 全局状态同步 UI
+  const envMapIntensityRef = useRef(envMapIntensity);
+  const hdrRotationYRef = useRef(hdrRotationY);
+  useEffect(() => { envMapIntensityRef.current = envMapIntensity; }, [envMapIntensity]);
+  useEffect(() => { hdrRotationYRef.current = hdrRotationY; }, [hdrRotationY]);
+
   useEffect(() => {
     const syncFromRestoredProject = () => {
       const saved = (window as any).__globalSettingsState as Record<string, unknown> | undefined;
@@ -620,6 +641,7 @@ export function GlobalSettings() {
       if (saved.envMapIntensity != null) setEnvMapIntensity(Number(saved.envMapIntensity));
       if (saved.hdrRotationY != null) setHdrRotationY(Number(saved.hdrRotationY));
       if (saved.correctLights != null) setCorrectLights(Boolean(saved.correctLights));
+      if (saved.shadowMapEnabled != null) setShadowMapEnabled(Boolean(saved.shadowMapEnabled));
       if (saved.cameraPosition) setCameraPosition(saved.cameraPosition as { x: number; y: number; z: number });
       if (saved.controlsTarget) setControlsTarget(saved.controlsTarget as { x: number; y: number; z: number });
       if (saved.cameraFov != null) setCameraFov(Number(saved.cameraFov));
@@ -644,15 +666,15 @@ export function GlobalSettings() {
         }
         if (envHdriEnabledRef.current) {
           scene.environment = hdrTextureCache.current;
-          scene.environmentIntensity = Number(saved.envMapIntensity ?? envMapIntensity);
+          scene.environmentIntensity = Number(saved.envMapIntensity ?? envMapIntensityRef.current);
         }
-        applyHdrRotationY(scene, Number(saved.hdrRotationY ?? hdrRotationY));
+        applyHdrRotationY(scene, Number(saved.hdrRotationY ?? hdrRotationYRef.current));
       }
     };
 
     window.addEventListener(EDITOR_PROJECT_RESTORE_EVENT, syncFromRestoredProject);
     return () => window.removeEventListener(EDITOR_PROJECT_RESTORE_EVENT, syncFromRestoredProject);
-  }, [envMapIntensity, hdrRotationY]);
+  }, []);
 
   // 处理HDR文件选择
 
@@ -1167,8 +1189,15 @@ export function GlobalSettings() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-400">启用阴影</span>
-                  <button className="w-10 h-5 rounded-full bg-green-500 transition-colors">
-                    <div className="w-4 h-4 bg-white rounded-full transform translate-x-5 transition-transform" />
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={shadowMapEnabled}
+                    aria-label="启用阴影"
+                    onClick={() => setShadowMapEnabled((enabled: boolean) => !enabled)}
+                    className={`w-10 h-5 rounded-full transition-colors ${shadowMapEnabled ? 'bg-green-500' : 'bg-gray-600'}`}
+                  >
+                    <div className={`w-4 h-4 bg-white rounded-full transform transition-transform ${shadowMapEnabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
                   </button>
                 </div>
                 <div>

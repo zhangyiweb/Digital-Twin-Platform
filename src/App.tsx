@@ -13,6 +13,7 @@ import { Toolbar } from '@/components/Toolbar/MainToolbar'
 import { UIEditor } from '@/components/UIEditor'
 import { GizmoToolbar } from '@/components/Toolbar/GizmoToolbar'
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts'
+import { usePanelResize } from '@/hooks/usePanelResize'
 import * as THREE from 'three'
 import './App.css'
 
@@ -24,6 +25,9 @@ function App() {
   const { lights } = useLightStore();
   const { currentTool, editorMode } = useEditorStore();
   const [showPreviewBanner, setShowPreviewBanner] = useState(false);
+  const leftWidth = usePanelResize({ axis: 'x', initial: 250, min: 180, max: 480, storageKey: 'scene-left-width' });
+  const rightWidth = usePanelResize({ axis: 'x', initial: 300, min: 240, max: 560, storageKey: 'scene-right-width', reverse: true });
+  const leftSplit = usePanelResize({ axis: 'y', initial: 50, min: 20, max: 80, storageKey: 'scene-left-split', percentage: true });
 
   useEffect(() => {
     if (editorMode !== 'preview') {
@@ -143,14 +147,36 @@ function App() {
         } ${editorMode === 'preview' ? 'editor-workspace-preview' : ''}`}
       >
         <div className="main-content">
-          <aside className="scene-tree" style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ height: '50%', overflow: 'hidden' }}>
+          <aside className="scene-tree" style={{ width: leftWidth.size, flexBasis: leftWidth.size, flexShrink: 0 }}>
+            <div className="scene-tree-section" style={{ flexBasis: `${leftSplit.size}%` }}>
               <SceneTree />
             </div>
-            <div style={{ height: '50%', overflow: 'hidden' }}>
+            <div
+              className="panel-resize-handle panel-resize-handle-horizontal"
+              role="separator"
+              aria-label="调整场景树与组件库高度，双击恢复默认"
+              aria-orientation="horizontal"
+              aria-valuemin={20}
+              aria-valuemax={80}
+              aria-valuenow={leftSplit.size}
+              tabIndex={0}
+              {...leftSplit.handleProps}
+            />
+            <div className="scene-tree-section scene-tree-section-fill">
               <ComponentLibrary />
             </div>
           </aside>
+          <div
+            className="panel-resize-handle panel-resize-handle-vertical panel-resize-handle-left"
+            role="separator"
+            aria-label="调整左侧面板宽度，双击恢复默认"
+            aria-orientation="vertical"
+            aria-valuemin={180}
+            aria-valuemax={480}
+            aria-valuenow={leftWidth.size}
+            tabIndex={0}
+            {...leftWidth.handleProps}
+          />
 
           <main className="viewport">
             <EditorViewport />
@@ -160,7 +186,18 @@ function App() {
             )}
           </main>
 
-          <aside className="property-panel">
+          <div
+            className="panel-resize-handle panel-resize-handle-vertical"
+            role="separator"
+            aria-label="调整右侧属性面板宽度，双击恢复默认"
+            aria-orientation="vertical"
+            aria-valuemin={240}
+            aria-valuemax={560}
+            aria-valuenow={rightWidth.size}
+            tabIndex={0}
+            {...rightWidth.handleProps}
+          />
+          <aside className="property-panel" style={{ width: rightWidth.size, flexBasis: rightWidth.size, flexShrink: 0 }}>
             <PropertyPanel />
           </aside>
         </div>

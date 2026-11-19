@@ -1,3 +1,4 @@
+import { ColorPicker, Input, Slider, InputNumber, Select } from 'antd';
 import { useState, useEffect, useRef } from 'react';
 import { useSceneStore } from '@/store/sceneStore';
 import { useLightStore } from '@/store/lightStore';
@@ -358,18 +359,13 @@ export function PropertyPanel() {
           <div>
             <label className="text-xs text-gray-400 block mb-1">颜色 (Color)</label>
             <div className="flex items-center gap-2">
-              <input
-                type="color"
-                value={selectedLight.color}
-                onChange={(e) => handleLightUpdate(selectedLight.id, { color: e.target.value })}
-                className="w-10 h-8 rounded cursor-pointer border border-gray-600"
-              />
-              <input
-                type="text"
-                value={selectedLight.color}
-                onChange={(e) => handleLightUpdate(selectedLight.id, { color: e.target.value })}
-                className="flex-1 px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded font-mono"
-              />
+              <ColorPicker size="small" disabledAlpha
+value={selectedLight.color}
+onChange={(_, hex) => handleLightUpdate(selectedLight.id, { color: hex })} />
+              <Input size="small"
+value={selectedLight.color}
+onChange={(e) => handleLightUpdate(selectedLight.id, { color: e.target.value })}
+className="w-full min-w-0" />
             </div>
           </div>
 
@@ -378,15 +374,13 @@ export function PropertyPanel() {
             <label className="text-xs text-gray-400 block mb-1">
               强度 (Intensity): {selectedLight.intensity.toFixed(1)}
             </label>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              step="0.5"
-              value={selectedLight.intensity}
-              onChange={(e) => handleLightUpdate(selectedLight.id, { intensity: parseFloat(e.target.value) })}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-            />
+            <Slider 
+min={0}
+max={100}
+step={0.5}
+value={selectedLight.intensity}
+onChange={(value) => handleLightUpdate(selectedLight.id, { intensity: parseFloat(String(value)) })}
+className="panel-slider" />
           </div>
 
           {/* 位置 */}
@@ -403,15 +397,14 @@ export function PropertyPanel() {
                     }`}>
                       {axis.toUpperCase()}
                     </label>
-                    <input
-                      type="number"
-                      step="1"
-                      className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                      value={displayPosition[idx]}
-                      onFocus={() => { isLightInputEditingRef.current = true; }}
-                      onBlur={() => { isLightInputEditingRef.current = false; }}
-                      onChange={(e) => {
-                        const raw = parseFloat(e.target.value);
+                    <InputNumber size="small" controls={false}
+step={1}
+className="!w-full min-w-0"
+value={displayPosition[idx]}
+onFocus={() => { isLightInputEditingRef.current = true; }}
+onBlur={() => { isLightInputEditingRef.current = false; }}
+onChange={(value: number | null) => { if (value === null) return; 
+                        const raw = parseFloat(String(value));
                         const newPos = [...displayPosition] as [number, number, number];
                         newPos[idx] = Number.isFinite(raw) ? raw : 0;
                         // 同步本地展示值，否则受控 input 会被旧的 lightLiveTransform 盖住
@@ -420,8 +413,7 @@ export function PropertyPanel() {
                           target: prev?.target ?? displayTarget,
                         }));
                         handleLightUpdate(selectedLight.id, { position: newPos });
-                      }}
-                    />
+                       }} />
                   </div>
                 ))}
               </div>
@@ -440,15 +432,14 @@ export function PropertyPanel() {
                     }`}>
                       {axis.toUpperCase()}
                     </label>
-                    <input
-                      type="number"
-                      step="1"
-                      className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                      value={displayTarget[idx]}
-                      onFocus={() => { isLightInputEditingRef.current = true; }}
-                      onBlur={() => { isLightInputEditingRef.current = false; }}
-                      onChange={(e) => {
-                        const raw = parseFloat(e.target.value);
+                    <InputNumber size="small" controls={false}
+step={1}
+className="!w-full min-w-0"
+value={displayTarget[idx]}
+onFocus={() => { isLightInputEditingRef.current = true; }}
+onBlur={() => { isLightInputEditingRef.current = false; }}
+onChange={(value: number | null) => { if (value === null) return; 
+                        const raw = parseFloat(String(value));
                         const newTarget = [...displayTarget] as [number, number, number];
                         newTarget[idx] = Number.isFinite(raw) ? raw : 0;
                         setLightLiveTransform((prev) => ({
@@ -456,8 +447,7 @@ export function PropertyPanel() {
                           target: newTarget,
                         }));
                         handleLightUpdate(selectedLight.id, { target: newTarget });
-                      }}
-                    />
+                       }} />
                   </div>
                 ))}
               </div>
@@ -495,16 +485,14 @@ export function PropertyPanel() {
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="text-xs text-gray-500 block mb-1">宽度</label>
-                    <select
-                      value={selectedLight.shadowMapWidth || 2048}
-                      onChange={(e) => handleLightUpdate(selectedLight.id, { shadowMapWidth: parseInt(e.target.value), shadowMapHeight: parseInt(e.target.value) })}
-                      className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                    >
-                      <option value={1024}>1024 x 1024</option>
-                      <option value={2048}>2048 x 2048</option>
-                      <option value={4096}>4096 x 4096</option>
-                      <option value={8192}>8192 x 8192</option>
-                    </select>
+                    <Select size="small" value={selectedLight.shadowMapWidth || 2048}
+onChange={(value) => handleLightUpdate(selectedLight.id, { shadowMapWidth: parseInt(String(value)), shadowMapHeight: parseInt(String(value)) })}
+className="!w-full min-w-0">
+                      <Select.Option value={1024}>1024 x 1024</Select.Option>
+                      <Select.Option value={2048}>2048 x 2048</Select.Option>
+                      <Select.Option value={4096}>4096 x 4096</Select.Option>
+                      <Select.Option value={8192}>8192 x 8192</Select.Option>
+                    </Select>
                   </div>
                 </div>
               </div>
@@ -515,25 +503,21 @@ export function PropertyPanel() {
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="text-xs text-gray-500 block mb-1">Near</label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      min="0.1"
-                      className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                      value={selectedLight.shadowCameraNear || 0.5}
-                      onChange={(e) => handleLightUpdate(selectedLight.id, { shadowCameraNear: parseFloat(e.target.value) })}
-                    />
+                    <InputNumber size="small" controls={false}
+step={0.1}
+min={0.1}
+className="!w-full min-w-0"
+value={selectedLight.shadowCameraNear || 0.5}
+onChange={(value: number | null) => { if (value === null) return; handleLightUpdate(selectedLight.id, { shadowCameraNear: parseFloat(String(value)) }); }} />
                   </div>
                   <div>
                     <label className="text-xs text-gray-500 block mb-1">Far</label>
-                    <input
-                      type="number"
-                      step="1"
-                      min="1"
-                      className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                      value={selectedLight.shadowCameraFar || 5000}
-                      onChange={(e) => handleLightUpdate(selectedLight.id, { shadowCameraFar: parseFloat(e.target.value) })}
-                    />
+                    <InputNumber size="small" controls={false}
+step={1}
+min={1}
+className="!w-full min-w-0"
+value={selectedLight.shadowCameraFar || 5000}
+onChange={(value: number | null) => { if (value === null) return; handleLightUpdate(selectedLight.id, { shadowCameraFar: parseFloat(String(value)) }); }} />
                   </div>
                 </div>
               </div>
@@ -544,43 +528,35 @@ export function PropertyPanel() {
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="text-xs text-gray-500 block mb-1">Left</label>
-                    <input
-                      type="number"
-                      step="100"
-                      className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                      value={selectedLight.shadowCameraLeft || -2000}
-                      onChange={(e) => handleLightUpdate(selectedLight.id, { shadowCameraLeft: parseFloat(e.target.value) })}
-                    />
+                    <InputNumber size="small" controls={false}
+step={100}
+className="!w-full min-w-0"
+value={selectedLight.shadowCameraLeft || -2000}
+onChange={(value: number | null) => { if (value === null) return; handleLightUpdate(selectedLight.id, { shadowCameraLeft: parseFloat(String(value)) }); }} />
                   </div>
                   <div>
                     <label className="text-xs text-gray-500 block mb-1">Right</label>
-                    <input
-                      type="number"
-                      step="100"
-                      className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                      value={selectedLight.shadowCameraRight || 2000}
-                      onChange={(e) => handleLightUpdate(selectedLight.id, { shadowCameraRight: parseFloat(e.target.value) })}
-                    />
+                    <InputNumber size="small" controls={false}
+step={100}
+className="!w-full min-w-0"
+value={selectedLight.shadowCameraRight || 2000}
+onChange={(value: number | null) => { if (value === null) return; handleLightUpdate(selectedLight.id, { shadowCameraRight: parseFloat(String(value)) }); }} />
                   </div>
                   <div>
                     <label className="text-xs text-gray-500 block mb-1">Top</label>
-                    <input
-                      type="number"
-                      step="100"
-                      className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                      value={selectedLight.shadowCameraTop || 2000}
-                      onChange={(e) => handleLightUpdate(selectedLight.id, { shadowCameraTop: parseFloat(e.target.value) })}
-                    />
+                    <InputNumber size="small" controls={false}
+step={100}
+className="!w-full min-w-0"
+value={selectedLight.shadowCameraTop || 2000}
+onChange={(value: number | null) => { if (value === null) return; handleLightUpdate(selectedLight.id, { shadowCameraTop: parseFloat(String(value)) }); }} />
                   </div>
                   <div>
                     <label className="text-xs text-gray-500 block mb-1">Bottom</label>
-                    <input
-                      type="number"
-                      step="100"
-                      className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                      value={selectedLight.shadowCameraBottom || -2000}
-                      onChange={(e) => handleLightUpdate(selectedLight.id, { shadowCameraBottom: parseFloat(e.target.value) })}
-                    />
+                    <InputNumber size="small" controls={false}
+step={100}
+className="!w-full min-w-0"
+value={selectedLight.shadowCameraBottom || -2000}
+onChange={(value: number | null) => { if (value === null) return; handleLightUpdate(selectedLight.id, { shadowCameraBottom: parseFloat(String(value)) }); }} />
                   </div>
                 </div>
               </div>
@@ -590,15 +566,13 @@ export function PropertyPanel() {
                 <label className="text-xs text-gray-400 block mb-1">
                   阴影偏差 (Bias): {(selectedLight.shadowBias ?? -0.0002).toFixed(4)}
                 </label>
-                <input
-                  type="range"
-                  min="-0.001"
-                  max="0"
-                  step="0.0001"
-                  value={selectedLight.shadowBias ?? -0.0002}
-                  onChange={(e) => handleLightUpdate(selectedLight.id, { shadowBias: parseFloat(e.target.value) })}
-                  className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                />
+                <Slider 
+min={-0.001}
+max={0}
+step={0.0001}
+value={selectedLight.shadowBias ?? -0.0002}
+onChange={(value) => handleLightUpdate(selectedLight.id, { shadowBias: parseFloat(String(value)) })}
+className="panel-slider" />
               </div>
 
               {/* 阴影柔和度 */}
@@ -606,15 +580,13 @@ export function PropertyPanel() {
                 <label className="text-xs text-gray-400 block mb-1">
                   阴影柔和度 (Radius): {(selectedLight.shadowRadius || 2).toFixed(1)}
                 </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="10"
-                  step="0.5"
-                  value={selectedLight.shadowRadius || 2}
-                  onChange={(e) => handleLightUpdate(selectedLight.id, { shadowRadius: parseFloat(e.target.value) })}
-                  className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                />
+                <Slider 
+min={0}
+max={10}
+step={0.5}
+value={selectedLight.shadowRadius || 2}
+onChange={(value) => handleLightUpdate(selectedLight.id, { shadowRadius: parseFloat(String(value)) })}
+className="panel-slider" />
               </div>
             </div>
           )}
@@ -683,10 +655,9 @@ export function PropertyPanel() {
             {/* 名称 */}
             <div>
               <label className="text-xs text-gray-400 block mb-1">名称</label>
-              <input
-                type="text"
-                value={selectedObject?.name || objectRef.current?.name || ''}
-                onChange={(e) => {
+              <Input size="small"
+value={selectedObject?.name || objectRef.current?.name || ''}
+onChange={(e) => {
                   // 策略1: 更新store中的对象
                   if (selectedObject) {
                     updateObject(selectedObject.id, { name: e.target.value });
@@ -696,8 +667,7 @@ export function PropertyPanel() {
                     objectRef.current.name = e.target.value;
                   }
                 }}
-                className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-              />
+className="w-full min-w-0" />
             </div>
 
             {/* 位置 */}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback, useState, useMemo } from 'react';
-import { Button, Input, Select, Switch, Typography, Modal } from 'antd';
+import { Button, Input, Select, Switch, Typography, Modal, InputNumber } from 'antd';
 import { useEditorNotify } from '@/hooks/useEditorNotify';
 import {
   PlusOutlined,
@@ -230,25 +230,21 @@ function StopCard({
         <div className="grid grid-cols-2 gap-1.5 pl-4">
           <div>
             <Text className="text-[10px] text-gray-500">飞入(秒)</Text>
-            <input
-              type="number"
-              min={0.1}
-              step={0.5}
-              value={stop.transitionTime}
-              onChange={(e) => onUpdate({ transitionTime: parseFloat(e.target.value) || 0.1 })}
-              className="w-full px-1.5 py-0.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-            />
+            <InputNumber size="small" controls={false}
+min={0.1}
+step={0.5}
+value={stop.transitionTime}
+onChange={(value: number | null) => { if (value === null) return; onUpdate({ transitionTime: parseFloat(String(value)) || 0.1 }); }}
+className="!w-full min-w-0" />
           </div>
           <div>
             <Text className="text-[10px] text-gray-500">停留(秒)</Text>
-            <input
-              type="number"
-              min={0}
-              step={0.5}
-              value={stop.dwellTime}
-              onChange={(e) => onUpdate({ dwellTime: parseFloat(e.target.value) || 0 })}
-              className="w-full px-1.5 py-0.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-            />
+            <InputNumber size="small" controls={false}
+min={0}
+step={0.5}
+value={stop.dwellTime}
+onChange={(value: number | null) => { if (value === null) return; onUpdate({ dwellTime: parseFloat(String(value)) || 0 }); }}
+className="!w-full min-w-0" />
           </div>
         </div>
       )}
@@ -655,16 +651,12 @@ export function CameraTourPanel() {
           {activeTour.mode === 'spline' && (
             <div className="shrink-0">
               <Text className="text-[10px] text-gray-500 block mb-1">全程时长(秒)</Text>
-              <input
-                type="number"
-                min={1}
-                step={1}
-                value={activeTour.splineDuration ?? DEFAULT_SPLINE_DURATION}
-                onChange={(e) =>
-                  setSplineDuration(activeTour.id, parseFloat(e.target.value) || DEFAULT_SPLINE_DURATION)
-                }
-                className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-              />
+              <InputNumber size="small" controls={false}
+min={1}
+step={1}
+value={activeTour.splineDuration ?? DEFAULT_SPLINE_DURATION}
+onChange={(value: number | null) => { if (value === null) return; setSplineDuration(activeTour.id, parseFloat(String(value)) || DEFAULT_SPLINE_DURATION); }}
+className="!w-full min-w-0" />
             </div>
           )}
         </>

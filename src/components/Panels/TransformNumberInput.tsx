@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { InputNumber } from 'antd';
 
 type TransformNumberInputProps = {
   value: number;
@@ -11,17 +12,18 @@ export function TransformNumberInput({ value, onChange }: TransformNumberInputPr
   const formatted = Number.isFinite(value) ? value.toFixed(2) : '';
 
   return (
-    <input
-      type="number"
-      step="0.1"
-      className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
+    <InputNumber
+      size="small"
+      controls={false}
+      step={0.1}
+      className="w-full"
       value={draft ?? formatted}
       onFocus={(event) => setDraft(event.currentTarget.value)}
-      onChange={(event) => {
-        const text = event.currentTarget.value;
+      onChange={(value) => {
+        const text = value ?? '';
         setDraft(text);
-        const next = event.currentTarget.valueAsNumber;
-        if (text.trim() !== '' && Number.isFinite(next)) onChange(next);
+        const parsed = Number(text);
+        if (text.trim() !== '' && Number.isFinite(parsed)) onChange(parsed);
       }}
       onBlur={() => setDraft(null)}
       onKeyDown={(event) => {

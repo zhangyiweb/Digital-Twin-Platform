@@ -1,3 +1,4 @@
+import { Input } from 'antd';
 import type { CSSProperties } from 'react';
 import type { UIElement, UIElementStyle } from '@/types/uiEditor';
 import { canHaveChildren } from '@/types/uiEditor';
@@ -196,13 +197,11 @@ export function UIElementView({
         );
       case 'input':
         return (
-          <input
-            type="text"
-            readOnly
-            tabIndex={-1}
-            placeholder={element.content || '请输入'}
-            style={buildInputStyle(style)}
-          />
+          <Input size="small"
+readOnly
+tabIndex={-1}
+placeholder={element.content || '请输入'}
+style={buildInputStyle(style)} />
         );
       case 'echart':
         return (

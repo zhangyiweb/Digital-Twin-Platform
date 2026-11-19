@@ -1,4 +1,4 @@
-import { Switch, Button, App } from 'antd';
+import { Switch, Button, App, InputNumber, Select, ColorPicker, Input } from 'antd';
 import { useState } from 'react';
 import { useParticleStore } from '@/store/particleStore';
 import { useSceneStore } from '@/store/sceneStore';
@@ -33,15 +33,13 @@ function NumberField({
   return (
     <div>
       <label className="text-[10px] text-gray-500 block mb-0.5">{label}</label>
-      <input
-        type="number"
-        step={step}
-        min={min}
-        max={max}
-        value={value}
-        onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
-        className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-      />
+      <InputNumber size="small" controls={false}
+step={step}
+min={min}
+max={max}
+value={value}
+onChange={(value: number | null) => { if (value === null) return; onChange(parseFloat(String(value)) || 0); }}
+className="!w-full min-w-0" />
     </div>
   );
 }
@@ -173,18 +171,14 @@ export function ParticleEditor({ objectId }: ParticleEditorProps) {
 
       <div>
         <label className="text-[10px] text-gray-500 block mb-1">发射形状</label>
-        <select
-          value={config.emitShape}
-          onChange={(e) =>
-            update({ emitShape: e.target.value as ParticleEmitterConfig['emitShape'] })
-          }
-          className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-        >
-          <option value="point">点</option>
-          <option value="sphere">球体</option>
-          <option value="box">平面网格</option>
-          <option value="cone">锥形</option>
-        </select>
+        <Select size="small" value={config.emitShape}
+onChange={(value) => update({ emitShape: String(value) as ParticleEmitterConfig['emitShape'] })}
+className="!w-full min-w-0">
+          <Select.Option value="point">点</Select.Option>
+          <Select.Option value="sphere">球体</Select.Option>
+          <Select.Option value="box">平面网格</Select.Option>
+          <Select.Option value="cone">锥形</Select.Option>
+        </Select>
       </div>
 
       {(config.emitShape !== 'point') && (
@@ -252,21 +246,15 @@ export function ParticleEditor({ objectId }: ParticleEditorProps) {
       <div className="grid grid-cols-2 gap-2">
         <div>
           <label className="text-[10px] text-gray-500 block mb-0.5">起始颜色</label>
-          <input
-            type="color"
-            value={config.colorStart}
-            onChange={(e) => update({ colorStart: e.target.value })}
-            className="w-full h-7 rounded cursor-pointer bg-gray-700 border border-gray-600"
-          />
+          <ColorPicker size="small" disabledAlpha
+value={config.colorStart}
+onChange={(_, hex) => update({ colorStart: hex })} />
         </div>
         <div>
           <label className="text-[10px] text-gray-500 block mb-0.5">结束颜色</label>
-          <input
-            type="color"
-            value={config.colorEnd}
-            onChange={(e) => update({ colorEnd: e.target.value })}
-            className="w-full h-7 rounded cursor-pointer bg-gray-700 border border-gray-600"
-          />
+          <ColorPicker size="small" disabledAlpha
+value={config.colorEnd}
+onChange={(_, hex) => update({ colorEnd: hex })} />
         </div>
         <NumberField
           label="起始透明度"
@@ -341,31 +329,23 @@ export function ParticleEditor({ objectId }: ParticleEditorProps) {
       <div className="grid grid-cols-2 gap-2">
         <div>
           <label className="text-[10px] text-gray-500 block mb-1">混合模式</label>
-          <select
-            value={config.blendMode}
-            onChange={(e) =>
-              update({ blendMode: e.target.value as ParticleEmitterConfig['blendMode'] })
-            }
-            className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-          >
-            <option value="normal">正常（烟雾）</option>
-            <option value="additive">加法（火焰/火花）</option>
-          </select>
+          <Select size="small" value={config.blendMode}
+onChange={(value) => update({ blendMode: String(value) as ParticleEmitterConfig['blendMode'] })}
+className="!w-full min-w-0">
+            <Select.Option value="normal">正常（烟雾）</Select.Option>
+            <Select.Option value="additive">加法（火焰/火花）</Select.Option>
+          </Select>
         </div>
         <div>
           <label className="text-[10px] text-gray-500 block mb-1">粒子贴图</label>
-          <select
-            value={config.texture}
-            onChange={(e) =>
-              update({ texture: e.target.value as ParticleEmitterConfig['texture'] })
-            }
-            className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-          >
-            <option value="smoke">烟雾团块</option>
-            <option value="soft">柔和光斑</option>
-            <option value="spark">火花星芒</option>
-            <option value="custom">自定义贴图</option>
-          </select>
+          <Select size="small" value={config.texture}
+onChange={(value) => update({ texture: String(value) as ParticleEmitterConfig['texture'] })}
+className="!w-full min-w-0">
+            <Select.Option value="smoke">烟雾团块</Select.Option>
+            <Select.Option value="soft">柔和光斑</Select.Option>
+            <Select.Option value="spark">火花星芒</Select.Option>
+            <Select.Option value="custom">自定义贴图</Select.Option>
+          </Select>
         </div>
       </div>
       <p className="text-[10px] text-gray-500 -mt-2">
@@ -449,12 +429,10 @@ export function ParticleEditor({ objectId }: ParticleEditorProps) {
             </Button>
           )}
         </div>
-        <textarea
-          value={jsonDraft}
-          onChange={(e) => setJsonDraft(e.target.value)}
-          placeholder='粘贴粒子配置 JSON 或 Quarks 效果 JSON…'
-          className="w-full h-28 px-2 py-1 text-[10px] font-mono bg-gray-800 text-gray-200 border border-gray-600 rounded resize-y"
-        />
+        <Input.TextArea value={jsonDraft}
+onChange={(e) => setJsonDraft(e.target.value)}
+placeholder='粘贴粒子配置 JSON 或 Quarks 效果 JSON…'
+className="w-full font-mono" rows={6} />
       </div>
     </div>
   );

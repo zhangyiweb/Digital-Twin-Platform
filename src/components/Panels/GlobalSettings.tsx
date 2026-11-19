@@ -3,7 +3,7 @@ import { useSceneStore } from '@/store/sceneStore';
 import { useEditorStore } from '@/store/editorStore';
 import * as THREE from 'three';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
-import { Switch, Typography } from 'antd';
+import { ColorPicker, Input, InputNumber, Select, Slider, Switch, Typography } from 'antd';
 import { useEditorNotify } from '@/hooks/useEditorNotify';
 import { EnvironmentHdriSection } from './EnvironmentHdriSection';
 import { CameraTourPanel } from './CameraTourPanel';
@@ -748,17 +748,15 @@ export function GlobalSettings() {
             <div>
               <h4 className="text-xs font-medium text-gray-300 mb-2">背景颜色</h4>
               <div className="flex items-center gap-2">
-                <input
-                  type="color"
+                <ColorPicker
+                  size="large"
                   value={bgColor}
-                  onChange={(e) => setBgColor(e.target.value)}
-                  className="w-12 h-10 rounded cursor-pointer border border-gray-600"
+                  onChange={(_, hex) => setBgColor(hex)}
                 />
-                <input
-                  type="text"
+                <Input
                   value={bgColor}
                   onChange={(e) => setBgColor(e.target.value)}
-                  className="flex-1 px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded font-mono"
+                  className="flex-1 font-mono"
                 />
               </div>
             </div>
@@ -768,48 +766,38 @@ export function GlobalSettings() {
               <div className="grid grid-cols-3 gap-2">
                 <div>
                   <label className="text-xs text-red-400 block mb-1">X</label>
-                  <input
-                    type="number"
-                    step="0.1"
+                  <InputNumber
+                    size="small"
+                    step={0.1}
                     value={cameraPosition.x}
                     onFocus={() => { isCameraInputEditingRef.current = true; }}
                     onBlur={() => { isCameraInputEditingRef.current = false; }}
-                    onChange={(e) => {
-                      isUserInputChange.current = true; // 标记为用户手动输入
-                      setCameraPosition((prev: {x: number, y: number, z: number}) => ({...prev, x: parseFloat(e.target.value) || 0}))
+                    onChange={(value) => {
+                      isUserInputChange.current = true;
+                      setCameraPosition((prev: {x: number, y: number, z: number}) => ({...prev, x: value ?? 0}));
                     }}
-                    className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
+                    className="w-full"
                   />
                 </div>
                 <div>
                   <label className="text-xs text-green-400 block mb-1">Y</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    value={cameraPosition.y}
+                  <InputNumber size="small" step={0.1} value={cameraPosition.y}
                     onFocus={() => { isCameraInputEditingRef.current = true; }}
                     onBlur={() => { isCameraInputEditingRef.current = false; }}
-                    onChange={(e) => {
-                      isUserInputChange.current = true; // 标记为用户手动输入
-                      setCameraPosition((prev: {x: number, y: number, z: number}) => ({...prev, y: parseFloat(e.target.value) || 0}))
-                    }}
-                    className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                  />
+                    onChange={(value) => {
+                      isUserInputChange.current = true;
+                      setCameraPosition((prev: {x: number, y: number, z: number}) => ({...prev, y: value ?? 0}));
+                    }} className="w-full" />
                 </div>
                 <div>
                   <label className="text-xs text-blue-400 block mb-1">Z</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    value={cameraPosition.z}
+                  <InputNumber size="small" step={0.1} value={cameraPosition.z}
                     onFocus={() => { isCameraInputEditingRef.current = true; }}
                     onBlur={() => { isCameraInputEditingRef.current = false; }}
-                    onChange={(e) => {
-                      isUserInputChange.current = true; // 标记为用户手动输入
-                      setCameraPosition((prev: {x: number, y: number, z: number}) => ({...prev, z: parseFloat(e.target.value) || 0}))
-                    }}
-                    className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                  />
+                    onChange={(value) => {
+                      isUserInputChange.current = true;
+                      setCameraPosition((prev: {x: number, y: number, z: number}) => ({...prev, z: value ?? 0}));
+                    }} className="w-full" />
                 </div>
               </div>
             </div>
@@ -819,48 +807,33 @@ export function GlobalSettings() {
               <div className="grid grid-cols-3 gap-2">
                 <div>
                   <label className="text-xs text-red-400 block mb-1">X</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    value={controlsTarget.x}
+                  <InputNumber size="small" step={0.1} value={controlsTarget.x}
                     onFocus={() => { isCameraInputEditingRef.current = true; }}
                     onBlur={() => { isCameraInputEditingRef.current = false; }}
-                    onChange={(e) => {
+                    onChange={(value) => {
                       isUserInputChange.current = true;
-                      setControlsTarget((prev: {x: number, y: number, z: number}) => ({...prev, x: parseFloat(e.target.value) || 0}));
-                    }}
-                    className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                  />
+                      setControlsTarget((prev: {x: number, y: number, z: number}) => ({...prev, x: value ?? 0}));
+                    }} className="w-full" />
                 </div>
                 <div>
                   <label className="text-xs text-green-400 block mb-1">Y</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    value={controlsTarget.y}
+                  <InputNumber size="small" step={0.1} value={controlsTarget.y}
                     onFocus={() => { isCameraInputEditingRef.current = true; }}
                     onBlur={() => { isCameraInputEditingRef.current = false; }}
-                    onChange={(e) => {
+                    onChange={(value) => {
                       isUserInputChange.current = true;
-                      setControlsTarget((prev: {x: number, y: number, z: number}) => ({...prev, y: parseFloat(e.target.value) || 0}));
-                    }}
-                    className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                  />
+                      setControlsTarget((prev: {x: number, y: number, z: number}) => ({...prev, y: value ?? 0}));
+                    }} className="w-full" />
                 </div>
                 <div>
                   <label className="text-xs text-blue-400 block mb-1">Z</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    value={controlsTarget.z}
+                  <InputNumber size="small" step={0.1} value={controlsTarget.z}
                     onFocus={() => { isCameraInputEditingRef.current = true; }}
                     onBlur={() => { isCameraInputEditingRef.current = false; }}
-                    onChange={(e) => {
+                    onChange={(value) => {
                       isUserInputChange.current = true;
-                      setControlsTarget((prev: {x: number, y: number, z: number}) => ({...prev, z: parseFloat(e.target.value) || 0}));
-                    }}
-                    className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                  />
+                      setControlsTarget((prev: {x: number, y: number, z: number}) => ({...prev, z: value ?? 0}));
+                    }} className="w-full" />
                 </div>
               </div>
             </div>
@@ -872,43 +845,22 @@ export function GlobalSettings() {
                   <label className="text-xs text-gray-400 block mb-1">
                     FOV (视野): {cameraFov}°
                   </label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="180"
-                    step="1"
-                    value={cameraFov}
-                    onChange={(e) => setCameraFov(parseFloat(e.target.value) || 75)}
-                    className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                  />
+                  <InputNumber size="small" min={1} max={180} step={1} value={cameraFov}
+                    onChange={(value) => setCameraFov(value ?? 75)} className="w-full" />
                 </div>
                 <div>
                   <label className="text-xs text-gray-400 block mb-1">
                     Near (近裁剪): {cameraNear}
                   </label>
-                  <input
-                    type="number"
-                    min="0.01"
-                    max="10"
-                    step="0.01"
-                    value={cameraNear}
-                    onChange={(e) => setCameraNear(parseFloat(e.target.value) || 0.1)}
-                    className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                  />
+                  <InputNumber size="small" min={0.01} max={10} step={0.01} value={cameraNear}
+                    onChange={(value) => setCameraNear(value ?? 0.1)} className="w-full" />
                 </div>
                 <div>
                   <label className="text-xs text-gray-400 block mb-1">
                     Far (远裁剪): {cameraFar}
                   </label>
-                  <input
-                    type="number"
-                    min="10"
-                    max="100000"
-                    step="10"
-                    value={cameraFar}
-                    onChange={(e) => setCameraFar(parseFloat(e.target.value) || 50000)}
-                    className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                  />
+                  <InputNumber size="small" min={10} max={100000} step={10} value={cameraFar}
+                    onChange={(value) => setCameraFar(value ?? 50000)} className="w-full" />
                 </div>
               </div>
             </div>
@@ -962,66 +914,52 @@ export function GlobalSettings() {
                 <div className="space-y-2 pt-1 border-t border-gray-700/60">
                   <div>
                     <Typography.Text className="text-[10px] text-gray-500 block mb-1">雾类型</Typography.Text>
-                    <select
+                    <Select
+                      size="small"
                       value={fogType}
-                      onChange={(e) => setFogType(e.target.value as 'linear' | 'exp2')}
-                      className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                    >
-                      <option value="linear">线性雾 (Fog)</option>
-                      <option value="exp2">指数雾 (FogExp2)</option>
-                    </select>
+                      onChange={(value: 'linear' | 'exp2') => setFogType(value)}
+                      className="w-full"
+                      options={[
+                        { value: 'linear', label: '线性雾 (Fog)' },
+                        { value: 'exp2', label: '指数雾 (FogExp2)' },
+                      ]}
+                    />
                   </div>
                   <div>
                     <Typography.Text className="text-[10px] text-gray-500 block mb-1">雾颜色</Typography.Text>
                     <div className="flex items-center gap-2">
-                      <input
-                        type="color"
-                        value={fogColor}
-                        onChange={(e) => setFogColor(e.target.value)}
-                        className="w-8 h-7 rounded cursor-pointer border border-gray-600"
-                      />
-                      <input
-                        type="text"
-                        value={fogColor}
-                        onChange={(e) => setFogColor(e.target.value)}
-                        className="flex-1 px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded font-mono"
-                      />
+                      <ColorPicker size="small" value={fogColor} onChange={(_, hex) => setFogColor(hex)} />
+                      <Input value={fogColor} onChange={(e) => setFogColor(e.target.value)} className="flex-1 font-mono" />
                     </div>
                   </div>
                   {fogType === 'linear' ? <div>
                     <Typography.Text className="text-[10px] text-gray-500 block mb-1">近处: {fogNear}</Typography.Text>
-                    <input
-                      type="range"
-                      min="0"
-                      max="50"
-                      step="1"
-                      value={fogNear}
-                      onChange={(e) => setFogNear(parseFloat(e.target.value))}
-                      className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                    />
+                    <Slider 
+min={0}
+max={50}
+step={1}
+value={fogNear}
+onChange={(value) => setFogNear(parseFloat(String(value)))}
+className="panel-slider" />
                   </div> : <div>
                     <Typography.Text className="text-[10px] text-gray-500 block mb-1">密度: {fogDensity.toFixed(5)}</Typography.Text>
-                    <input
-                      type="range"
-                      min="0.00001"
-                      max="0.01"
-                      step="0.00001"
-                      value={fogDensity}
-                      onChange={(e) => setFogDensity(parseFloat(e.target.value))}
-                      className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                    />
+                    <Slider 
+min={0.00001}
+max={0.01}
+step={0.00001}
+value={fogDensity}
+onChange={(value) => setFogDensity(parseFloat(String(value)))}
+className="panel-slider" />
                   </div>}
                   {fogType === 'linear' && <div>
                     <Typography.Text className="text-[10px] text-gray-500 block mb-1">远处: {fogFar}</Typography.Text>
-                    <input
-                      type="range"
-                      min="10"
-                      max="50000"
-                      step="1"
-                      value={fogFar}
-                      onChange={(e) => setFogFar(parseFloat(e.target.value))}
-                      className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                    />
+                    <Slider 
+min={10}
+max={50000}
+step={1}
+value={fogFar}
+onChange={(value) => setFogFar(parseFloat(String(value)))}
+className="panel-slider" />
                   </div>}
                 </div>
               )}
@@ -1032,16 +970,14 @@ export function GlobalSettings() {
               <Typography.Text className="text-[10px] text-gray-500 block mb-1">
                 环境反射强度: {envMapIntensity.toFixed(1)}
               </Typography.Text>
-              <input
-                type="range"
-                min="0"
-                max="5"
-                step="0.1"
-                value={envMapIntensity}
-                disabled={!envHdriEnabled || !hasHDREnvironment}
-                onChange={(e) => setEnvMapIntensity(parseFloat(e.target.value))}
-                className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-              />
+              <Slider 
+min={0}
+max={5}
+step={0.1}
+value={envMapIntensity}
+disabled={!envHdriEnabled || !hasHDREnvironment}
+onChange={(value) => setEnvMapIntensity(parseFloat(String(value)))}
+className="panel-slider" />
               <Typography.Text className="text-[10px] text-gray-400 block mt-1 leading-relaxed">
                 调节 PBR 材质的 HDR 环境反射强度；需先加载 HDRI 并开启「HDR 环境反射」。
               </Typography.Text>
@@ -1052,16 +988,14 @@ export function GlobalSettings() {
               <Typography.Text className="text-[10px] text-gray-500 block mb-1">
                 HDR 水平旋转: {hdrRotationY.toFixed(0)}°
               </Typography.Text>
-              <input
-                type="range"
-                min="0"
-                max="360"
-                step="1"
-                value={hdrRotationY}
-                disabled={!hdriReady}
-                onChange={(e) => setHdrRotationY(parseFloat(e.target.value))}
-                className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-              />
+              <Slider 
+min={0}
+max={360}
+step={1}
+value={hdrRotationY}
+disabled={!hdriReady}
+onChange={(value) => setHdrRotationY(parseFloat(String(value)))}
+className="panel-slider" />
               <Typography.Text className="text-[10px] text-gray-400 block mt-1 leading-relaxed">
                 绕垂直轴旋转天空背景与环境反射方向，用于对齐太阳/光源位置。
               </Typography.Text>
@@ -1154,32 +1088,28 @@ export function GlobalSettings() {
               <div className="space-y-3">
                 <div>
                   <label className="text-xs text-gray-400 block mb-1">类型</label>
-                  <select 
-                    value={toneMapping}
-                    onChange={(e) => setToneMapping(e.target.value)}
-                    className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                  >
-                    <option value="none">NoToneMapping (无)</option>
-                    <option value="linear">LinearToneMapping (线性)</option>
-                    <option value="reinhard">ReinhardToneMapping</option>
-                    <option value="cineon">CineonToneMapping</option>
-                    <option value="aces">ACES Filmic (推荐)</option>
-                    <option value="custom">CustomToneMapping (自定义)</option>
-                  </select>
+                  <Select size="small" value={toneMapping}
+onChange={(value) => setToneMapping(String(value))}
+className="!w-full min-w-0">
+                    <Select.Option value="none">NoToneMapping (无)</Select.Option>
+                    <Select.Option value="linear">LinearToneMapping (线性)</Select.Option>
+                    <Select.Option value="reinhard">ReinhardToneMapping</Select.Option>
+                    <Select.Option value="cineon">CineonToneMapping</Select.Option>
+                    <Select.Option value="aces">ACES Filmic (推荐)</Select.Option>
+                    <Select.Option value="custom">CustomToneMapping (自定义)</Select.Option>
+                  </Select>
                 </div>
                 <div>
                   <label className="text-xs text-gray-400 block mb-1">
                     曝光 (Exposure): {exposure.toFixed(2)}
                   </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="3"
-                    step="0.01"
-                    value={exposure}
-                    onChange={(e) => setExposure(parseFloat(e.target.value))}
-                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                  />
+                  <Slider 
+min={0}
+max={3}
+step={0.01}
+value={exposure}
+onChange={(value) => setExposure(parseFloat(String(value)))}
+className="panel-slider" />
                 </div>
               </div>
             </div>
@@ -1202,28 +1132,24 @@ export function GlobalSettings() {
                 </div>
                 <div>
                   <label className="text-xs text-gray-400 block mb-1">阴影类型</label>
-                  <select 
-                    defaultValue="pcf"
-                    className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-                  >
-                    <option value="basic">BasicShadowMap (基础)</option>
-                    <option value="pcf">PCFShadowMap (PCF)</option>
-                    <option value="pcfSoft">PCFSoftShadowMap (PCF软)</option>
-                    <option value="vsm">VSMShadowMap (VSM)</option>
-                  </select>
+                  <Select size="small" defaultValue="pcf"
+className="!w-full min-w-0">
+                    <Select.Option value="basic">BasicShadowMap (基础)</Select.Option>
+                    <Select.Option value="pcf">PCFShadowMap (PCF)</Select.Option>
+                    <Select.Option value="pcfSoft">PCFSoftShadowMap (PCF软)</Select.Option>
+                    <Select.Option value="vsm">VSMShadowMap (VSM)</Select.Option>
+                  </Select>
                 </div>
               </div>
             </div>
 
             <div>
               <h4 className="text-xs font-medium text-gray-300 mb-2">输出颜色空间</h4>
-              <select 
-                defaultValue="srgb"
-                className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-              >
-                <option value="srgb">SRGBColorSpace (sRGB)</option>
-                <option value="linear">LinearSRGBColorSpace (线性)</option>
-              </select>
+              <Select size="small" defaultValue="srgb"
+className="!w-full min-w-0">
+                <Select.Option value="srgb">SRGBColorSpace (sRGB)</Select.Option>
+                <Select.Option value="linear">LinearSRGBColorSpace (线性)</Select.Option>
+              </Select>
             </div>
 
             <div>
@@ -1247,16 +1173,14 @@ export function GlobalSettings() {
 
             <div>
               <h4 className="text-xs font-medium text-gray-300 mb-2">像素比</h4>
-              <select 
-                value={pixelRatio}
-                onChange={(e) => setPixelRatio(e.target.value)}
-                className="w-full px-2 py-1.5 text-xs bg-gray-700 text-white border border-gray-600 rounded"
-              >
-                <option value="1">1x (性能)</option>
-                <option value="1.5">1.5x</option>
-                <option value="2">2x (质量)</option>
-                <option value="3">3x (最高)</option>
-              </select>
+              <Select size="small" value={pixelRatio}
+onChange={(value) => setPixelRatio(String(value))}
+className="!w-full min-w-0">
+                <Select.Option value="1">1x (性能)</Select.Option>
+                <Select.Option value="1.5">1.5x</Select.Option>
+                <Select.Option value="2">2x (质量)</Select.Option>
+                <Select.Option value="3">3x (最高)</Select.Option>
+              </Select>
             </div>
           </>
         )}

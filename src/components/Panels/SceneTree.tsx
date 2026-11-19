@@ -1,4 +1,6 @@
+import { Input } from 'antd';
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import type { InputRef } from 'antd';
 import { useSceneStore } from '@/store/sceneStore';
 import { useLightStore } from '@/store/lightStore';
 import {
@@ -72,7 +74,7 @@ function TreeNodeItem({
   const selected = isNodeSelected(node);
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(node.name);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<InputRef>(null);
 
   useEffect(() => {
     if (!isEditing) {
@@ -144,14 +146,13 @@ function TreeNodeItem({
         </span>
 
         {isEditing ? (
-          <input
-            ref={inputRef}
-            type="text"
-            value={editValue}
-            onChange={(e) => setEditValue(e.target.value)}
-            onClick={(e) => e.stopPropagation()}
-            onBlur={commitRename}
-            onKeyDown={(e) => {
+          <Input size="small"
+ref={inputRef}
+value={editValue}
+onChange={(e) => setEditValue(e.target.value)}
+onClick={(e) => e.stopPropagation()}
+onBlur={commitRename}
+onKeyDown={(e) => {
               e.stopPropagation();
               if (e.key === 'Enter') commitRename();
               if (e.key === 'Escape') {
@@ -159,8 +160,7 @@ function TreeNodeItem({
                 setIsEditing(false);
               }
             }}
-            className="scene-tree-rename-input flex-1 min-w-0 mr-1 px-1 py-0 text-white text-xs bg-gray-700 border border-blue-500 rounded focus:outline-none"
-          />
+className="scene-tree-rename-input flex-1 min-w-0 mr-1 px-1 py-0 text-white text-xs bg-gray-700 border border-blue-500 rounded focus:outline-none" />
         ) : (
           <span className="scene-tree-label flex-1 text-white text-xs truncate">
             {node.name || '未命名'}
@@ -430,13 +430,11 @@ export function SceneTree() {
           <span className="scene-tree-icon-wrap inline-flex items-center justify-center shrink-0 text-gray-500">
             <SearchOutlined />
           </span>
-          <input
-            type="text"
-            placeholder="搜索对象..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-1 min-w-0 bg-transparent text-white text-xs leading-4 placeholder-gray-500 focus:outline-none"
-          />
+          <Input size="small"
+placeholder="搜索对象..."
+value={searchTerm}
+onChange={(e) => setSearchTerm(e.target.value)}
+className="w-full min-w-0" />
         </div>
       </div>
 

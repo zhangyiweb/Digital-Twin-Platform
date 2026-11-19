@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Switch, Typography } from 'antd';
+import { Switch, Typography, Slider, Select } from 'antd';
 import type { PostProcessEffectId, PostProcessParams } from '@/types/postProcess';
 import {
   DEFAULT_POST_PROCESS_PARAMS,
@@ -72,15 +72,13 @@ function SliderRow({
       <label className="text-[11px] text-gray-400 block mb-1">
         {label}: {format(value)}
       </label>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-      />
+      <Slider 
+min={min}
+max={max}
+step={step}
+value={value}
+onChange={(value) => onChange(parseFloat(String(value)))}
+className="panel-slider" />
     </div>
   );
 }
@@ -351,19 +349,16 @@ export function PostProcessSettings() {
           {/* 效果选择 */}
           <div>
             <Text className="text-[11px] text-gray-400 block mb-1.5">后期效果</Text>
-            <select
+            <Select
+              size="small"
               value={effect}
-              onChange={(e) => handleEffectChange(e.target.value as PostProcessEffectId)}
-              className="w-full px-2.5 py-1.5 text-xs bg-gray-800 text-white border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none"
-            >
-              {POST_PROCESS_EFFECT_GROUPS.map((group) => (
-                <optgroup key={group.label} label={group.label}>
-                  {group.effects.map((item) => (
-                    <option key={item.id} value={item.id}>{item.label}</option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
+              onChange={(value) => handleEffectChange(value as PostProcessEffectId)}
+              className="w-full"
+              options={POST_PROCESS_EFFECT_GROUPS.map((group) => ({
+                label: group.label,
+                options: group.effects.map((item) => ({ value: item.id, label: item.label })),
+              }))}
+            />
             <EffectHint effect={effect} />
           </div>
 

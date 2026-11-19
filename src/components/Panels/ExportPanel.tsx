@@ -487,47 +487,39 @@ export function ExportPanel({ onClose }: ExportPanelProps) {
               }
             >
               <label className="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={useViewportSize}
-                  onChange={(e) => setUseViewportSize(e.target.checked)}
-                  className="rounded"
-                />
+                <Checkbox 
+checked={useViewportSize}
+onChange={(e) => setUseViewportSize(e.target.checked)}
+className="!w-full min-w-0" />
                 使用视口尺寸
               </label>
               {!useViewportSize && (
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className={labelClass}>宽 (px)</label>
-                    <input
-                      type="number"
-                      min={64}
-                      max={8192}
-                      value={shotWidth}
-                      onChange={(e) => setShotWidth(Number(e.target.value) || 1920)}
-                      className={inputClass}
-                    />
+                    <InputNumber size="small" controls={false}
+min={64}
+max={8192}
+value={shotWidth}
+onChange={(value: number | null) => { if (value === null) return; setShotWidth(Number(String(value)) || 1920); }}
+className="!w-full min-w-0" />
                   </div>
                   <div>
                     <label className={labelClass}>高 (px)</label>
-                    <input
-                      type="number"
-                      min={64}
-                      max={8192}
-                      value={shotHeight}
-                      onChange={(e) => setShotHeight(Number(e.target.value) || 1080)}
-                      className={inputClass}
-                    />
+                    <InputNumber size="small" controls={false}
+min={64}
+max={8192}
+value={shotHeight}
+onChange={(value: number | null) => { if (value === null) return; setShotHeight(Number(String(value)) || 1080); }}
+className="!w-full min-w-0" />
                   </div>
                 </div>
               )}
               <label className="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={shotTransparent}
-                  onChange={(e) => setShotTransparent(e.target.checked)}
-                  className="rounded"
-                />
+                <Checkbox 
+checked={shotTransparent}
+onChange={(e) => setShotTransparent(e.target.checked)}
+className="!w-full min-w-0" />
                 透明背景
               </label>
             </ExportTile>

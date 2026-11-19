@@ -1,4 +1,4 @@
-import { Switch } from 'antd';
+import { Switch, InputNumber, Select } from 'antd';
 import { useAnimationStore } from '@/store/animationStore';
 import { DEFAULT_TEXTURE_UV_ANIMATION } from '@/types/textureAnimation';
 import type { TextureAnimationTarget } from '@/types/textureAnimation';
@@ -56,39 +56,33 @@ export function TextureAnimationSection({ objectId, material }: TextureAnimation
       <div className="grid grid-cols-2 gap-2 mb-2">
         <div>
           <label className="text-[10px] text-gray-500 block mb-0.5">速度 U / 秒</label>
-          <input
-            type="number"
-            step="0.01"
-            value={anim.speedU}
-            disabled={!anim.enabled}
-            onChange={(e) => update({ speedU: parseFloat(e.target.value) || 0 })}
-            className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded disabled:opacity-50"
-          />
+          <InputNumber size="small" controls={false}
+step={0.01}
+value={anim.speedU}
+disabled={!anim.enabled}
+onChange={(value: number | null) => { if (value === null) return; update({ speedU: parseFloat(String(value)) || 0 }); }}
+className="!w-full min-w-0" />
         </div>
         <div>
           <label className="text-[10px] text-gray-500 block mb-0.5">速度 V / 秒</label>
-          <input
-            type="number"
-            step="0.01"
-            value={anim.speedV}
-            disabled={!anim.enabled}
-            onChange={(e) => update({ speedV: parseFloat(e.target.value) || 0 })}
-            className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded disabled:opacity-50"
-          />
+          <InputNumber size="small" controls={false}
+step={0.01}
+value={anim.speedV}
+disabled={!anim.enabled}
+onChange={(value: number | null) => { if (value === null) return; update({ speedV: parseFloat(String(value)) || 0 }); }}
+className="!w-full min-w-0" />
         </div>
       </div>
 
       <div>
         <label className="text-[10px] text-gray-500 block mb-0.5">作用贴图</label>
-        <select
-          value={anim.target}
-          disabled={!anim.enabled}
-          onChange={(e) => update({ target: e.target.value as TextureAnimationTarget })}
-          className="w-full px-2 py-1 text-xs bg-gray-700 text-white border border-gray-600 rounded disabled:opacity-50"
-        >
-          <option value="all">全部贴图</option>
-          <option value="map">漫反射贴图 (map)</option>
-        </select>
+        <Select size="small" value={anim.target}
+disabled={!anim.enabled}
+onChange={(value) => update({ target: String(value) as TextureAnimationTarget })}
+className="!w-full min-w-0">
+          <Select.Option value="all">全部贴图</Select.Option>
+          <Select.Option value="map">漫反射贴图 (map)</Select.Option>
+        </Select>
       </div>
     </div>
   );
